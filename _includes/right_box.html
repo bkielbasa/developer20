@@ -1,0 +1,11 @@
+<div class="col-3 right-box">
+    <h4>Recent posts</h4>
+    <ul>
+        {% for post in site.posts limit:5 %}
+        <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+    {% include newsletter.html %}
+
+</div>
