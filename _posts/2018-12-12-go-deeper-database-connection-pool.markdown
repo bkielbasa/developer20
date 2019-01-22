@@ -34,3 +34,7 @@ When the maximum open connection is reached the goroutinge that want to execute 
 
 Queries to the databases are sent using TCP protocol. However, opening a new TCP connection is costly. To minimize the cost, golang keeps some idle connections opened and ready for reuse. On the other hand, the max idle connection should not be too huge because, as we talked earlier, there is a limit of available open connections on the server side. Furthermore, other services can share the limit so the limit can be reached even faster than we assumed.
 The maximum idle connections can be configured using `db.SetMaxIdleConns(N)` function. This value can help to optimize the number of opened connections. When the number of idle connections reaches the limit other connections are closed and resources come back to be reused. It is important when you have a quite low number of available connections on the server side.
+
+## Summary
+
+The `database/sql` library helps developers by managing the connection pool for them. On the other hand, developers have to remember how the managing connection works to prevent non-trivial bugs to find. Keeping queries which rely on each other in a single transaction can solve many problems.
