@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Be aware of coping in Go
-mainPhoto: books.jpg
+mainPhoto: copy-in-go.jpg
 ---
 
 Some bugs are very hard to find and to reproduce but easy to fix. To avoid them, it's helpful to know how the tools we're using work under the hood. From this article, you'll learn what shallow and deep copy is and which errors you can avoid thank's the knowledge about them.
