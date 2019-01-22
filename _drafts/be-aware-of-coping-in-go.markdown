@@ -4,7 +4,7 @@ title:  Be aware of coping in Go
 mainPhoto: books.jpg
 ---
 
-Some bugs are very hard to find and to reproduce but easy to fix. To avoid them, it's helpful to know how the tools we're using work under the hood. From this article, you'll learn why you should use `copy()` function when you're coping structures and which errors you can avoid thank's to it.
+Some bugs are very hard to find and to reproduce but easy to fix. To avoid them, it's helpful to know how the tools we're using work under the hood. From this article, you'll learn what shallow and deep copy is and which errors you can avoid thank's the knowledge about them.
 
 Can you find a problem with the code below?
 
@@ -67,6 +67,17 @@ It means that the values of the array are kept in different place in the memory 
 
 This is an example of shallow copy. Shallow copy happens when an object is copied byte by byte. If the object which is copied contains a reference (or a pointer) its address is copied. This situation is illustrated in the above picture. To avoid such situation, deep coping has to be implemented manually.
 
-Why is it important? Imagine situation where a simple struct with only basic types. The coping of the struct is safe. Hoveower, after some time an referenced type field was added. It can be a slice or a map. It is possible that tests won't cover this edge case. Sometime a bug report is received from production users about some situations where the system works unpredictable. Does this scenario sound possible? [But it happens.](https://allegro.tech/2017/07/golang-slices-gotcha.html)
+Why is it important? Imagine situation where a simple struct with only basic types. The coping of the struct is safe. Hoverer, after some time an referenced type field was added. It can be a slice or a map. It is possible that tests won't cover this edge case. Sometime a bug report is received from production users about some situations where the system works unpredictable. Does this scenario sound possible? [But it happens](https://allegro.tech/2017/07/golang-slices-gotcha.html). This bug is very similar to the above one but is related with slices. 
 
 
+## Summary
+
+Even simple coping can lead to serious bugs which are extremely hard to find. In Go, there's no way to prevent from coping a struct but in c++ you can without any problem.
+
+```c++
+SomeClass(const SomeClass&) = delete;
+```
+
+In Java, the class has to implement `Cloneable` interface to be cloneable. To prevent those problems, it's better to implement own function for the cloning purpose or cover your code with good tests.
+
+I hope you enjoyed the article. Any thoughts? Do you have anything else to add? Feel free to leave your comment below. Cheers!
