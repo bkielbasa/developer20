@@ -4,7 +4,7 @@ title:  Books I read in 2018
 mainPhoto: books.jpg
 ---
 
-’m glad that this year I read so many valuable books. I want to share with you with the most interesting items which you may find interesting too.
+I’m glad that this year I read so many valuable books. I want to share with you with the most interesting items which you may find interesting too.
 ## [Getting Things Programmed](https://helion.pl/ksiazki/getting-things-programmed-droga-do-efektywnosci-michal-bartyzel,droppp.htm#format/e)
 
 This book is only available in Polish. I would say that this is Getting Things Done but for developers. I think that the similarity of titles is not an accident. In this book, you can find answers on questions like:
