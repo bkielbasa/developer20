@@ -2,7 +2,17 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{{ page.title }} | Developer 2.0</title>
+    {% if title %}
+    {% assign title = post.title %}
+    {% else %}
+    {% assign title = page.title %}
+    {% endif %}
+
+    {% if title %}
+    <title>{{ title }} | Developer 2.0</title>
+    {% else %}
+    <title>Developer 2.0</title>
+    {% endif %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link href="/assets/main.css" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
@@ -14,16 +24,7 @@
         /* ]]> */
     </script>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-8338248-18"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-8338248-18');
-    </script>
-
+    {% include head_ga.html %}
 </head>
 <body>
 
