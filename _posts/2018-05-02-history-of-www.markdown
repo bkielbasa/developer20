@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  History of WWW
-mainPhoto: History-Of-WWW.jpeg
+mainPhoto: History-of-WWW.jpeg
 ---
 
 he history of the WWW wasn’t simple and still isn’t. In the beginning, it was a complete mess. Every browser tried to meet developers halfway without any standards or cooperation with other web browser’s developers.
