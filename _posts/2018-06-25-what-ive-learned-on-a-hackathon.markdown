@@ -2,6 +2,7 @@
 layout: post
 title:  5 things I’ve learned on a hackathon
 mainPhoto: hachathon.jpg
+tags: hackathon
 ---
 
 Recently, I took part in a hackathon. That was an excellent experience. Working 24 hours on a project you came up with the day before is very exciting. After that event, I realized something that I think I felt earlier – development is the easiest part of building a piece of software. It may sound weird but it’s true. In this article, I’ll tell you about my thoughts and conclusions that I have drawn.

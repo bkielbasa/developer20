@@ -2,6 +2,8 @@
 layout: post
 title:  Mutational tests
 mainPhoto: mutational.jpeg
+categories: Programming
+tags: [tests, mutational tests]
 ---
 
 When you have a very simple application it’s not so important to test every edge case but in a project, in the very complex domain, the priority of it will increase. The more high-quality the tests, the more high-quality the code. Mutational tests will help you with making sure you did not miss some a variant of the flow in your code.

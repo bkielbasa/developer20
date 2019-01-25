@@ -2,6 +2,7 @@
 layout: post
 title:  Why do many people say that Scrum is a bullshit?
 mainPhoto: scrum.jpg
+tags: [agile, scrum]
 ---
 
 A few years ago, Scrum and Agile became very popular. It became mainstream. Everyone wanted to work on this framework. However, something’s changing.

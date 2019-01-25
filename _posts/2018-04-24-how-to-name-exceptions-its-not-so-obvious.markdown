@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  How to name exceptions? It’s not so obvious…
+categories: Programming
 mainPhoto: exceptions.jpeg
 ---
 
