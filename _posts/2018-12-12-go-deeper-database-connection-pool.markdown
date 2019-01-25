@@ -2,6 +2,7 @@
 layout: post
 title:  Go deeper – Database connection pool
 mainPhoto: connection-pool.jpg
+categories: Golang
 ---
 
 Golang uses a connection pool to manage opened connections for us. As a result, new connections are used when no free connection left and reuses them when golang finds an idle connection. The most important thing is that when two queries are called one by one it does not mean that the queries will use the same connection. It may be true if not in every case.

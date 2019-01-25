@@ -2,6 +2,7 @@
 layout: post
 title:  Entity and value object
 mainPhoto: entity-value-object.jpg
+categories: DDD
 ---
 
 Knowing the basics is the key to understanding more complex concepts. After reading this post you will know what are entities and value objects and find out differences between them.

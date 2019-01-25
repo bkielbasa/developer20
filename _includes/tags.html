@@ -1,0 +1,16 @@
+<div class="post-categories">
+    {% if post %}
+    {% assign tags = post.tags %}
+    {% else %}
+    {% assign tags = page.tags %}
+    {% endif %}
+
+    {% if tags.size > 0 %}
+    {% for tag in tags %}
+    <span class="badge badge-pill badge-primary">{{tag}}</span>
+    <!--<a href="{{site.baseurl}}/tags/#{{category|slugize}}">{{tag}}</a>-->
+    {% unless forloop.last %}&nbsp;{% endunless %}
+    {% endfor %}
+
+    {% endif %}
+</div>

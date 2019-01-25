@@ -2,6 +2,7 @@
 layout: post
 title:  Services in DDD finally explained
 mainPhoto: services.jpg
+categories: DDD
 ---
 
 I’ve noticed that there is always a challenge of understanding what services are in a context of domain-driven development and what is the difference between a service in an application, domain, and infrastructure layer.

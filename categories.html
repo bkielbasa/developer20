@@ -1,0 +1,21 @@
+---
+permalink: /categories/
+title: Categories
+---
+{% include head.html %}
+
+<div class="container">
+
+    {% for category in site.categories %}
+    {% capture category_name %}{{ category | first }}{% endcapture %}
+    <div id="#{{ category_name | slugize }}"></div>
+    <h3 class="category-head">{{ category_name }}</h3>
+    <div class="row">
+            {% for post in site.categories[category_name] %}
+            {% include post_small.html %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+
+{% include footer.html %}

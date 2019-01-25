@@ -2,6 +2,7 @@
 layout: post
 title: How to send multiple variables via channel in golang?
 mainPhoto: channels.jpg
+categories: Golang
 ---
 
 Channels in golang are referenced type. It means that they are references to a place in the memory. The information can be used to achieve the goal.
