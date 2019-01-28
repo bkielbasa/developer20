@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Be aware of coping in Go
+title:  Be aware of copying in Go
 mainPhoto: copy-in-go.jpg
 categories: Golang
 tags: [golang, channels]
