@@ -11,14 +11,14 @@ Some bugs are very hard to find and to reproduce but easy to fix. To avoid them,
 Can you find a problem with the code below?
 
 ```golang
-q1 := NewQuestion(1, "How to be cool?")
-q1.AddAnswer(1, "eat peanuts")
+	q1 := NewQuestion(1, "How to be cool?")
+	q1 = q1.AddAnswer(1, "eat peanuts")
 
-q2 := q1
+	q2 := q1
 
-q2.AddAnswer(2, "visit developer20.com regulary!")
-fmt.Println("How to be cool?")
-q1.ShowAnswers()
+	q2 = q2.AddAnswer(2, "visit developer20.com regulary!")
+	fmt.Println("How to be cool?")
+	q1.ShowAnswers()
 ```
 
 It's hard to say what's wrong because, at first glance, the code seems to work OK. When we run the code we receive the output:
@@ -33,31 +33,32 @@ The second answers were added to the first question unexpectedly. To find out wh
 
 ```go
 type Question struct {
-	ID int
+	ID      int
 	Content string
 	Answers map[int]string
 }
 
-func NewQuestion(id int, content string) *Question {
-	return &Question{
-		ID: id,
+func NewQuestion(id int, content string) Question {
+	return Question{
+		ID:      id,
 		Content: content,
 		Answers: make(map[int]string),
 	}
 }
 
-func (q *Question)AddAnswer(id int, content string) {
+func (q Question) AddAnswer(id int, content string) Question {
 	q.Answers[id] = content
+	return q
 }
 
-func (q *Question)ShowAnswers() {
+func (q Question) ShowAnswers() {
 	for _, answer := range q.Answers {
 		fmt.Printf("* %s\n", answer)
 	}
 }
 ```
 
-[Golang play](https://play.golang.org/p/X9T_EGSJ7Hk)
+[Golang play](https://play.golang.org/p/i2k-DGlrk_p)
 
 The problem is in `Answers` definition in `Question` structure. In the documentation, you'll find that
 
