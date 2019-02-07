@@ -25,6 +25,14 @@
         /* ]]> */
     </script>
 
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:creator" content="@0Developer2">
+    {% if page.mainPhoto %}
+    <meta name="twitter:image" content="/assets/posts/{{page.mainPhoto}}">
+    {% endif %}
+
+    <meta name="twitter:domain" content="developer20.com">
+
     {% include head_ga.html %}
 </head>
 <body>
