@@ -1,5 +1,7 @@
 items:
   - title: Homepage
     url: /
+  - title: GoCracow
+    url: /gocracow/
   - title: About me
     url: /about-me/
