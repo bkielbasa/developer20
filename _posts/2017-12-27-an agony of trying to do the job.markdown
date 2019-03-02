@@ -4,8 +4,6 @@ title:  An agony of trying to do the job
 mainPhoto: agony.jpeg
 ---
 
-
-
 I’ll tell you a story of Igor. Igor is a web developer. He’s a young man with a girlfriend and some ambitious plan in the future. Igor sit at his desk because he has some work to do. In front of him is a PC. He turns it on and sees some system updates. 30 minutes have passed, and he can see his desktop with a beautiful wallpaper. Funny cats always make his day better. Some people are walking around his working desk, talking and drinking coffee. A typical day.
 
 The IDE is on, but he cannot start working immediately because it’s indexing your project. It takes two extra minutes. Igor is okay with it – more time to finish the coffee is always a good idea.
@@ -28,4 +26,3 @@ Try to imagine it’s your first day of a new job. Can you just copy the project
 ## Summary
 
 I am curious how much time you devote to fighting the tools and what are your most common problems. Are they operating system problems or maybe hardware issues? Write in comments!
-
