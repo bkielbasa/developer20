@@ -5,7 +5,7 @@ mainPhoto: gotips-logo-01.png
 categories: Golang
 tags: [golang, tipstricks]
 ---
-You should use a package `github.com/pkg/errors` instead of `errors` package for errors in your applications. The default package lacks a few things like: 
+You should use the package `github.com/pkg/errors` instead of `errors` package for errors in your applications. The default package lacks a few things like: 
 
  * stack trace
  * easy appending message to the error
