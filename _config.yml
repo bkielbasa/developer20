@@ -17,9 +17,8 @@ title: Developer 2.0
 email: contact@developer20.com
 permalink: /:title/
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+ Developer's blog. My name is Bartek and my passion is programming.
+ In this blog, I try to focus on most important aspects of developing software. 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://developer20.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 0Developer2
