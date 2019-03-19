@@ -11,7 +11,7 @@ When it comes to interfaces, a good practice is to create an interface where you
  * you're creating a library which will be used in different projects
  * you'll have more than 1 implementation
 
-In the example above, we have a storage implementation.
+In the example below, we have a storage implementation.
 
 ```go
 type inMemoryStorage struct {
@@ -55,7 +55,7 @@ func (s inMemoryStorage) Remove(ctx context.Context, key string) error  {
 
 As you can see, we skipped the interface(s) because they are not needed here.
 
-Why do we have this rule? Imagine the situation when you add the interface next to the implementation. The interface is used for abstracting (dependency injection). The interface can look like the above. 
+Why do we have this rule? Imagine the situation when you add the interface next to the implementation. The interface is used for abstracting (dependency injection). The interface can look like the below. 
 
 ```go
 type Storager interface {
