@@ -2,6 +2,7 @@
 layout: post
 title:  Books I read in 2018
 mainPhoto: books.jpg
+tags: [books]
 ---
 
 I’m glad that this year I read so many valuable books. I want to share with you with the most interesting items which you may find interesting too.
