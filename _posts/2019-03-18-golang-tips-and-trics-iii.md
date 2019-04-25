@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Golang Tips & Tricks #3" 
+title: "Golang Tips & Tricks #3 - graceful shutdown" 
 mainPhoto: gotips-logo-03.png 
 categories: Golang
 tags: [golang, tipstricks]

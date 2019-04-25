@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Golang Tips & Tricks #2" 
+title: "Golang Tips & Tricks #2 - interfaces" 
 mainPhoto: gotips-logo-02.png 
 categories: Golang
 tags: [golang, tipstricks]

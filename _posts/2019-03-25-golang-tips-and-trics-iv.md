@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Golang Tips & Tricks #4" 
+title: "Golang Tips & Tricks #4 - internal folders" 
 mainPhoto: gotips-logo-04.png 
 categories: Golang
 tags: [golang, tipstricks]

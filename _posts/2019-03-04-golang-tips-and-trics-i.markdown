@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Golang Tips & Tricks #1" 
+title: "Golang Tips & Tricks #1 - errors" 
 mainPhoto: gotips-logo-01.png 
 categories: Golang
 tags: [golang, tipstricks]
