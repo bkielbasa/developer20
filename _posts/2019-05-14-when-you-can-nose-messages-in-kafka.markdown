@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  When you can lose messages in Kafka
-mainPhoto: learning-mistakes.jpg
+mainPhoto: kafka.jpg
 ---
 
 Kafka is speedy and fault-tolerant distributed streaming platform. However, there are some situations when messages can disappear. It can happen due to misconfiguration or misunderstanding Kafka's internals. In this article, I'll explain when the data loss can happen and how to prevent it.
@@ -31,6 +31,8 @@ In the JVM implementation, when batching is disabled (`linger.ms=0`) messages ca
 During consuming messages, the consumer (subscriber) sends his current offset to the broker. This is the place where data loss can happen. There are, at least, two plots when it may happen.
 
 The first scenario is consuming in parallel. Imagine a situation where 2 messages come to a consumer: A and B. All the messages are processed in parallel. Processing the messages, B was successful, and the offset was committed. However, handling the message, A produced an error. Because the message B has a larger offset, Kafka will save the latest offset and the message A never comes back to the consumer.
+
+![](/assets/posts/kafka-commit-message.png)
 
 ## Broker: Committed doesn't mean saved on the disk
 
