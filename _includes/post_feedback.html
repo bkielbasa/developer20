@@ -1,0 +1,19 @@
+<div class="text-center" id="vote-content">
+    <h5>Did you like the post?</h5>
+    <div><i class="fas fa-thumbs-up fa-2x" style="color: green" id="voteup"></i> or <i class="fas fa-thumbs-down fa-2x" style="color: red" id="votedown"></i></div>
+</div>
+
+<script type="application/javascript">
+    var voteContent = document.getElementById("vote-content");
+
+    document.getElementById("voteup").addEventListener("click", function() {
+        gtag('event', 'voteup', {'url': '{{ page.id }}'});
+        voteContent.innerHTML = "Thank you!";
+
+    });
+
+     document.getElementById("votedown").addEventListener("click", function() {
+        gtag('event', 'votedown', {'url': '{{ page.id }}'});
+        voteContent.innerHTML = "Thank you!";
+    });
+</script>
