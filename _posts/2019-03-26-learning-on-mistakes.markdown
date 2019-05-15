@@ -2,6 +2,7 @@
 layout: post
 title:  Learning on mistakes
 mainPhoto: learning-mistakes.jpg
+tags: [rabbitmq,outage,big data]
 ---
 
 There are many situations which can cause unavailability. One of them can be a bug in a software, bad architecture design decisions or even [a human error](https://aws.amazon.com/message/41926/). Depending on how the numbers are calculated, from [22%](https://cloudscene.com/news/2017/07/datacenterdowntime/) to even [70%](https://www.cw.com.hk/it-hk/uptime-institute-70-dc-outages-due-to-human-error) of outages are caused by human error. Software engineers, DevOps or administrators cannot prevent all the outages but we can learn from ourselves to improve the stability and reliability of systems we are creating. In this article, I will present how Brainly learns on his mistakes to improve the stability and latency of its infrastructure.
