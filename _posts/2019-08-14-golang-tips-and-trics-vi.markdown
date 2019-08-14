@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Golang Tips & Tricks #5 - the _test package" 
-mainPhoto: gotips-logo-05.png 
+title: "Golang Tips & Tricks #6 - the _test package" 
+mainPhoto: gotips-logo-06.png 
 categories: Golang
 tags: [golang, tipstricks, tests]
 ---
