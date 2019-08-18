@@ -50,7 +50,7 @@ Tools can help to improve the project by providing information about users. An e
 
 In the middle of all the areas is the customer. This is the reason why the company or organization exists. All of the above fields should support the customer in his needs and solve his problems. The tools will provide information which is processed by workers in the process.
 
-![customer](/assets/posts/customer.png)
+![customer](/images/customer.png)
 
 ## Final thoughts
 
