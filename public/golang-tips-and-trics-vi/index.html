@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Golang Tips &amp; Tricks #6 - the _test package &middot; Developer 2.0</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="Developer 2.0" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">Developer 2.0</h2>
+				</a>
+				<ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        Bartłomiej Klimczak
+        <br>
+        <span>on&nbsp;</span><time datetime="2019-08-14 00:00:00 &#43;0000 UTC">August 14, 2019</time>
+
+    
+</div>
+
+		<h1 class="post-title">Golang Tips &amp; Tricks #6 - the _test package</h1>
+<div class="post-line"></div>
+
+		
+
+		<p>Testing is one of the hardest stuff in programming. Today trick will help you organize your tests and the production code.</p>
+
+<p>Let’s assume you have a package called orders. When you want to separate the package for tests from the production code you can create a new folder and write tests there. It will work but there’s a more clearer way - put your tests to the folder with you package but suffix the package’s name in tests with _test.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">order.go <span style="color:#75715e"># package orders</span>
+order_test.go <span style="color:#75715e">#package orders_test</span></code></pre></div>
+
+<p>I use this approach a lot and it helps to keep both prod and test code together but can can test the production code like from an external package. I hope you’ll find it useful.</p>
+
+
+		
+
+	</div>
+
+	<div class="pagination">
+		<a href="/golang-tips-and-trics-v/" class="left arrow">&#8592;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-08-18 12:24:38.158315 &#43;0200 CEST m=&#43;0.058168138">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

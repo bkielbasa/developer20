@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Golang Tips &amp; Tricks #5 - blank identifier in structs &middot; Developer 2.0</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="Developer 2.0" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">Developer 2.0</h2>
+				</a>
+				<ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        Bartłomiej Klimczak
+        <br>
+        <span>on&nbsp;</span><time datetime="2019-07-22 00:00:00 &#43;0000 UTC">July 22, 2019</time>
+
+    
+</div>
+
+		<h1 class="post-title">Golang Tips &amp; Tricks #5 - blank identifier in structs</h1>
+<div class="post-line"></div>
+
+		
+
+		<p>While working with structures, there&rsquo;s a possibility to initialize the structure without providing the keys of fields.</p>
+
+<pre><code class="language-go">type SomeSturct struct {
+  FirstField string
+  SecondField bool
+}
+
+// ...
+
+myStruct := SomeSturct{&quot;&quot;, false}
+</code></pre>
+
+<p>If we want to force other (or even ourselfs) to explicitly providing the keys, we can add <code>_ struct{}</code> in the end of the structure.</p>
+
+<pre><code class="language-go">type SomeSturct struct {
+  FirstField string
+  SecondField bool
+  _ struct{}
+}
+
+// COMPILATION ERROR
+myStruct := SomeSturct{&quot;&quot;, false}
+</code></pre>
+
+<p>The code above will produce <code>too few values in SomeSturct literal</code> error. <a href="https://goplay.space/#aq8-_U65YKx">Try it yourself</a>.</p>
+
+<p>In Go, the blank identifier in the type has size <code>0</code> and it means &ldquo;blank identifier.&rdquo; Because it&rsquo;s black, it cannot be accessed directly.
+It forces us to use the fields&rsquo; names explicitly. This technique can be used to avoid bugs that might arise from specifying the arguments in an incorrect order.</p>
+
+
+		
+
+	</div>
+
+	<div class="pagination">
+		<a href="/gogoconf-2019/" class="left arrow">&#8592;</a>
+		<a href="/golang-tips-and-trics-vi/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-08-18 12:24:38.154225 &#43;0200 CEST m=&#43;0.054078566">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

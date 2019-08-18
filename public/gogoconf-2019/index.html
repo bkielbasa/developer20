@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>GoGoConf 2019 - report &middot; Developer 2.0</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="Developer 2.0" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">Developer 2.0</h2>
+				</a>
+				<ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        Bartłomiej Klimczak
+        <br>
+        <span>on&nbsp;</span><time datetime="2019-07-05 00:00:00 &#43;0000 UTC">July 5, 2019</time>
+
+    
+</div>
+
+		<h1 class="post-title">GoGoConf 2019 - report</h1>
+<div class="post-line"></div>
+
+		
+
+		
+
+<p>Recently I&rsquo;ve been on the GoGoConf conference in Cracow. It was a cool opportunity to learn more and meet interesting persons. Today I&rsquo;ll tell you about my thoughts regarding every talk from 2019 edition. Most of the talks don&rsquo;t have video available yet but when the videos will be published I&rsquo;ll update the post.</p>
+
+<h2 id="tackling-contention-the-monsters-inside-the-sync-locker-roberto-clapis">Tackling contention: the monsters inside the ’sync.Locker’ - Roberto Clapis</h2>
+
+<p>I personally like Roberto a lot for the way he behaves and how professional he is. In his talk he explained how to fix performance problems using tools like pprof and trace. One of my takeaways from this talk is that we should use atomic package only really when necessary. It&rsquo;s not worth use the atomic package instead of mutex because the mutexes use the atomic anyway.</p>
+
+<p><a href="https://www.youtube.com/watch?v=ok4NEfqAXb0"><img src="https://img.youtube.com/vi/ok4NEfqAXb0/0.jpg" alt="Tackling contention: the monsters inside the ’sync.Locker’" /></a></p>
+
+<h2 id="patterns-for-effective-and-effortless-observability-prakash-mallela">Patterns for effective and effortless Observability - Prakash Mallela</h2>
+
+<p>Prakash raised an important topic - how to improve the observability in our project without or with little effort. This talked made me think a lot about how I observe my microservices and how I can improve this. It wasn&rsquo;t said loud we should automate it as much as we can. We can achieve that buy providing a custom mini-framework with configured middlewares which will ,for example, automatically log all slow queries and save somewhere execution times to external dependencies (database, event bus, external storage etc).</p>
+
+<p><a href="https://www.youtube.com/watch?v=fwrqVwuQE10"><img src="https://img.youtube.com/vi/fwrqVwuQE10/0.jpg" alt="Tackling contention: the monsters inside the ’sync.Locker’" /></a></p>
+
+<h2 id="aleph-scaling-and-speeding-blockchain-up-with-dag-s-and-go-michał-świętek">ALEPH: scaling and speeding blockchain up with DAG’s and Go - Michał Świętek</h2>
+
+<p>What&rsquo;s cool about Michał&rsquo;s talk is that they showed how they do research about algorithms they use. Michał explained why the switched from python to Go and how efficient it was for them. I know just basics about blockchain so this part wasn&rsquo;t that interesting to me. The talk was full of specific data and facts.</p>
+
+<h2 id="packages-modules-oleg-kovalov">Packages &amp; modules - Oleg Kovalov</h2>
+
+<p>After the presentation I had a small talk with a guy who uses Go in his pet project. He said that he has problem with organizing code in the project so the topic is needed. Oleg explained how he organizes the code in his projects and explained why. To be honest, I don&rsquo;t fully agree with him, mostly regarding <a href="https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164">Clean Architecture</a>. I think I&rsquo;ll write an article about how I do that and why. If you want me to write the article - let me know in comments section below.</p>
+
+<h2 id="developing-a-go-api-client-the-do-s-and-don-ts-anthony-seure">Developing a Go API client: the do’s and don’ts - Anthony Seure</h2>
+
+<p>Have you ever written a library used by someone else except you? If yes, the talk is for you! :D Writing libraries is hard because you have to face many challenges like changes in the API. How to make your API extendable and usable for others? Anthony gives a few tips how it can be achieved, talks about pros and cons of some solutions.</p>
+
+<h2 id="diagnose-your-golang-app-anytime-anywhere-mateusz-dymiński">Diagnose your Golang App anytime anywhere! - Mateusz Dymiński</h2>
+
+<p>This talk is very similar to Roboerto&rsquo;s but he goes more deeper and showes in real-time demos how to use pprof to analise applications. In this talk, we can learn how to attach a debugger to the running application. On the one hand, I don&rsquo;t think we showed much more that we can read from official <a href="https://blog.golang.org/profiling-go-programs">blog post</a>, but on the other hand it was awesome to see it in practice.</p>
+
+<h2 id="final-words">Final words</h2>
+
+<p>As you can see, presentations on the conferences touched various of topics. Some of them loosely related with Go. If you have any other awesome talks from other conferences, just send the link in the comments section below. Which other Go conferences are worth attending?</p>
+
+
+		
+
+	</div>
+
+	<div class="pagination">
+		<a href="/software2.0/" class="left arrow">&#8592;</a>
+		<a href="/golang-tips-and-trics-v/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-08-18 12:24:38.154753 &#43;0200 CEST m=&#43;0.054606570">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

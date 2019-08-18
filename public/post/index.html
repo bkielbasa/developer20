@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Posts &middot; Developer 2.0</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="/post/index.xml" rel="alternate" type="application/rss+xml" title="Developer 2.0" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">Developer 2.0</h2>
+				</a>
+				<ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="catalogue">
+		
+			<a href="https://developer20.com/golang-tips-and-trics-vi/" class="catalogue-item">
+    <div>
+        <time datetime="2019-08-14 00:00:00 &#43;0000 UTC" class="catalogue-time">August 14, 2019</time>
+        <h1 class="catalogue-title">Golang Tips &amp; Tricks #6 - the _test package</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            Testing is one of the hardest stuff in programming. Today trick will help you organize your tests and the production code.
+Let’s assume you have a package called orders. When you want to separate the package for tests from the production code you can create a new folder and write tests there. It will work but there’s a more clearer way - put your tests to the folder with you package but suffix the package’s name in tests with _test.
+        </p>
+    </div>
+</a>
+
+		
+			<a href="https://developer20.com/golang-tips-and-trics-v/" class="catalogue-item">
+    <div>
+        <time datetime="2019-07-22 00:00:00 &#43;0000 UTC" class="catalogue-time">July 22, 2019</time>
+        <h1 class="catalogue-title">Golang Tips &amp; Tricks #5 - blank identifier in structs</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            While working with structures, there&rsquo;s a possibility to initialize the structure without providing the keys of fields.
+type SomeSturct struct { FirstField string SecondField bool } // ... myStruct := SomeSturct{&quot;&quot;, false}  If we want to force other (or even ourselfs) to explicitly providing the keys, we can add _ struct{} in the end of the structure.
+type SomeSturct struct { FirstField string SecondField bool _ struct{} } // COMPILATION ERROR myStruct := SomeSturct{&quot;&quot;, false}  The code above will produce too few values in SomeSturct literal error.
+        </p>
+    </div>
+</a>
+
+		
+			<a href="https://developer20.com/gogoconf-2019/" class="catalogue-item">
+    <div>
+        <time datetime="2019-07-05 00:00:00 &#43;0000 UTC" class="catalogue-time">July 5, 2019</time>
+        <h1 class="catalogue-title">GoGoConf 2019 - report</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            Recently I&rsquo;ve been on the GoGoConf conference in Cracow. It was a cool opportunity to learn more and meet interesting persons. Today I&rsquo;ll tell you about my thoughts regarding every talk from 2019 edition. Most of the talks don&rsquo;t have video available yet but when the videos will be published I&rsquo;ll update the post.
+Tackling contention: the monsters inside the ’sync.Locker’ - Roberto Clapis I personally like Roberto a lot for the way he behaves and how professional he is.
+        </p>
+    </div>
+</a>
+
+		
+			<a href="https://developer20.com/software2.0/" class="catalogue-item">
+    <div>
+        <time datetime="2019-05-24 00:00:00 &#43;0000 UTC" class="catalogue-time">May 24, 2019</time>
+        <h1 class="catalogue-title">Software 2.0</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            There are, at least, two excellent articles about Software 2.0. Andrzej Karpathy and Carlos E. Perez wrote blog posts which cover the topic. In this article, I will explain how I understand the term “Software 2.0” what, I hope, will give you a different point of view on the main topic.
+Software 2.0 is a set of three things which combined complement each other: tools, people, and process. All of them relates to each other closely.
+        </p>
+    </div>
+</a>
+
+		
+			<a href="https://developer20.com/when-you-can-nose-messages-in-kafka/" class="catalogue-item">
+    <div>
+        <time datetime="2019-05-14 00:00:00 &#43;0000 UTC" class="catalogue-time">May 14, 2019</time>
+        <h1 class="catalogue-title">When you can lose messages in Kafka</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            Kafka is speedy and fault-tolerant distributed streaming platform. However, there are some situations when messages can disappear. It can happen due to misconfiguration or misunderstanding Kafka&rsquo;s internals. In this article, I&rsquo;ll explain when the data loss can happen and how to prevent it.
+Publisher: Acknowledgment When a message is sent to the publisher, the publisher waits for an acknowledgment (ACK) from the broker. There are three configuration options which can be used:
+        </p>
+    </div>
+</a>
+
+		
+			<a href="https://developer20.com/golang-tips-and-trics-iv/" class="catalogue-item">
+    <div>
+        <time datetime="2019-03-25 00:00:00 &#43;0000 UTC" class="catalogue-time">March 25, 2019</time>
+        <h1 class="catalogue-title">Golang Tips &amp; Tricks #4 - internal folders</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            While developing a library, we create a directory structure to keep the code organized. However, some exported functions or struct should not be used by users of the library. The achieve that, call the package internal.
+. ├── bar │ ├── bar.go │ └── internal │ └── foobar.go ├── internal │ └── foo.go └── main.go  In the example above, the foo.go can be included only in the main.go. What&rsquo;s more, only the bar.
+        </p>
+    </div>
+</a>
+
+		
+			<a href="https://developer20.com/learning-on-mistakes/" class="catalogue-item">
+    <div>
+        <time datetime="2019-03-25 00:00:00 &#43;0000 UTC" class="catalogue-time">March 25, 2019</time>
+        <h1 class="catalogue-title">Learning On Mistakes</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            There are many situations which can cause unavailability. One of them can be a bug in a software, bad architecture design decisions or even a human error. Depending on how the numbers are calculated, from 22% to even 70% of outages are caused by human error. Software engineers, DevOps or administrators cannot prevent all the outages but we can learn from ourselves to improve the stability and reliability of systems we are creating.
+        </p>
+    </div>
+</a>
+
+		
+			<a href="https://developer20.com/golang-tips-and-trics-iii/" class="catalogue-item">
+    <div>
+        <time datetime="2019-03-18 00:00:00 &#43;0000 UTC" class="catalogue-time">March 18, 2019</time>
+        <h1 class="catalogue-title">Golang Tips &amp; Tricks #3 - graceful shutdown</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            In the microservices&rsquo; world, one thing what&rsquo;s worth considering is a graceful shutdown. This is important to not lose data while shutting down a container. The container orchestrator like Kubernetes can restart the container by sending SIGTERM or SIGINT signal. Those signals can be handled to safely close all connections and finish background tasks.
+Signals are propagated using os.Signal channel. You can add the above code to your main.
+        </p>
+    </div>
+</a>
+
+		
+			<a href="https://developer20.com/golang-tips-and-trics-ii/" class="catalogue-item">
+    <div>
+        <time datetime="2019-03-11 00:00:00 &#43;0000 UTC" class="catalogue-time">March 11, 2019</time>
+        <h1 class="catalogue-title">Golang Tips &amp; Tricks #2 - interfaces</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            When it comes to interfaces, a good practice is to create an interface where you&rsquo;ll use it. Creating interfaces in advanced is not recommended in Go. There are two exceptions:
+ you&rsquo;re creating a library which will be used in different projects you&rsquo;ll have more than 1 implementation  In the example below, we have a storage implementation.
+type inMemoryStorage struct { mutex *sync.Mutex storage map[string]*Value } func NewStorage() *inMemoryStorage { return &amp;inMemoryStorage{ storage: map[string]*Value{}, mutex: &amp;sync.
+        </p>
+    </div>
+</a>
+
+		
+			<a href="https://developer20.com/golang-tips-and-trics-i/" class="catalogue-item">
+    <div>
+        <time datetime="2019-03-04 00:00:00 &#43;0000 UTC" class="catalogue-time">March 4, 2019</time>
+        <h1 class="catalogue-title">Golang Tips &amp; Tricks #1 - errors</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            You should use the package github.com/pkg/errors instead of errors package for errors in your applications. The default package lacks a few things like:
+ stack trace easy appending message to the error and more  It helps with debugging a lot. Below you can find an example error message with the stack trace.
+An important thing to remember is that you should wrap every error which is from any external library or your freshly created error you want to return.
+        </p>
+    </div>
+</a>
+
+		
+	</div>
+	
+	<div class="pagination">
+		
+		
+			<a href="/post/page/2/" class="right arrow">&#8594;</a>
+		
+	
+		<span>1</span>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-08-18 12:24:38.162739 &#43;0200 CEST m=&#43;0.062592696">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>How to name exceptions? It’s not so obvious... &middot; Developer 2.0</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="Developer 2.0" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">Developer 2.0</h2>
+				</a>
+				<ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        Bartłomiej Klimczak
+        <br>
+        <span>on&nbsp;</span><time datetime="2014-04-02 00:00:00 &#43;0000 UTC">April 2, 2014</time>
+
+    
+</div>
+
+		<h1 class="post-title">How to name exceptions? It’s not so obvious...</h1>
+<div class="post-line"></div>
+
+		
+
+		
+
+<p>Naming things is one of the most difficult things in our job. Naming exceptions are even more complicated because exceptions are not regular classes. In this article, I’ll tell you a bit about naming conventions I’ve found and tell pros and cons of them.</p>
+
+<h2 id="the-exception-suffix-to-add-or-not-to-add">The ‘Exception’ suffix. To add or not to add</h2>
+
+<p>There are two schools to add the suffix or not to add it. Let’s take a look a bit closer to see main pros and cons of both points of view.</p>
+
+<h3 id="leaving-without-the-suffix">Leaving without the suffix</h3>
+
+<p>Exceptions are not a regular class. In high-level languages like Java, C#, Python or PHP, you cannot throw or catch something that’s not an exception. If something is thrown, you know it’s an implementation of a specific interface. Adding an extra word, in the end, is just redundant. It doesn’t give you any useful information you did not already have. It only makes the name of the class longer. If you’re dealing with an exception and don’t recognize it as such, usually something is deeply wrong. Moreover, every time you’re facing with exceptions, you have some keywords like try, catch, finally which say that.</p>
+
+<p>Of course, in languages like c++ you can throw anything. For example, you can throw a null (BTW, it will be cast to long in this case).</p>
+
+<h3 id="the-world-with-the-exception-suffix">The world with the ‘Exception’ suffix</h3>
+
+<p>Imagine you’re implementing a parser and you have a completely valid classMissingParameter. You use it to display some debug messages in a console. In another place, you have an exception which is thrown when someone did not put a required parameter. Of course, its name is MissingParameter. Many IDE’s let you browse and search classes in a project.</p>
+
+<p>It may be confusing. You have two classes with the same name (in different namespaces, of course) but one of them is an exception, the second isn’t. I know you can see the folder where the class is placed. If it’s in folder <code>exception</code> it’s probably an exception. The suffix will make it more clear. In a small project it’s not so huge problem but in a large one, it might be.</p>
+
+<h2 id="the-naming">The naming</h2>
+
+<p>What does say <code>InvalidArgumentException</code> you? An invalid argument… what? What did just happen? Did a user not enter a required parameter or he did it but put a null or put some other wrong value? Maybe the class passed as the argument has a wrong state? When you have only information from the exception you do not know exactly what’s going on.</p>
+
+<p>It’s a reason why the exception should be a noun and should describe exactly what happened. A more clear exception would be <code>ArgumentCannotBeNull</code> or <code>ProductIsOutOfStock</code>. Thanks to it when you take a look at the <code>try-catchstatement</code> you know exactly what errors may occur.</p>
+
+<p>On the other hand, you’ll have to create a new class for every unwanted behavior. It can be really a large number of new classes! Imagine that a class can throw 10 exceptions. How will the catch section look like? In many cases, you’ll deal with the exception the same way. It’s not only redundant but you have to duplicate your code.</p>
+
+<p>To solve it you can create a more generic class like <code>InvalidArgumentException</code> with a custom message. The message will tell you more about the problem and it can be more dynamic for example ‘A product with SKU “how-to-handle-fame” is out of stock’. It’s much handier than an exception <code>ProductIsOutOfStock(“how-to-handle-fame”)</code>.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>As I said in the introduction, naming things is one of the most difficult tasks we have as developers. Good class’ name or variable’s name may save hours of debugging or just reading the code you try to understand. In many cases, it isn’t obvious or clear in the beginning. Your decisions may impact your code in many ways so do not be afraid of chasing your mind and refactoring code.</p>
+
+<p>Please let me know if you have any other thoughts about exceptions, please let us know in the comments section.</p>
+
+
+		
+
+	</div>
+
+	<div class="pagination">
+		<a href="/an-agony-of-trying-to-do-the-job/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-08-18 12:24:38.166638 &#43;0200 CEST m=&#43;0.066491561">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Developer 2.0</title>
+    <link>https://developer20.com/</link>
+    <description>Recent content on Developer 2.0</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 14 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://developer20.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Golang Tips &amp; Tricks #6 - the _test package</title>
+      <link>https://developer20.com/golang-tips-and-trics-vi/</link>
+      <pubDate>Wed, 14 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/golang-tips-and-trics-vi/</guid>
+      <description>Testing is one of the hardest stuff in programming. Today trick will help you organize your tests and the production code.
+Let’s assume you have a package called orders. When you want to separate the package for tests from the production code you can create a new folder and write tests there. It will work but there’s a more clearer way - put your tests to the folder with you package but suffix the package’s name in tests with _test.</description>
+    </item>
+    
+    <item>
+      <title>Golang Tips &amp; Tricks #5 - blank identifier in structs</title>
+      <link>https://developer20.com/golang-tips-and-trics-v/</link>
+      <pubDate>Mon, 22 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/golang-tips-and-trics-v/</guid>
+      <description>While working with structures, there&amp;rsquo;s a possibility to initialize the structure without providing the keys of fields.
+type SomeSturct struct { FirstField string SecondField bool } // ... myStruct := SomeSturct{&amp;quot;&amp;quot;, false}  If we want to force other (or even ourselfs) to explicitly providing the keys, we can add _ struct{} in the end of the structure.
+type SomeSturct struct { FirstField string SecondField bool _ struct{} } // COMPILATION ERROR myStruct := SomeSturct{&amp;quot;&amp;quot;, false}  The code above will produce too few values in SomeSturct literal error.</description>
+    </item>
+    
+    <item>
+      <title>GoGoConf 2019 - report</title>
+      <link>https://developer20.com/gogoconf-2019/</link>
+      <pubDate>Fri, 05 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/gogoconf-2019/</guid>
+      <description>Recently I&amp;rsquo;ve been on the GoGoConf conference in Cracow. It was a cool opportunity to learn more and meet interesting persons. Today I&amp;rsquo;ll tell you about my thoughts regarding every talk from 2019 edition. Most of the talks don&amp;rsquo;t have video available yet but when the videos will be published I&amp;rsquo;ll update the post.
+Tackling contention: the monsters inside the ’sync.Locker’ - Roberto Clapis I personally like Roberto a lot for the way he behaves and how professional he is.</description>
+    </item>
+    
+    <item>
+      <title>Software 2.0</title>
+      <link>https://developer20.com/software2.0/</link>
+      <pubDate>Fri, 24 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/software2.0/</guid>
+      <description>There are, at least, two excellent articles about Software 2.0. Andrzej Karpathy and Carlos E. Perez wrote blog posts which cover the topic. In this article, I will explain how I understand the term “Software 2.0” what, I hope, will give you a different point of view on the main topic.
+Software 2.0 is a set of three things which combined complement each other: tools, people, and process. All of them relates to each other closely.</description>
+    </item>
+    
+    <item>
+      <title>When you can lose messages in Kafka</title>
+      <link>https://developer20.com/when-you-can-nose-messages-in-kafka/</link>
+      <pubDate>Tue, 14 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/when-you-can-nose-messages-in-kafka/</guid>
+      <description>Kafka is speedy and fault-tolerant distributed streaming platform. However, there are some situations when messages can disappear. It can happen due to misconfiguration or misunderstanding Kafka&amp;rsquo;s internals. In this article, I&amp;rsquo;ll explain when the data loss can happen and how to prevent it.
+Publisher: Acknowledgment When a message is sent to the publisher, the publisher waits for an acknowledgment (ACK) from the broker. There are three configuration options which can be used:</description>
+    </item>
+    
+    <item>
+      <title>Golang Tips &amp; Tricks #4 - internal folders</title>
+      <link>https://developer20.com/golang-tips-and-trics-iv/</link>
+      <pubDate>Mon, 25 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/golang-tips-and-trics-iv/</guid>
+      <description>While developing a library, we create a directory structure to keep the code organized. However, some exported functions or struct should not be used by users of the library. The achieve that, call the package internal.
+. ├── bar │ ├── bar.go │ └── internal │ └── foobar.go ├── internal │ └── foo.go └── main.go  In the example above, the foo.go can be included only in the main.go. What&amp;rsquo;s more, only the bar.</description>
+    </item>
+    
+    <item>
+      <title>Learning On Mistakes</title>
+      <link>https://developer20.com/learning-on-mistakes/</link>
+      <pubDate>Mon, 25 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/learning-on-mistakes/</guid>
+      <description>There are many situations which can cause unavailability. One of them can be a bug in a software, bad architecture design decisions or even a human error. Depending on how the numbers are calculated, from 22% to even 70% of outages are caused by human error. Software engineers, DevOps or administrators cannot prevent all the outages but we can learn from ourselves to improve the stability and reliability of systems we are creating.</description>
+    </item>
+    
+    <item>
+      <title>Golang Tips &amp; Tricks #3 - graceful shutdown</title>
+      <link>https://developer20.com/golang-tips-and-trics-iii/</link>
+      <pubDate>Mon, 18 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/golang-tips-and-trics-iii/</guid>
+      <description>In the microservices&amp;rsquo; world, one thing what&amp;rsquo;s worth considering is a graceful shutdown. This is important to not lose data while shutting down a container. The container orchestrator like Kubernetes can restart the container by sending SIGTERM or SIGINT signal. Those signals can be handled to safely close all connections and finish background tasks.
+Signals are propagated using os.Signal channel. You can add the above code to your main.</description>
+    </item>
+    
+    <item>
+      <title>Golang Tips &amp; Tricks #2 - interfaces</title>
+      <link>https://developer20.com/golang-tips-and-trics-ii/</link>
+      <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/golang-tips-and-trics-ii/</guid>
+      <description>When it comes to interfaces, a good practice is to create an interface where you&amp;rsquo;ll use it. Creating interfaces in advanced is not recommended in Go. There are two exceptions:
+ you&amp;rsquo;re creating a library which will be used in different projects you&amp;rsquo;ll have more than 1 implementation  In the example below, we have a storage implementation.
+type inMemoryStorage struct { mutex *sync.Mutex storage map[string]*Value } func NewStorage() *inMemoryStorage { return &amp;amp;inMemoryStorage{ storage: map[string]*Value{}, mutex: &amp;amp;sync.</description>
+    </item>
+    
+    <item>
+      <title>Golang Tips &amp; Tricks #1 - errors</title>
+      <link>https://developer20.com/golang-tips-and-trics-i/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/golang-tips-and-trics-i/</guid>
+      <description>You should use the package github.com/pkg/errors instead of errors package for errors in your applications. The default package lacks a few things like:
+ stack trace easy appending message to the error and more  It helps with debugging a lot. Below you can find an example error message with the stack trace.
+An important thing to remember is that you should wrap every error which is from any external library or your freshly created error you want to return.</description>
+    </item>
+    
+    <item>
+      <title>Go deeper – Database connection pool</title>
+      <link>https://developer20.com/go-deeper-database-connection-pool/</link>
+      <pubDate>Fri, 25 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/go-deeper-database-connection-pool/</guid>
+      <description>Golang uses a connection pool to manage opened connections for us. As a result, new connections are used when no free connection left and reuses them when golang finds an idle connection. The most important thing is that when two queries are called one by one it does not mean that the queries will use the same connection. It may be true if not in every case.
+In the example below, you can find two queries which may seem to be executed in one connection.</description>
+    </item>
+    
+    <item>
+      <title>Be aware of copying in Go</title>
+      <link>https://developer20.com/be-aware-of-coping-in-go/</link>
+      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/be-aware-of-coping-in-go/</guid>
+      <description>Some bugs are very hard to find and to reproduce but easy to fix. To avoid them, it&amp;rsquo;s helpful to know how the tools we&amp;rsquo;re using work under the hood. From this article, you&amp;rsquo;ll learn what shallow and deep copy are and which errors you can avoid thank&amp;rsquo;s the knowledge about them.
+Can you find a problem with the code below?
+q1 := NewQuestion(1, &amp;quot;How to be cool?&amp;quot;) q1 = q1.</description>
+    </item>
+    
+    <item>
+      <title>Books I read in 2018</title>
+      <link>https://developer20.com/books-i-read-in-2018/</link>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/books-i-read-in-2018/</guid>
+      <description>I’m glad that this year I read so many valuable books. I want to share with you with the most interesting items which you may find interesting too.
+Getting Things Programmed This book is only available in Polish. I would say that this is Getting Things Done but for developers. I think that the similarity of titles is not an accident. In this book, you can find answers on questions like:</description>
+    </item>
+    
+    <item>
+      <title>How to send multiple variables via channel in golang?</title>
+      <link>https://developer20.com/how-to-send-multiple-variables-via-channel-in-golang/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/how-to-send-multiple-variables-via-channel-in-golang/</guid>
+      <description>Channels in golang are referenced type. It means that they are references to a place in the memory. The information can be used to achieve the goal.
+Firstly, let’s consider using structs as the information carrier. This is the most intuitive choice for the purpose. Below you can find an example of a struct which will be used today.
+type FuncResult struct { Err error Result int } func NewFuncResult(result int) FuncResult { return FuncResult{Result: result} }  The idea is to create a channel from the struct, pass the channel to a function and wait for the result.</description>
+    </item>
+    
+    <item>
+      <title>Entity and value object</title>
+      <link>https://developer20.com/entity-and-value-object/</link>
+      <pubDate>Sat, 04 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/entity-and-value-object/</guid>
+      <description>Knowing the basics is the key to understanding more complex concepts. After reading this post you will know what are entities and value objects and find out differences between them.
+When you pay for something at a shop it’s not important which exactly coin you choose. The most important thing to the shop assistant is their value. It does not matter if you give him coin from the left or right pocket.</description>
+    </item>
+    
+    <item>
+      <title>Why Do Many People Say That Scrum Is A Bullshit</title>
+      <link>https://developer20.com/why-do-many-people-say-that-scrum-is-a-bullshit/</link>
+      <pubDate>Tue, 17 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/why-do-many-people-say-that-scrum-is-a-bullshit/</guid>
+      <description>A few years ago, Scrum and Agile became very popular. It became mainstream. Everyone wanted to work on this framework. However, something’s changing.
+I remember when microservices were one of the most popular topics at many conferences. Everyone started talking about scalability and how cool they are. Because of that, many of those companies fell into the hell of microservices. Focusing on the tools that aren’t really appropriate for you at this time, can be even worse than not having it at all.</description>
+    </item>
+    
+    <item>
+      <title>Services in DDD finally explained</title>
+      <link>https://developer20.com/services-in-ddd-finally-explained/</link>
+      <pubDate>Sun, 15 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/services-in-ddd-finally-explained/</guid>
+      <description>I’ve noticed that there is always a challenge of understanding what services are in a context of domain-driven development and what is the difference between a service in an application, domain, and infrastructure layer.
+Domain-driven design made a lot of cleanup in the IT environment and conquered the hearts of programmers. Eric Evans is one of the most famous people who promote this not so a new way of developing software.</description>
+    </item>
+    
+    <item>
+      <title>What I&#39;ve learned on a hackathon</title>
+      <link>https://developer20.com/what-ive-learned-on-a-hackathon/</link>
+      <pubDate>Fri, 29 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/what-ive-learned-on-a-hackathon/</guid>
+      <description>Recently, I took part in a hackathon. That was an excellent experience. Working 24 hours on a project you came up with the day before is very exciting. After that event, I realized something that I think I felt earlier – development is the easiest part of building a piece of software. It may sound weird but it’s true. In this article, I’ll tell you about my thoughts and conclusions that I have drawn.</description>
+    </item>
+    
+    <item>
+      <title>Indexing in MySQL</title>
+      <link>https://developer20.com/indexing-in-mysql/</link>
+      <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/indexing-in-mysql/</guid>
+      <description>Why do we use indexes? Searching through a row in a sorted file with N length takes O(log2N) comparisons and the same number of reads from a filesystem which is heavy itself. However, tables in databases are not sorted which complicates the operation, Especially, if you have a lot of reads, updates and deletions on them. Writing the sorted version of the file (table) would dramatically slow the database down.</description>
+    </item>
+    
+    <item>
+      <title>History of WWW</title>
+      <link>https://developer20.com/history-of-www/</link>
+      <pubDate>Wed, 02 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/history-of-www/</guid>
+      <description>The history of the WWW wasn’t simple and still isn’t. In the beginning, it was a complete mess. Every browser tried to meet developers halfway without any standards or cooperation with other web browser’s developers.
+It all started with Memex – a theoretical machine created by Vannevar Bush with the ability to create links between documents and books and add comments to them. Until early 90’ Memex was derided and described as unreal because we had no tools to implement this idea.</description>
+    </item>
+    
+    <item>
+      <title>Mutational tests</title>
+      <link>https://developer20.com/mutational-tests/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/mutational-tests/</guid>
+      <description>When you have a very simple application it’s not so important to test every edge case but in a project, in the very complex domain, the priority of it will increase. The more high-quality the tests, the more high-quality the code. Mutational tests will help you with making sure you did not miss some a variant of the flow in your code.
+How it works  Mutational testing is a test which runs other test several times but with a bit changed production code in every iteration.</description>
+    </item>
+    
+    <item>
+      <title>An agony of trying to do the job</title>
+      <link>https://developer20.com/an-agony-of-trying-to-do-the-job/</link>
+      <pubDate>Wed, 27 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/an-agony-of-trying-to-do-the-job/</guid>
+      <description>I’ll tell you a story of Igor. Igor is a web developer. He’s a young man with a girlfriend and some ambitious plan in the future. Igor sit at his desk because he has some work to do. In front of him is a PC. He turns it on and sees some system updates. 30 minutes have passed, and he can see his desktop with a beautiful wallpaper. Funny cats always make his day better.</description>
+    </item>
+    
+    <item>
+      <title>How to name exceptions? It’s not so obvious...</title>
+      <link>https://developer20.com/how-to-name-exceptions-its-not-so-obvious/</link>
+      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://developer20.com/how-to-name-exceptions-its-not-so-obvious/</guid>
+      <description>Naming things is one of the most difficult things in our job. Naming exceptions are even more complicated because exceptions are not regular classes. In this article, I’ll tell you a bit about naming conventions I’ve found and tell pros and cons of them.
+The ‘Exception’ suffix. To add or not to add There are two schools to add the suffix or not to add it. Let’s take a look a bit closer to see main pros and cons of both points of view.</description>
+    </item>
+    
+  </channel>
+</rss>

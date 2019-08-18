@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Golang Tips &amp; Tricks #1 - errors &middot; Developer 2.0</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="Developer 2.0" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">Developer 2.0</h2>
+				</a>
+				<ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        Bartłomiej Klimczak
+        <br>
+        <span>on&nbsp;</span><time datetime="2019-03-04 00:00:00 &#43;0000 UTC">March 4, 2019</time>
+
+    
+      in category
+      
+      
+          
+            <a href="https://developer20.com/categories/Golang/">Golang</a>
+    
+</div>
+
+		<h1 class="post-title">Golang Tips &amp; Tricks #1 - errors</h1>
+<div class="post-line"></div>
+
+		
+
+		<p>You should use the package <code>github.com/pkg/errors</code> instead of <code>errors</code> package for errors in your applications. The default package lacks a few things like:</p>
+
+<ul>
+<li>stack trace</li>
+<li>easy appending message to the error</li>
+<li>and more</li>
+</ul>
+
+<p>It helps with debugging a lot. Below you can find an example error message with the stack trace.</p>
+
+<p><img src="/assets/posts/tipsandtrics01.png" alt="" /></p>
+
+<p>An important thing to remember is that you should wrap every error which is from any external library or your freshly created error you want to return.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">l</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Listen</span>(<span style="color:#e6db74">&#34;tcp4&#34;</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%s:%d&#34;</span>, <span style="color:#a6e22e">host</span>, <span style="color:#a6e22e">port</span>))
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrapf</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;cannot start listening on port %d&#34;</span>, <span style="color:#a6e22e">port</span>)
+}</code></pre></div>
+
+<p>or&hellip;</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrap</span>(<span style="color:#a6e22e">MyError</span>{}, <span style="color:#e6db74">&#34;could not handle the situation&#34;</span>)</code></pre></div>
+
+<p>If you want to add an extra message to already wrapped error, use WithMessage() function.</p>
+
+
+		
+Tags: 
+
+
+    
+      <a href="https://developer20.com/tags/golang/">#golang</a>
+
+
+
+	</div>
+
+	<div class="pagination">
+		<a href="/go-deeper-database-connection-pool/" class="left arrow">&#8592;</a>
+		<a href="/golang-tips-and-trics-ii/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-08-18 12:24:38.162847 &#43;0200 CEST m=&#43;0.062700909">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

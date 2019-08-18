@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Golang Tips &amp; Tricks #3 - graceful shutdown &middot; Developer 2.0</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="Developer 2.0" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">Developer 2.0</h2>
+				</a>
+				<ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        Bartłomiej Klimczak
+        <br>
+        <span>on&nbsp;</span><time datetime="2019-03-18 00:00:00 &#43;0000 UTC">March 18, 2019</time>
+
+    
+</div>
+
+		<h1 class="post-title">Golang Tips &amp; Tricks #3 - graceful shutdown</h1>
+<div class="post-line"></div>
+
+		
+
+		
+
+<p>In the microservices&rsquo; world, one thing what&rsquo;s worth considering is a graceful shutdown. This is important to not lose data while shutting down a container. The container orchestrator like Kubernetes can restart the container by sending <code>SIGTERM</code> or <code>SIGINT</code> signal. Those signals can be handled to safely close all connections and finish background tasks.</p>
+
+<p>Signals are propagated using <code>os.Signal</code> channel. You can add the above code to your main.</p>
+
+<pre><code class="language-go">var gracefulStop = make(chan os.Signal)
+signal.Notify(gracefulStop, syscall.SIGTERM)
+signal.Notify(gracefulStop, syscall.SIGINT)
+</code></pre>
+
+<p>Then, we need a goroutine to handle signals.</p>
+
+<pre><code class="language-go">go func() {
+       sig := &lt;-gracefulStop
+       // handle it
+       os.Exit(0)
+}()
+</code></pre>
+
+<p>If we serve the HTTP server, the first thing we can do is <a href="https://golang.org/pkg/net/http/#Server.Shutdown">shutdowning</a> the server.</p>
+
+<pre><code class="language-go">go func() {
+       sig := &lt;-gracefulStop
+       server.Shutdown(ctx)
+       // handle it
+       os.Exit(0)
+}()
+</code></pre>
+
+<p>It will shut down the server without interrupting any active connections. But what about the background tasks? There are, at least, 3 approaches I found which solves the problem.</p>
+
+<h2 id="wait">Wait!</h2>
+
+<p>You can add a <code>time.Sleep(2*time.Second)</code> statement and just exit. I personally don&rsquo;t like the solution because some tasks may need more than <code>X</code> seconds. On the other hand, setting to high sleep time is not a good idea eather. This is definitely the easiest way of doing it.</p>
+
+<h2 id="use-channels">Use channels</h2>
+
+<p>An another way you can achieve the goal is using channels. Here&rsquo;s how it works: you create two channels. The first one will communicate tell goroutines that it&rsquo;s time to stop and the second that time&rsquo;s up and we&rsquo;re exiting.</p>
+
+<pre><code class="language-go">var closing = make(chan struct{})
+var done = make(chan struct{})
+
+// pass both channels to background processes
+
+go func() {
+       sig := &lt;-gracefulStop
+       closing &lt;- struct{}
+       time.Sleep(2*time.Second)
+       done &lt;- struct{}
+       os.Exit(0)
+}()
+</code></pre>
+
+<p>Thank&rsquo;s to this, all background tasks have 2 seconds to finish up their work and then we exit.</p>
+
+<h2 id="wait-groups">Wait groups</h2>
+
+<p>The <code>sync</code> package has the <code>WaitGroup</code>. The <code>WaitGroup</code> waits for a collection of goroutines to finish. The idea behind it is to create the <code>WaitGroup</code> in the main file and pass it to background tasks. And after that, we call <code>Wait()</code> function after receiving the closing signal.</p>
+
+<pre><code class="language-go">wg := sync.WaitGroup{}
+
+// pass both wait group to background channels
+
+go func() {
+       sig := &lt;-gracefulStop
+       wg.Wait()
+       os.Exit(0)
+}()
+</code></pre>
+
+<p>If you kwno other approaches, just leave a message in the comment&rsquo;s section.</p>
+
+
+		
+
+	</div>
+
+	<div class="pagination">
+		<a href="/golang-tips-and-trics-ii/" class="left arrow">&#8592;</a>
+		<a href="/learning-on-mistakes/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-08-18 12:24:38.15579 &#43;0200 CEST m=&#43;0.055643908">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

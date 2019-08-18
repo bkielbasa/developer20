@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Be aware of copying in Go &middot; Developer 2.0</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="Developer 2.0" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">Developer 2.0</h2>
+				</a>
+				<ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        Bartłomiej Klimczak
+        <br>
+        <span>on&nbsp;</span><time datetime="2019-01-19 00:00:00 &#43;0000 UTC">January 19, 2019</time>
+
+    
+</div>
+
+		<h1 class="post-title">Be aware of copying in Go</h1>
+<div class="post-line"></div>
+
+		
+
+		
+
+<p>Some bugs are very hard to find and to reproduce but easy to fix. To avoid them, it&rsquo;s helpful to know how the tools we&rsquo;re using work under the hood. From this article, you&rsquo;ll learn what shallow and deep copy are and which errors you can avoid thank&rsquo;s the knowledge about them.</p>
+
+<p>Can you find a problem with the code below?</p>
+
+<pre><code class="language-golang">	q1 := NewQuestion(1, &quot;How to be cool?&quot;)
+	q1 = q1.AddAnswer(1, &quot;eat peanuts&quot;)
+
+	q2 := q1
+
+	q2 = q2.AddAnswer(2, &quot;visit developer20.com regulary!&quot;)
+	fmt.Println(&quot;How to be cool?&quot;)
+	q1.ShowAnswers()
+</code></pre>
+
+<p>It&rsquo;s hard to say what&rsquo;s wrong because, at first glance, the code seems to work OK. When we run the code we receive the output:</p>
+
+<pre><code>How to be cool?
+ * eat peanuts
+ * visit developer20.com regulary!
+</code></pre>
+
+<p>The second answers were added to the first question unexpectedly. To find out where&rsquo;s the problem, let&rsquo;s take a look at the struct&rsquo;s definition.</p>
+
+<pre><code class="language-go">type Question struct {
+	ID      int
+	Content string
+	Answers map[int]string
+}
+
+func NewQuestion(id int, content string) Question {
+	return Question{
+		ID:      id,
+		Content: content,
+		Answers: make(map[int]string),
+	}
+}
+
+func (q Question) AddAnswer(id int, content string) Question {
+	q.Answers[id] = content
+	return q
+}
+
+func (q Question) ShowAnswers() {
+	for _, answer := range q.Answers {
+		fmt.Printf(&quot;* %s\n&quot;, answer)
+	}
+}
+</code></pre>
+
+<p><a href="https://play.golang.org/p/i2k-DGlrk_p">Golang play</a></p>
+
+<p>The problem is in <code>Answers</code> definition in <code>Question</code> structure. In the documentation, you&rsquo;ll find that</p>
+
+<blockquote>
+<p>Slices, maps and channels are reference types that do not require the extra indirection of an allocation with new.</p>
+</blockquote>
+
+<p>It means that the values of the array are kept in different place in the memory but in the struct only a reference to them is kept. By simply copying the struct, the reference is copied. The copied reference points to the same address in the memory.</p>
+
+<p><img src="/assets/posts/struct-copy2.png" alt="" /></p>
+
+<p>This is an example of a shallow copy. Shallow copy happens when an object is copied byte by byte. If the object which is copied contains a reference (or a pointer) its address is copied. This situation is illustrated in the above picture. To avoid such situation, deep coping has to be implemented manually.</p>
+
+<p>Why is it important? Imagine a situation where a simple struct with only basic types. The coping of the struct is safe. Hoverer, after some time a referenced type field was added. It can be a slice or a map. It is possible that tests won&rsquo;t cover this edge case. Sometimes a bug report is received from production users about some situations where the system works unpredictably. Does this scenario sound possible? <a href="https://allegro.tech/2017/07/golang-slices-gotcha.html">But it happens</a>. This bug is very similar to the above one but is related to slices.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>Even simple copying can lead to serious bugs which are extremely hard to find. In Go, there&rsquo;s no way to prevent from coping a struct but in c++ you can without any problem.</p>
+
+<pre><code class="language-c++">SomeClass(const SomeClass&amp;) = delete;
+</code></pre>
+
+<p>In Java, the class has to implement <code>Cloneable</code> interface to be cloneable. To prevent those problems, it&rsquo;s better to implement own function for the cloning purpose or cover your code with good tests.</p>
+
+<p>I hope you enjoyed the article. Any thoughts? Do you have anything else to add? Feel free to leave your comment below. Cheers!</p>
+
+
+		
+
+	</div>
+
+	<div class="pagination">
+		<a href="/books-i-read-in-2018/" class="left arrow">&#8592;</a>
+		<a href="/go-deeper-database-connection-pool/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-08-18 12:24:38.162639 &#43;0200 CEST m=&#43;0.062492852">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

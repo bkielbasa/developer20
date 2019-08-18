@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>How to send multiple variables via channel in golang? &middot; Developer 2.0</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="Developer 2.0" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">Developer 2.0</h2>
+				</a>
+				<ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        Bartłomiej Klimczak
+        <br>
+        <span>on&nbsp;</span><time datetime="2018-12-10 00:00:00 &#43;0000 UTC">December 10, 2018</time>
+
+    
+</div>
+
+		<h1 class="post-title">How to send multiple variables via channel in golang?</h1>
+<div class="post-line"></div>
+
+		
+
+		<p>Channels in golang are referenced type. It means that they are references to a place in the memory. The information can be used to achieve the goal.</p>
+
+<p>Firstly, let’s consider using structs as the information carrier. This is the most intuitive choice for the purpose. Below you can find an example of a struct which will be used today.</p>
+
+<pre><code class="language-go">type FuncResult struct {
+	Err error
+	Result int
+}
+
+func NewFuncResult(result int) FuncResult {
+	return FuncResult{Result: result}
+}
+</code></pre>
+
+<p>The idea is to create a channel from the struct, pass the channel to a function and wait for the result.</p>
+
+<pre><code class="language-go">func funcWithError(r chan FuncResult) {
+	r &lt;- NewFuncResult(123)
+}
+
+func main() {
+	r := make(chan FuncResult)
+	go funcWithError(r)
+	res := &lt;- r
+	if res.Err == nil {
+		fmt.Printf(&quot;My result is %d!&quot;, res.Result)
+	} else {
+		fmt.Printf(&quot;The func returned an error: %s&quot;, res.Err)
+	}
+}
+</code></pre>
+
+<p><a href="https://play.golang.org/p/t_ggprDWIXB">Example on Go Playground</a></p>
+
+<p>Another solution is using functions in similar way to structs. This is more functional-programming way and may look less readable.</p>
+
+<pre><code class="language-go">func funcWithError(f chan func() (int, error)) {
+	f &lt;- (func() (int, error) { return 123, nil })
+}
+
+func main() {
+	r := make(chan func() (int, error))
+	go funcWithError(r)
+	res, err := (&lt;-r)()
+	if err == nil {
+		fmt.Printf(&quot;My result is %d again!&quot;, res)
+	} else {
+		fmt.Printf(&quot;The func returned an error: %s&quot;, err)
+	}
+}
+</code></pre>
+
+<p><a href="https://play.golang.org/p/xXxYPuddJTw">Example on Go Playground</a></p>
+
+<p>To simplify the code a bit, it is a good idea to define a custom type which will help keeping the code more readable.</p>
+
+<pre><code class="language-go">type FuncResult func() (int, error)
+
+func funcWithError(f chan FuncResult) {
+	f &lt;- (func() (int, error) { return 123, nil })
+}
+
+func main() {
+	r := make(chan FuncResult)
+	//...
+}
+</code></pre>
+
+
+		
+
+	</div>
+
+	<div class="pagination">
+		<a href="/entity-and-value-object/" class="left arrow">&#8592;</a>
+		<a href="/books-i-read-in-2018/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-08-18 12:24:38.163831 &#43;0200 CEST m=&#43;0.063684218">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>
