@@ -1,4 +1,4 @@
-_site
-.sass-cache
-.jekyll-metadata
-*.swp
+/public
+/.sass-cache/
+/_site/
+/resources

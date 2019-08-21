@@ -1,0 +1,15 @@
+baseURL: https://developer20.com
+disablePathToLower: true
+languageCode: en-us
+title: Developer 2.0
+theme: "tale"
+params:
+  author: Bartłomiej Klimczak
+
+taxonomies:
+  category: categories
+  tag: tags
+
+permalinks:
+  post: /:filename/
+

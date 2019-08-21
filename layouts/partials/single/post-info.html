@@ -1,0 +1,25 @@
+<div class="post-info">
+    <span>{{ i18n "writtenBy" }}</span>
+    {{- if .Params.Author }}
+        {{ .Params.Author }}
+    {{- else }}
+        {{ .Site.Params.Author }}
+    {{- end }}
+
+    {{- if .PublishDate }}
+        <br>
+        <span>{{ i18n "on" }}&nbsp;</span><time datetime="{{ .PublishDate }}">{{ i18n "publishdate" . }}</time>
+    {{- end }}
+
+    {{if .Params.Categories}}
+      in category
+      {{ $taxonomy := "categories" }}
+      {{ with .Param $taxonomy }}
+          {{ range $index, $tag := . }}
+            {{ with $.Site.GetPage (printf "/%s/%s" $taxonomy $tag) -}}
+              <a href="{{ .Permalink }}">{{ $tag | urlize }}</a>
+            {{- end -}}
+          {{- end -}}
+      {{ end }}
+    {{end}}
+</div>
