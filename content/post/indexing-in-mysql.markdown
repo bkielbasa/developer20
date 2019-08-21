@@ -1,7 +1,12 @@
 ---
 title: "Indexing in MySQL"
 publishdate: 2018-05-29
-
+categories: [Database]
+tags:
+  - MySQL
+  - indexes
+  - b-tree-plus
+  - explain
 ---
 Why do we use indexes? Searching through a row in a sorted file with N length takes O(log2N) comparisons and the same number of reads from a filesystem which is heavy itself. However, tables in databases are not sorted which complicates the operation, Especially, if you have a lot of reads, updates and deletions on them. Writing the sorted version of the file (table) would dramatically slow the database down. There is one more thing which makes it even more complicated: every table may be sorted in more than one order. That’s why we use indexes which hold only attributes used in sorting and a reference to the place where the data are kept.
 

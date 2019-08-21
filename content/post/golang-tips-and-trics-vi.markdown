@@ -1,6 +1,10 @@
 ---
 title: "Golang Tips & Tricks #6 - the _test package"
 publishdate: 2019-08-14
+categories: [Golang, Programming]
+tags:
+  - golang
+  - tests
 
 ---
 
@@ -15,4 +19,3 @@ order_test.go #package orders_test
 {{< / highlight >}}
 
 I use this approach a lot and it helps to keep both prod and test code together but can can test the production code like from an external package. I hope you’ll find it useful.
-

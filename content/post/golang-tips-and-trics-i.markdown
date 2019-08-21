@@ -1,7 +1,7 @@
 ---
 title: "Golang Tips & Tricks #1 - errors"
 publishdate: 2019-03-04
-categories: [Golang]
+categories: [Golang, Programming]
 tags:
   - golang
 ---

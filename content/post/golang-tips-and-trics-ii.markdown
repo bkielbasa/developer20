@@ -1,10 +1,14 @@
 ---
 title: "Golang Tips & Tricks #2 - interfaces"
 publishdate: 2019-03-11
+categories: [Golang, Programming]
+tags:
+  - golang
+  - interfaces
 
 ---
 
-When it comes to interfaces, a good practice is to create an interface where you'll use it. Creating interfaces in advanced is not recommended in Go. There are two exceptions: 
+When it comes to interfaces, a good practice is to create an interface where you'll use it. Creating interfaces in advanced is not recommended in Go. There are two exceptions:
 
  * you're creating a library which will be used in different projects
  * you'll have more than 1 implementation
@@ -53,7 +57,7 @@ func (s inMemoryStorage) Remove(ctx context.Context, key string) error  {
 
 As you can see, we skipped the interface(s) because they are not needed here.
 
-Why do we have this rule? Imagine the situation when you add the interface next to the implementation. The interface is used for abstracting (dependency injection). The interface can look like the below. 
+Why do we have this rule? Imagine the situation when you add the interface next to the implementation. The interface is used for abstracting (dependency injection). The interface can look like the below.
 
 ```go
 type Storager interface {
@@ -64,7 +68,7 @@ type Storager interface {
 }
 ```
 
-The problem with the approach comes, for example, in testing. In our production code, you may use only Set method, but you have to mock all of them. It's better to split the interface to smaller parts and define only those methods which are really needed. 
+The problem with the approach comes, for example, in testing. In our production code, you may use only Set method, but you have to mock all of them. It's better to split the interface to smaller parts and define only those methods which are really needed.
 
 ```go
 type Remover interface {

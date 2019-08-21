@@ -1,7 +1,9 @@
 ---
 title: Be aware of copying in Go
 publishdate: 2019-01-19
-
+categories: [Golang, Programming]
+tags:
+  - golang
 
 ---
 Some bugs are very hard to find and to reproduce but easy to fix. To avoid them, it's helpful to know how the tools we're using work under the hood. From this article, you'll learn what shallow and deep copy are and which errors you can avoid thank's the knowledge about them.
@@ -68,7 +70,7 @@ It means that the values of the array are kept in different place in the memory 
 
 This is an example of a shallow copy. Shallow copy happens when an object is copied byte by byte. If the object which is copied contains a reference (or a pointer) its address is copied. This situation is illustrated in the above picture. To avoid such situation, deep coping has to be implemented manually.
 
-Why is it important? Imagine a situation where a simple struct with only basic types. The coping of the struct is safe. Hoverer, after some time a referenced type field was added. It can be a slice or a map. It is possible that tests won't cover this edge case. Sometimes a bug report is received from production users about some situations where the system works unpredictably. Does this scenario sound possible? [But it happens](https://allegro.tech/2017/07/golang-slices-gotcha.html). This bug is very similar to the above one but is related to slices. 
+Why is it important? Imagine a situation where a simple struct with only basic types. The coping of the struct is safe. Hoverer, after some time a referenced type field was added. It can be a slice or a map. It is possible that tests won't cover this edge case. Sometimes a bug report is received from production users about some situations where the system works unpredictably. Does this scenario sound possible? [But it happens](https://allegro.tech/2017/07/golang-slices-gotcha.html). This bug is very similar to the above one but is related to slices.
 
 ## Summary
 

@@ -1,7 +1,9 @@
 ---
-title: GoGoConf 2019 - report 
+title: GoGoConf 2019 - report
 publishdate: 2019-07-05
-
+tags:
+  - golang
+  - conference
 ---
 Recently I've been on the GoGoConf conference in Cracow. It was a cool opportunity to learn more and meet interesting persons. Today I'll tell you about my thoughts regarding every talk from 2019 edition. Most of the talks don't have video available yet but when the videos will be published I'll update the post.
 

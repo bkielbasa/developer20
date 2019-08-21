@@ -1,7 +1,10 @@
 ---
 title: "Scientific method"
 publishDate: 2019-12-03
-
+categories: [Programming]
+tags:
+  - tests
+  - scientific-method
 ---
 In 50′ and 60′ input data for programs from those years were written on paper tapes or punch cards. Writing code, compiling and testing loop took from a few hours to even few days. It was the beginning of programming we know it.
 

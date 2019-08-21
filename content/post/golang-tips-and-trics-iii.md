@@ -1,6 +1,10 @@
 ---
 title: "Golang Tips & Tricks #3 - graceful shutdown"
 publishdate: 2019-03-18
+categories: [Golang, Programming]
+tags:
+  - golang
+  - graceful shutdown
 
 ---
 In the microservices' world, one thing what's worth considering is a graceful shutdown. This is important to not lose data while shutting down a container. The container orchestrator like Kubernetes can restart the container by sending `SIGTERM` or `SIGINT` signal. Those signals can be handled to safely close all connections and finish background tasks.

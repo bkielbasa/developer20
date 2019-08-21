@@ -1,7 +1,11 @@
 ---
 title: "When you can lose messages in Kafka"
 publishdate: 2019-05-14
-
+categories: [Big Data]
+tags:
+  - kafka
+  - topics
+  - ack
 ---
 
 Kafka is speedy and fault-tolerant distributed streaming platform. However, there are some situations when messages can disappear. It can happen due to misconfiguration or misunderstanding Kafka's internals. In this article, I'll explain when the data loss can happen and how to prevent it.

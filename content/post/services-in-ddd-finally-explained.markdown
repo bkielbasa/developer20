@@ -1,6 +1,10 @@
 ---
 title: "Services in DDD finally explained"
 publishDate: 2018-07-15
+categories: [Programming]
+tags:
+  - ddd
+
 ---
 I’ve noticed that there is always a challenge of understanding what services are in a context of domain-driven development and what is the difference between a service in an application, domain, and infrastructure layer.
 

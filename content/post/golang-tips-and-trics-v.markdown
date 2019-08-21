@@ -1,6 +1,10 @@
 ---
 title: "Golang Tips & Tricks #5 - blank identifier in structs"
 publishdate: 2019-07-22
+categories: [Golang, Programming]
+tags:
+  - golang
+  - strucs
 
 ---
 While working with structures, there's a possibility to initialize the structure without providing the keys of fields.
