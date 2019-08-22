@@ -8,6 +8,8 @@ install:
 
 script:
   - hugo
+  - cp public/index.xml public/feed.xml
+  - cp public/index.xml public/atom.xml
 
 deploy:
   - provider: script
