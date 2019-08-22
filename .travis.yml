@@ -1,6 +1,14 @@
+language: python
+
+python:
+    - "3.6"
 
 notifications:
   email: false
+
+before_install:
+  - pip install awscli
+  - export PATH=$HOME/.local/bin:$PATH
 
 install:
   - wget -O /tmp/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.52/hugo_0.52_Linux-64bit.deb
