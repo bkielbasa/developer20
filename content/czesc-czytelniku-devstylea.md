@@ -1,7 +1,7 @@
 ---
 title: Cześć czytelniku Devstyle’a!
 publishDate: 2018-04-02
-noList: true
+hidden: true
 ---
 
 Cieszę się, że znalazłeś chwilę swojego cennego czasu na lekturę mojego artykułu. Mam nadzieję, że dużo z niego wyciągnąłeś wiedzy i inspiracji.
