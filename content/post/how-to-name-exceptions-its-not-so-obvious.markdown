@@ -1,6 +1,6 @@
 ---
 title: "How to name exceptions? It’s not so obvious..."
-publishDate: 2014-04-02
+publishDate: 2018-04-02
 
 ---
 Naming things is one of the most difficult things in our job. Naming exceptions are even more complicated because exceptions are not regular classes. In this article, I’ll tell you a bit about naming conventions I’ve found and tell pros and cons of them.

@@ -1,6 +1,7 @@
 ---
 title: About me
-
+publishDate: 2018-04-02
+hidden: true
 ---
 
 Hi! I’m Bartek and I’m a software developer. I love to learn by teaching other and that’s the reason I started blogging. But that’s not all.
@@ -21,4 +22,3 @@ If you want to contact me just send me a message to the email address bklimczak(
 | GoCracow #1 | GIT under the hood |
 | Re:fresh | A short story about GraphQL |
 | Re:fresh | Dependency inversion in Composer |
-
