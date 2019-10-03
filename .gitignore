@@ -2,3 +2,5 @@
 /.sass-cache/
 /_site/
 /resources
+/.idea
+.DS_Store
