@@ -174,5 +174,24 @@ func main() {
 
 If we want to show the usage, we have to put the -h parameter which will show us the usage. Simple and clear. The whole project took less than 50 lines of code. We used concurrency, the flag, and net packages.
 
+There's one more thing. Our program has race condition. In only a few opened ports and so slow scanning it's not visible but there's the issue. To fix that we'll add [a mutex](https://gobyexample.com/mutexes).
+
+{{< highlight go >}}
+	wg := &sync.WaitGroup{}
+	mutex := &sync.Mutex{}
+	for port := *startPort; port <= *endPort; port++ {
+		wg.Add(1)
+		go func(p int) {
+			opened := isOpen(*hostname, p, *timeout)
+			if opened {
+				mutex.Lock()
+				ports = append(ports, p)
+				mutex.Unlock()
+			}
+			wg.Done()
+		}(port)
+	}
+{{< / highlight >}}
+
 If you like this kind of posts or have a question, let me know in the comments section below. The whole source code is available [on GitHub](https://github.com/bkielbasa/port-scanner).
 
