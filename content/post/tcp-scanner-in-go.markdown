@@ -71,7 +71,6 @@ Let’s focus on making in concurrent. The first step is to extract the scanning
 
 {{< highlight go >}}
 func isOpen(host string, port int) bool {
-  time.Sleep(time.Millisecond * 1)
   conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", host, port))
   if err == nil {
      _ = conn.Close()
@@ -109,7 +108,6 @@ Our code is faster but because of timeouts, we’re waiting a very long time to 
 
 {{< highlight go >}}
 func isOpen(host string, port int, timeout time.Duration) bool {
-	time.Sleep(time.Millisecond * 1)
 	conn, err := net.DialTimeout("tcp", fmt.Sprintf("%s:%d", host, port), timeout)
 	if err == nil {
 		_ = conn.Close()
