@@ -17,4 +17,3 @@ deploy:
   local-dir: public
   on:
     branch: master
-    repo: bkielbasa/developer20
