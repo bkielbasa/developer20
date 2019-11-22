@@ -15,5 +15,3 @@ deploy:
   bucket: developer20.com
   skip_cleanup: true
   local-dir: public
-  on:
-    branch: master
