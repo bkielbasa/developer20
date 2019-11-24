@@ -1,7 +1,7 @@
 ---
 title: "Writing TCP scanner in Go"
 publishdate: 2019-10-23
-categories: [Golang, Programming]
+categories: [Golang, Go in Practice, Programming]
 tags:
   - golang
   - tcp
