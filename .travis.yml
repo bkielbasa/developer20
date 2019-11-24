@@ -15,3 +15,4 @@ deploy:
   bucket: developer20.com
   skip_cleanup: true
   local-dir: public
+  acl: public-read
