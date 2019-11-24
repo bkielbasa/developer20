@@ -22,6 +22,6 @@ jobs:
     - name: Upload files
       uses: docker://gcr.io/cloud-builders/gsutil
       with:
-        args: -m cp -r public/* developer20.com
+        args: -m cp -r public/* gs://developer20.com
       env:
         CLOUDSDK_CORE_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}
