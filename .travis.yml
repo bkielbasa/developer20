@@ -16,3 +16,6 @@ deploy:
   skip_cleanup: true
   local-dir: public
   acl: public-read
+  on:
+    repo: bkielbasa/developer20
+
