@@ -1,0 +1,16 @@
+<a href="{{ .Permalink }}" class="catalogue-item">
+    <div>
+{{ $img := (.Resources.ByType "image").GetMatch "*featured*" }}
+{{ with $img }}
+    {{ $big := .Fill "1024x300 top" }}
+    {{ $small := $big.Resize "512x" }}
+    <img srcset="{{ $small.RelPermalink }} 1x, {{ $big.RelPermalink }} 2x" alt="{{ $img.Title }}" width="{{ $big.Width }}"  class="mw-100 b--light-gray ba">
+{{ end }}
+        <h1 class="catalogue-title">{{ .Title }}</h1>
+        <time datetime="{{ .PublishDate }}" class="catalogue-time">{{ i18n "publishdate" . }}</time>
+
+        <p>
+            {{ if isset .Params "summary" }}{{ .Params.Summary | markdownify }}{{ else }}{{ .Summary }}{{ end }}
+        </p>
+    </div>
+</a>

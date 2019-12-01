@@ -1,6 +1,10 @@
 ---
 title: "Writing a reverse proxy in Go"
 publishdate: 2019-11-25
+featuredImage: /images/proxy.jpg
+resources:
+    - name: header
+    - src: featured.jpg
 categories: 
     - Golang
     - GoInPractice
@@ -12,7 +16,7 @@ tags:
   - network
 ---
 
-Some time ago, I found a video called [https://www.youtube.com/watch?v=J4J-A9tcjcA](Building a DIY proxy with the net package). I recommend watching it. Filippo Valsorda builds a simple proxy using low-level packages. It’s fun to watch it but I think it’s a bit complicated. In Go, it has to be an easier way so I decided to continue writing series [https://developer20.com/categories/GoInPractice/](Go In Practice) by writing a simple but yet powerful reverse proxy as fast as it’s possible.
+Some time ago, I found a video called [Building a DIY proxy with the net package](https://www.youtube.com/watch?v=J4J-A9tcjcA). I recommend watching it. Filippo Valsorda builds a simple proxy using low-level packages. It’s fun to watch it but I think it’s a bit complicated. In Go, it has to be an easier way so I decided to continue writing series [https://developer20.com/categories/GoInPractice/](Go In Practice) by writing a simple but yet powerful reverse proxy as fast as it’s possible.
 
 The first step will be to create a proxy for a single host. The core of our code will be [https://golang.org/pkg/net/http/httputil/#ReverseProxy](ReversProxy) which does all the work for us. This is the magic of the rich standard library. The `RevewseProxy` is a struct for writing reverse proxies :) The only thing we have to do is to configure the director. The director modifies original requests which will be sent to proxied service.
 

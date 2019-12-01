@@ -1,14 +1,14 @@
-<div class="post-info">
-    <span>{{ i18n "writtenBy" }}</span>
-    {{- if .Params.Author }}
-        {{ .Params.Author }}
-    {{- else }}
-        {{ .Site.Params.Author }}
-    {{- end }}
 
+{{ $img := (.Resources.ByType "image").GetMatch "*featured*" }}
+{{ with $img }}
+    {{ $big := .Fill "1024x300 top" }}
+    {{ $small := $big.Resize "512x" }}
+    <img srcset="{{ $small.RelPermalink }} 1x, {{ $big.RelPermalink }} 2x" alt="{{ $img.Title }}" width="{{ $big.Width }}"  class="mw-100 b--light-gray ba">
+{{ end }}
+<div class="post-info">
     {{- if .PublishDate }}
         <br>
-        <span>{{ i18n "on" }}&nbsp;</span><time datetime="{{ .PublishDate }}">{{ i18n "publishdate" . }}</time>
+        <span><time datetime="{{ .PublishDate }}">{{ i18n "publishdate" . }}</time>
     {{- end }}
 
     {{if .Params.Categories}}
@@ -23,3 +23,4 @@
       {{ end }}
     {{end}}
 </div>
+
