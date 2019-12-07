@@ -1,6 +1,6 @@
 ---
 title: "Scientific method"
-publishDate: 2019-12-03
+publishDate: 2018-12-03
 categories: [Programming]
 tags:
   - tests
