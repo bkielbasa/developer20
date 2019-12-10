@@ -14,7 +14,7 @@ You can find a lot of materials about Go (including this blog) but it's hard to 
 
 ## Fundamentals
 
-* [The Go tour](https://tour.golang.org/welcome/1) - IMO the absolutely mast do. You can try Go without installing it. You'll learn some basic syntax and concepts step by step,
+* [The Go tour](https://tour.golang.org/welcome/1) - IMO the absolutely must do. You can try Go without installing it. You'll learn some basic syntax and concepts step by step,
 * [Go by example](https://gobyexample.com/) - if you're confused how to use a certain part of the language it's possible you'll find an example of it on this page. Extremely usefull.
 * https://golangnews.org/ and http://www.go-gazette.com/ newsletters - it's a great source of good quality materials related to Go,
 * [50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs](https://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/) - a list of "gotchas" in Go. It's a long list and there's now way you'll remember everything but it's a good reference for future.
