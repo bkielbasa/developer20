@@ -25,6 +25,7 @@ You can find a lot of materials about Go (including this blog) but it's hard to 
 ## After that...
 
 * [Effective Go](https://golang.org/doc/effective_go.html) - it's a list of tips for writing clear, idiomatic Go code. It's the gold standard and definitely must read.
+* [Go Code Review Comments](https://github.com/golang/go/wiki/CodeReviewComments) - as authors say - it's a suplement to Effective Go. It's an official list of common mistakes with explanation.
 * [Go blog](https://blog.golang.org/) - if you want to be up-to-date with changes to the language and its tools
 * [Ardan labs blog](https://www.ardanlabs.com/blog/) - one of the best Go blogs. You'll find a series of post about the GC or go modules and much more.
 
