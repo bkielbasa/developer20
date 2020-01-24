@@ -17,7 +17,7 @@ jobs:
     - name: Setup Google Cloud
       uses: actions-hub/gcloud@master
       env:
-        GCLOUD_AUTH: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
 
     - name: Upload files
       uses: docker://gcr.io/cloud-builders/gsutil
