@@ -15,7 +15,7 @@ jobs:
     - name: build
       run: hugo
     - name: Setup Google Cloud
-      uses: actions/gcloud/auth@master
+      uses: actions-hub/gcloud@master
       env:
         GCLOUD_AUTH: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
 
