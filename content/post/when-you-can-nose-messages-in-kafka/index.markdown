@@ -1,6 +1,11 @@
 ---
 title: "When you can lose messages in Kafka"
 publishdate: 2019-05-14
+
+resources:
+    - name: header
+    - src: featured.jpg
+
 categories: [Big Data]
 tags:
   - kafka
