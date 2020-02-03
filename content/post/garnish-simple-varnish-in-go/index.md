@@ -71,14 +71,16 @@ func (c *cache) store(key string, rawData []byte, timeout time.Duration) {
 }
 {{< / highlight >}}
 
-It has some issues. For example,  when a new value is set to an existing key with higher duration then the previous key’s duration will invalidate the second value.
+At the beginning, we create the `data` struct which holds all the information about the cache: the data itself and the timeout (how long it stays in the memory). Then, we use mutexes to make sure we're not facing [race condition](https://en.wikipedia.org/wiki/Race_condition) problem and set the proper timeout.
+ 
+But, it has some issues. For example,  when a new value is set to an existing key with higher duration then the previous key’s duration will invalidate the second value. Here's an example which demonstrates the issue.
 
 {{< highlight go >}}
 c.store(key, value, time.Millisecond*50)
 c.store(key, value2, time.Millisecond*100) // this will be cleared after 50ms
 {{< / highlight >}}
 
-But, as long as we don’t have any other way of [invaliding the cache](https://www.varnish-software.com/wiki/content/tutorials/varnish/vcl_examples.html) we have nothing to worry about. You, the Reader, can add both functionalities as an excercise.
+As long as we don’t have any other way of [invaliding the cache](https://www.varnish-software.com/wiki/content/tutorials/varnish/vcl_examples.html) we have nothing to worry about. You, the Reader, can add both functionalities as an excercise.
 
 Our HTTP accelerator will support only one header - `Cache-Control`. There are a lot [headers related to caching](http://book.varnish-software.com/3.0/HTTP.html#cache-related-headers) but we won’t support all of them. Just in the name of simplicity.
 
@@ -103,7 +105,7 @@ func TestGarnish_CacheRequest(t *testing.T) {
 }
 {{< / highlight >}}
 
-Firstly, we check if the HTTP method supports caching. Only GET requests should be cached. Then, we use [the reverse proxy](https://developer20.com/writing-proxy-in-go/) to pass the request further. When the response is returned we take a look at the `Cache-Control` header and based on this information we make the decision: to cache or not to cache. In the end, we add the `X-Cache` header which informs the client if the response was cached or not.
+We check if the HTTP method supports caching. Only GET requests should be cached. Then, we use [the reverse proxy](https://developer20.com/writing-proxy-in-go/) to pass the request further. When the response is returned we take a look at the `Cache-Control` header and based on this information we make the decision: to cache or not to cache. In the end, we add the `X-Cache` header which informs the client if the response was cached or not.
 
 {{< highlight go >}}
 func (g *garnish) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
