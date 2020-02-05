@@ -33,7 +33,7 @@ We needed a tool to help us find the root cause generate ideas for the long-term
 
 System Design is a brainstorming type of session which helped us to find solutions for problems we faced, that is: cascading failures and improving operations in case of the network partition, resulting in weekly 99.99 uptime.
 
-![System Design](/assets/posts/system-design.png)
+![System Design](/images/system-design.png)
 
 ## Finding the solution
 To discuss ideas we had a set of brainstorming meetings very similar to Architectural Kata. On those meetings, we tried to find the root cause of problems we faced, produce example solutions and choose the most suitable solution for us.
@@ -48,7 +48,7 @@ Every time any of the dependencies had a status different than OK, the instance 
 
 For example, when any of the dependencies started failing the whole instance was restarted. It means that if the application consumes events and writes them to a database and provides a REST API for reads, the whole application stopped working when the event bus experience a failure. In this scenario, the application would be possible to serve the read access.
 
-![Application flow](/assets/posts/app-flow.png)
+![Application flow](/images/app-flow.png)
 
 There were a few ideas on how to deal with this scenario. One of them was green-yellow-red statuses. The meaning of the statuses is as follows:
 * Green - the application operates without any problems
