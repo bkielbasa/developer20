@@ -6,6 +6,7 @@ resources:
     - src: featured.jpg
 categories:
     - Golang
+    - GoInPractice
 tags:
     - golang
     - oauth
