@@ -1,40 +1,58 @@
 <head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		{{- if .IsHome }}
-			<meta name="description" content="{{ .Site.Params.Description }}">
-		{{- else if .Description }}
-			<meta name="description" content="{{ .Description }}">
-		{{- end }}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{- if .IsHome }}
+    <meta name="description" content="{{ .Site.Params.Description }}">
+    {{- else if .Description }}
+    <meta name="description" content="{{ .Description }}">
+    {{- end }}
 
-		<title>{{- if .IsHome }}{{ .Site.Title }}{{- else }}{{ .Title }} &middot; {{ .Site.Title }}{{- end }}</title>
+    <title>{{- if .IsHome }}{{ .Site.Title }}{{- else }}{{ .Title }} &middot; {{ .Site.Title }}{{- end }}</title>
 
-		<!-- CSS -->
-		{{- $inServerMode	:= .Site.IsServer }}
-		{{- $cssTarget		:= "css/style.css" }}
-		{{- $cssOptions		:= cond ($inServerMode) (dict "targetPath" $cssTarget "enableSourceMap" true) (dict "targetPath" $cssTarget "outputStyle" "compressed") }}
-		{{- $style			:= resources.Get "scss/tale.scss" | toCSS $cssOptions }}
-  		<link rel="stylesheet" href="{{ $style.RelPermalink }}">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
-		{{ range .Site.Params.css -}}
-			<link rel="stylesheet" href="{{ . | relURL }}">
-		{{ end -}}
+    <!-- CSS -->
+    {{- $inServerMode	:= .Site.IsServer }}
+    {{- $cssTarget		:= "css/style.css" }}
+    {{- $cssOptions		:= cond ($inServerMode) (dict "targetPath" $cssTarget "enableSourceMap" true) (dict "targetPath" $cssTarget "outputStyle" "compressed") }}
+    {{- $style			:= resources.Get "scss/tale.scss" | toCSS $cssOptions }}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+    {{ range .Site.Params.css -}}
+    <link rel="stylesheet" href="{{ . | relURL }}">
+    {{ end -}}
 
-		<!-- Favicon -->
-		<link rel="icon" type="image/png" sizes="32x32" href="{{ "images/favicon-32x32.png" | relURL }}">
-		<link rel="icon" type="image/png" sizes="16x16" href="{{ "images/favicon-16x16.png" | relURL }}">
-		<link rel="apple-touch-icon" sizes="180x180" href="{{ "images/apple-touch-icon.png" | relURL }}">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ "images/favicon-32x32.png" | relURL }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ "images/favicon-16x16.png" | relURL }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ "images/apple-touch-icon.png" | relURL }}">
 
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-8338248-18"></script>
-		<script>
-		    window.dataLayer = window.dataLayer || [];
-		    function gtag(){dataLayer.push(arguments);}
-		    gtag('js', new Date());
+    {{ $img := (.Page.Resources.ByType "image").GetMatch "*featured*" }}
+    {{ with $img }}
+    {{ $big := .Fill "1024x300 top" }}
+    <meta property="og:url" content="{{ $big.RelPermalink }}" />
+    {{ end }}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-8338248-18"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-		    gtag('config', 'UA-8338248-18');
-		</script>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
 
-		<script type="text/javascript" src="//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">window.dojoRequire(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us13.list-manage.com","uuid":"9f6532434ab395c593b2927ec","lid":"30b7030cf6","uniqueMethods":true}) })</script>
-<!-- RSS -->
-<link href="{{ with .OutputFormats.Get "RSS" }}{{ .RelPermalink }}{{ end }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
+        gtag('config', 'UA-8338248-18');
+    </script>
+
+    <script type="text/javascript" src="//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script>
+    <script type="text/javascript">
+        window.dojoRequire(["mojo/signup-forms/Loader"], function(L) {
+            L.start({
+                "baseUrl": "mc.us13.list-manage.com",
+                "uuid": "9f6532434ab395c593b2927ec",
+                "lid": "30b7030cf6",
+                "uniqueMethods": true
+            })
+        })
+    </script>
+    <!-- RSS -->
+    <link href="{{ with .OutputFormats.Get "RSS" }}{{ .RelPermalink }}{{ end }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
 </head>
