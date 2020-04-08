@@ -2,6 +2,9 @@
 title: Go deeper – Database connection pool
 publishdate: 2019-01-25
 categories: [Golang, Programming]
+resources:
+    - name: header
+    - src: featured.jpg
 tags:
   - golang
   - database
