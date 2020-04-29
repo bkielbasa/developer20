@@ -55,4 +55,8 @@ Yet, another post about Git. What I learned from this post are commit templates.
 
 An awesome presentation about who Witcher 3 was ported to Nintendo Switch. Full of detailed information and tables :)
 
+## [CS:Go and Team Fortress 2 source code leaked](https://zd.net/2ShyCiO) #gamedev #security
+
+Valve says it's safe to play those games. But, the news about the source code of those games was stolen create a huge panic in the community.
+
 I hope you like the newsletter. I’ll try to track which topics are the most interesting for you to prepare better content. See you next week. Cheers!
