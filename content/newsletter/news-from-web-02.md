@@ -1,6 +1,6 @@
 ---
 title: "News from the web #2"
-publishdate: 2020-05-08
+publishdate: 2020-05-07
 ---
 
 Hi there!
