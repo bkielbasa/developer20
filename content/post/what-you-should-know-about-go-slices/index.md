@@ -366,7 +366,7 @@ coreInts = append(coreInts, 1, 2, 3, 4, 5)
     coreInts = append(coreInts, 6)
     addTen(ints)
     desc(ints)     // prints: 22, 23
-    desc(coreInts) // prints: 1,12,13,4,5
+    desc(coreInts) // prints: 1,12,13,4,5,6
 
 }
 
