@@ -75,8 +75,4 @@ A success monolith story :) Microservices aren't the golden bullet. It's always 
 
 Do you believe in UFO? Pentagon published recording with unidentified flying object. Is it a drone? Or something not from our planet?
 
-<<<<<<< Updated upstream
 That's all I prepared for you today. If you like the newsletter, please share it and subscribe if you haven't done it before.
-=======
-That's all I prepared for you today. If you like the newsletter, please share it and subscribe if you haven't done it before.
->>>>>>> Stashed changes
