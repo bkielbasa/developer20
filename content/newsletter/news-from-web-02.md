@@ -5,7 +5,7 @@ publishdate: 2020-05-08
 
 Hi there!
 
-I hope you're well. This time, I prepared more security content but didn't forget about Go stauf :) You'll learn the history of user agents, how to get a simple infrastructure for free and more. Happy reading!
+I hope you're well. This time, I prepared more security content but didn't forget about Go stuff :) You'll learn the history of user agents, how to get a simple infrastructure for free and more. Happy reading!
 
 ## [Multiple vulnerabilities found in Zyxel CNM SecuManager](https://bit.ly/35Ev6EM) #security
 
@@ -75,4 +75,8 @@ A success monolith story :) Microservices aren't the golden bullet. It's always 
 
 Do you believe in UFO? Pentagon published recording with unidentified flying object. Is it a drone? Or something not from our planet?
 
+<<<<<<< Updated upstream
 That's all I prepared for you today. If you like the newsletter, please share it and subscribe if you haven't done it before.
+=======
+That's all I prepared for you today. If you like the newsletter, please share it and subscribe if you haven't done it before.
+>>>>>>> Stashed changes
