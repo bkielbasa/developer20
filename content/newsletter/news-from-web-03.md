@@ -5,7 +5,7 @@ publishdate: 2020-05-14
 
 Hi there!
 
-I hope you're well. This time, ....
+I hope you're well. This time, you'll read about useful things about databases, some dev jokes or how to make an old game look prettier. 
 
 ## [Lessons learned after a year as a junior developer](https://www.staszewski.me/lessons-learned/)
 
