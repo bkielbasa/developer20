@@ -9,11 +9,11 @@ I hope you're well. This time, I share with you with some free books, more Go's 
 
 ## [Too modern Go application? Building a serverless application with Google Cloud Run and Firebase](https://threedots.tech/post/serverless-cloud-run-firebase-modern-go-application/) #cloud
 
-Friend of mine published his blog post about how to run Go app (but it can be everything) with Google Cloud Run and Firewbase. This post is related to the next one....
+Friend of mine published his blog post about how to run Go app (but it can be everything) with Google Cloud Run and Firebase. This post is related to the next one....
 
 ## [A complete Terraform setup of a serverless application on Google Cloud Run and Firebase](https://threedots.tech/post/complete-setup-of-serverless-application/) #terraform #cloud
 
-In this step, you'll learn how to configure the whole infrastructure using Terraform and GCP. Next, you'll find information how to configure deployment. Cannot wait for the gRPC part!
+In this step, you'll learn how to configure the whole infrastructure using Terraform and GCP. Next, you'll find information on how to configure deployment. Cannot wait for the gRPC part!
 
 ## [What's coming in Go 1.15](https://lwn.net/Articles/820217/) #golang
 
@@ -33,15 +33,15 @@ Some time ago, Munich was famous in Linux word for his migration to open source 
 
 ## [Top 10 Routinely Exploited Vulnerabilities](https://www.us-cert.gov/ncas/alerts/aa20-133a) #security
 
-This link containses 10 Vulnerabilities you should care about in your organization. You can find there most of Microsoft Office vulnerabilities as well as Flash! Who's still using it?!
+This link contains 10 Vulnerabilities you should care about in your organization. You can find there most of Microsoft Office vulnerabilities as well as Flash! Who's still using it?!
 
 ## [1000+ Hand-Crafted Go Examples, Exercises, and Quizzes](https://github.com/inancgumus/learngo) #golang
 
-There's ton of small but useful Go examples to help you understand some concepts of the language. Recommended for begginers.
+There's ton of small but useful Go examples to help you understand some concepts of the language. Recommended for beginners.
 
 ## [Springer has released 65 Machine Learning and Data books for free](https://towardsdatascience.com/springer-has-released-65-machine-learning-and-data-books-for-free-961f8181f189) #books
 
-Who doesn't like free staff? You'll find there books about Linear and nonlinear programming, data structures, discrete mathematics, robotcs and more.
+Who doesn't like free stuff? You'll find there about books Linear and nonlinear programming, data structures, discrete mathematics, robotics and more.
 
 ## [Building Uber’s Go Monorepo with Bazel](https://eng.uber.com/go-monorepo-bazel/) #golang
 
