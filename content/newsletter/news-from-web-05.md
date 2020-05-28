@@ -13,11 +13,11 @@ Do you think that in the future computers will replace us? This is an example of
 
 ## [Microsoft Open-Sources GW-BASIC](https://devblogs.microsoft.com/commandline/microsoft-open-sources-gw-basic/)
 
-Source code from 10th Feb 1983 is open sourced! If you know assembly or interested in archeology - it's a perfect place for you. They give a brief background of the project and explain why they didn't use C etc for it.
+Source code from 10th Feb 1983 is open sourced! If you know assembly or interested in archaeology - it's a perfect place for you. They give a brief background of the project and explain why they didn't use C etc for it.
 
 ## [Xbox and Windows NT 3.5 source code leaks online - The Verge](https://www.theverge.com/2020/5/21/21265995/xbox-source-code-leak-original-console-windows-3-5) #security
 
-Microsoft published (without their will) another peace of code. The operating system is only used in a small number of systems worldwide so a source code leak isn’t a significant security issue but still :)
+Microsoft published (without their will) another piece of code. The operating system is only used in a small number of systems worldwide so a source code leak isn’t a significant security issue but still :)
 
 ## [Houdini is a clone of Stockfish 8](https://groups.google.com/forum/#!topic/fishcooking/DygaIdBvJm0)
 
@@ -45,11 +45,11 @@ Quite long article about Graphs and GraphQL. I'd say it's very basic and shows h
 
 ## [Three bugs in the Go MySQL Driver](https://github.blog/2020-05-20-three-bugs-in-the-go-mysql-driver/) #golang
 
-Personally, I love articles like this one. It's very detailed but easy to understand summary of 3 bugs in Go MySQL driver that leaved there for a while.
+Personally, I love articles like this one. It's very detailed but easy to understand summary of 3 bugs in Go MySQL driver that left there for a while.
 
 ## [Mid-stack inlining in Go](https://dave.cheney.net/2020/05/02/mid-stack-inlining-in-go) #golang
 
-Dave gives us another cool post. This time about inlining in Go. Inlining is a compiler optimisation that allows to reduce the overhead of calling functions by embedding small functions into their callers. If you want to know more about it - read it.
+Dave gives us another cool post. This time about inlining in Go. Inlining is a compiler optimisation that allows reducing the overhead of calling functions by embedding small functions into their callers. If you want to know more about it - read it.
 
 ## [Diamond interface composition in Go 1.14](https://dave.cheney.net/2020/05/24/diamond-interface-composition-in-go-1-14) #golang
 
