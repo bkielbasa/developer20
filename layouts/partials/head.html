@@ -25,11 +25,19 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ "images/favicon-16x16.png" | relURL }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ "images/apple-touch-icon.png" | relURL }}">
 
+    <!-- twitter card -->
+    <meta name="twitter:card" content="summary" />
     {{ $img := (.Page.Resources.ByType "image").GetMatch "*featured*" }}
     {{ with $img }}
     {{ $big := .Fill "1024x300 top" }}
     <meta property="og:url" content="{{ $big.RelPermalink }}" />
     {{ end }}
+    <meta name="twitter:site" content="@0developer2" />
+    {{- if not .IsHome }}
+    <meta name="twitter:title" content="{{ .Title }}" />
+    {{- end }}
+
+    <!-- end twitter card -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-8338248-18"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
