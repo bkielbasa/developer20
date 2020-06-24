@@ -30,7 +30,7 @@
     {{ $img := (.Page.Resources.ByType "image").GetMatch "*featured*" }}
     {{ with $img }}
     {{ $big := .Fill "1024x300 top" }}
-    <meta property="og:url" content="{{ $big.RelPermalink }}" />
+    <meta property="og:url" content="{{ $big.RelPermalink | absURL }}" />
     {{ end }}
     <meta name="twitter:site" content="@0developer2" />
     {{- if not .IsHome }}
