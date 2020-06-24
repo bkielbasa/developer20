@@ -31,6 +31,7 @@
     {{ with $img }}
     {{ $big := .Fill "1024x300 top" }}
     <meta property="og:url" content="{{ $big.RelPermalink | absURL }}" />
+    <meta property="twitter:image" content="{{ $big.RelPermalink | absURL }}" />
     {{ end }}
     <meta name="twitter:site" content="@0developer2" />
     {{- if not .IsHome }}
