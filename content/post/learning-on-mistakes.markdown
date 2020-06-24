@@ -29,7 +29,7 @@ When the node was back in the cluster it was unable to process any request. Afte
 
 RabbitMQ is only an example of a dependency which can become unavailable at any time. It can be a database server, Varnish installation or even the whole Kafka cluster. Because we treat our job very seriously, we decided to find out the best possible solution to prevent similar situations in the future. Fixing software bugs is a short-term solution but we certainly had some issues in the architecture. We write an outage note every time when something goes wrong to be able to come back to our experiences later.
 
-We needed a tool to help us find the root cause generate ideas for the long-term solution. The choice fell [on System Design]https://www.techopedia.com/definition/29998/system-design.
+We needed a tool to help us find the root cause generate ideas for the long-term solution. The choice fell [on System Design](https://www.techopedia.com/definition/29998/system-design).
 
 System Design is a brainstorming type of session which helped us to find solutions for problems we faced, that is: cascading failures and improving operations in case of the network partition, resulting in weekly 99.99 uptime.
 
