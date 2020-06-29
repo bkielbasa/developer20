@@ -9,7 +9,6 @@ resources:
 
 tags:
  - golang
-
 ---
 
 In Go, we can refer to variables using value or pointers. Sometimes, it's hard to answer which approach is more suitable.
