@@ -4,6 +4,7 @@
     <channel>
         <title>{{ if eq  .Title  .Site.Title }}{{ .Site.Title }}{{ else }}{{ with .Title }}{{.}} on {{ end }}{{ .Site.Title }}{{ end }}</title>
         <link>{{ .Permalink }}</link>
+
         <description>Recent content {{ if ne  .Title  .Site.Title }}{{ with .Title }}in {{.}} {{ end }}{{ end }}on {{ .Site.Title }}</description>
         {{ with .Site.LanguageCode }}
         <language>{{.}}</language>{{end}}{{ with .Site.Author.email }}
@@ -20,6 +21,11 @@
                 <item>
                     <title>{{ .Title }}</title>
                     <link>{{ .Permalink }}</link>
+                    {{ $img := (.Resources.ByType "image").GetMatch "*featured*" }}
+                    {{ with $img }}
+                    {{ $big := .Fill "1024x300 top" }}
+                    <image>{{ $big.RelPermalink | absURL }}</image>
+                    {{ end }}
                     <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
                     {{ with .Site.Author.email }}<author>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</author>{{end}}
                     <guid>{{ .Permalink }}</guid>
