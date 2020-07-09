@@ -14,6 +14,7 @@ When I started my career as a software developer and published the first product
 
 No matter what - your application will experience outages. You have to accept it. What you should do is to try to use those errors as your tool. To be able to do that, we have to measure them in the first place.
 
+
 Very often, you have a service level agreement (SLA).  The SLA is an agreement between users of our service and the provider of it. It is metrics that measure the current uptime, response time, or other things we can observe and are important from the user's point of view.
 
 SLA should be discussed with stakeholders, and our goal is to meet those expectations. Let's say your SLA for uptime is 99.9 %. That's a lot. On the other hand, it means your service can be unavailable for 1 minute and 26 seconds every day or almost 9 hours yearly.
