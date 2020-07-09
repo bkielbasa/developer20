@@ -10,6 +10,14 @@ tags:
     - system design
 ---
 
+When I started my career as a software developer and published the first production application what I did was staring at logs and look for some fatal errors. It was a monolith application. Every log saying that something's wrong had to be fixed. ASAP. This approach worked for some time. However, when the scale increased, and I started building microservices, I couldn't get rid of all of them. Network issues, database failures, and more - it happens all the time.
+
+No matter what - your application will experience outages. You have to accept it. What you should do is to try to use those errors as your tool. To be able to do that, we have to measure them in the first place.
+
+Very often, you have a service level agreement (SLA).  The SLA is an agreement between users of our service and the provider of it. It is metrics that measure the current uptime, response time, or other things we can observe and are important from the user's point of view.
+
+SLA should be discussed with stakeholders, and our goal is to meet those expectations. Let's say your SLA for uptime is 99.9 %. That's a lot. On the other hand, it means your service can be unavailable for 1 minute and 26 seconds every day or almost 9 hours yearly.
+
 When you meet your SLA, you have a bit of space for experimentation. It means you can deploy new features, and even if it fails, you can rollback, fix the issue, and deploy it again. As long as the number of HTTP 5xx errors, response time or other metrics meets his SLA, you can continue experimenting with the service.
 
 When you're service's SLO is much better than accepted SLA, other users of your API can rely on it. Users build their services of what you offer, rather than what you say you'll supply. It means that when the latency/error rate/throughput gets worst, it can have a significant impact on other services.
