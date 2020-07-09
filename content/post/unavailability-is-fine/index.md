@@ -5,9 +5,9 @@ resources:
     - name: header
     - src: featured.jpg
 categories:
-    - Golang
+    - Programming
 tags:
-    - golang
+    - system design
 ---
 
 When you meet your SLA, you have a bit of space for experimentation. It means you can deploy new features, and even if it fails, you can rollback, fix the issue, and deploy it again. As long as the number of HTTP 5xx errors, response time or other metrics meets his SLA, you can continue experimenting with the service.
