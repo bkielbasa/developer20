@@ -9,7 +9,9 @@ categories:
 tags:
     - golang
     - web framework
-  
+
+short: Go has plenty of different web frameworks. When you are faced with choosing a framework for the first time, it may turn out to be quite a challenge to choose the best one. This article is intended to help you choose the best one. It is full of personal judgments that you may disagree with. However, I believe you will find it most helpful.
+
 ---
 
 Go has plenty of different web frameworks. When you are faced with choosing a framework for the first time, it may turn out to be quite a challenge to choose the best one. This article is intended to help you choose the best one. It is full of personal judgments that you may disagree with. However, I believe you will find it most helpful.

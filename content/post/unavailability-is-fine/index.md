@@ -8,6 +8,8 @@ categories:
     - Programming
 tags:
     - system design
+short: When I started my career as a software developer and published the first production application what I did was staring at logs and look for some fatal errors. It was a monolith application. Every log saying that something's wrong had to be fixed. ASAP. This approach worked for some time. However, when the scale increased, and I started building microservices, I couldn't get rid of all of them. Network issues, database failures, and more - it happens all the time.
+
 ---
 
 When I started my career as a software developer and published the first production application what I did was staring at logs and look for some fatal errors. It was a monolith application. Every log saying that something's wrong had to be fixed. ASAP. This approach worked for some time. However, when the scale increased, and I started building microservices, I couldn't get rid of all of them. Network issues, database failures, and more - it happens all the time.

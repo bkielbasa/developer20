@@ -4,6 +4,9 @@ publishdate: 2020-07-21
 resources:
     - name: header
     - src: featured.jpg
+    
+short: Making changes to all HTTP requests can be handy. You may want to add an API key or some information about the sender like app version etc. No matter why you want to do that you have a few options to achieve the goal.
+
 ---
 
 Making changes to all HTTP requests can be handy. You may want to add an API key or some information about the sender like app version etc. No matter why you want to do that you have a few options to achieve the goal.
