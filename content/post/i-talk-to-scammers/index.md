@@ -10,8 +10,7 @@ tags:
     - scam
     - security
 
-short: From time to time, I receive an email from a scammer that says he has X million dollars/euro for me. At the very beginning, I removed those emails but at some point, I decided to answer them. Here’s what I found.
-Every scammer starts very typically. There’s a very reach person who’s dying or very sick. They found my email on the Internet and learned that I’ll be the person who will spend the money wisely.
+short: From time to time, I receive an email from a scammer that says he has X million dollars/euro for me. At the very beginning, I removed those emails but at some point, I decided to answer them. Here’s what I found. Every scammer starts very typically. There’s a very reach person who’s dying or very sick. They found my email on the Internet and learned that I’ll be the person who will spend the money wisely.
 ---
 
 From time to time, I receive an email from a scammer that says he has X million dollars/euro for me. At the very beginning, I removed those emails but at some point, I decided to answer them. Here’s what I found.
