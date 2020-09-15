@@ -61,5 +61,5 @@ Do you know about any other scenarios where the data loss can occur? Let me know
 
 Bibliography:
 
-- [The Definitive Guide: Real-Time Data and Stream](https://www.amazon.com/Kafka-Definitive-Real-Time-Stream-Processing-ebook/dp/B0758ZYVVN/ref=sr_1_2?keywords=Real-Time+Data+and+Stream&qid=1555916450&s=gateway&sr=8-2)
+- [The Definitive Guide: Real-Time Data and Stream](https://amzn.to/2Ru8Mr7)
 - [Kafka documentation](https://kafka.apache.org/documentation/)
