@@ -5,6 +5,7 @@ title: Developer 2.0
 theme: "tale"
 params:
   author: Bartłomiej Klimczak
+  mainSections: ["post", "reviews"]
 
 taxonomies:
   category: categories
@@ -12,3 +13,4 @@ taxonomies:
 
 permalinks:
   post: /:filename/
+
