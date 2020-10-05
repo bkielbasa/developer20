@@ -21,4 +21,4 @@ There are many more techniques we can use like the Ackerman model to be more eff
 
 Did I enjoy the book? Yeah! It's a good read that sometimes made me think about my mistakes in the past. This is this kind of book that taking notes is a must as well as practicing it. You won't get anything from the book if you won't try it in the practice. I think that this book is for everyone who's similar to me - want to be a good negotiator and is looking for a book to have a good start. This book **is** a good start.
 
-You can buy the book [on Amazon](https://amzn.to/30AEQP3).
+You can buy the book [on Amazon](https://amzn.to/30AEQP3) #ad.
