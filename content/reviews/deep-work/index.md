@@ -7,6 +7,7 @@ resources:
 categories:
     - Soft skills
 
+
 ---
 
 There are books that after reading you consider them as "must-read" and you're asking yourself why you didn't read it before. Today is the day when I read the "Deep Work: Rules for Focused Success in a Distracted World" by Cal Newport for the second time. I don't regret it.
