@@ -13,7 +13,7 @@ tags:
 
 In this article, I explain how you can detect if the interface you're using is getting too big and requires splitting into smaller ones. Smaller interfaces help to improve the maintenance and readability of the code. What's more, it helps with understanding the code.
 
-Interfaces in Go are different than those known in Java, c#, PHP etc. In those languages you define interfaces up-front. In other words, at the moment of creating a class you need to know how the class will be used. In Go things are different. You can create a struct with as many functions you want and the user of if can define only a sublist of methods he needs. It's very powerful tool. But sometimes we still can create too big interfaces. The list above should help yuo find interface segragation issues in your code.
+Interfaces in Go are different than those known in Java, c#, PHP etc. In those languages you define interfaces up-front. In other words, at the moment of creating a class you need to know how the class will be used. In Go things are different. You can create a struct with as many functions you want and the user of if can define only a sublist of methods he needs. It's very powerful tool. But sometimes we still can create too big interfaces. The list above should help you find interface segragation issues in your code.
 
 ## Panics in mocks
 
