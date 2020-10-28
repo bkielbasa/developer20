@@ -66,7 +66,7 @@ Let's say you have two services (`Service1` and `Service2`) and a repository. Th
 This problem can happen in two scenarios: both services use a concrete repository or share the same (larger) interface.
 
 {{< highlight go >}}
-type myRepository struct {
+type myRepository interface {
   // used only in Service1
   GetSomething(ctx context.Context, id string) (Something, error)
 
@@ -92,7 +92,7 @@ type Service2 struct {
 Don't be afraid of creating small interfaces, even if some method in the interface can repeat. When we refactor the code above we'll end up with two interfaces that have the same functions in it.
 
 {{< highlight go >}}
-type serice1Repo struct {
+type serice1Repo interface {
   // used only in Service1
   GetSomething(ctx context.Context, id string) (Something, error)
 
@@ -100,7 +100,7 @@ type serice1Repo struct {
   SaveSomething(ctx context.Context, id int) (int, error)
 }
 
-type serice2Repo struct {
+type serice2Repo interface {
   // used only in Service2
   CalculateSomething(ctx context.Context, param1 int) (int, error)
 
@@ -120,13 +120,13 @@ type servicesRepo interface {
   SaveSomething(ctx context.Context, id int) (int, error)
 }
 
-type serice1Repo struct {
+type serice1Repo interface {
   servicesRepo
   // used only in Service1
   GetSomething(ctx context.Context, id string) (Something, error)
 }
 
-type serice2Repo struct {
+type serice2Repo interface {
   servicesRepo
 
   // used only in Service2
