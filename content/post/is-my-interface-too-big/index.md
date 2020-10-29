@@ -149,6 +149,12 @@ I've seen many times a package called `repositories` where all interfaces have t
 
 Go's interfaces are awesome because you can fix it with low effort. The only thing you have to do is to put small interfaces with only methods you need next to the code that uses it and use it instead. When you'll keep refactoring it step-by-step you'll hit the point where you will be able to remove the `repositories` package completely.
 
+## How big the interface should be?
+
+That's a good question. Ideally, it should have as little methods as possible. What does it mean? You can think about interfaces like defining dependencies. The smaller dependency you have, the more flexible your code is. You can make a large dependency injection tree and only use a subset of it. Everything will work. However, when it comes to the maintainability of the code, it can become painful. In extreme cases - unmaintainable.
+
+You can take a look at the standard library. The `io.Reader` or `fmt.Stringer` are interfaces with only one method in it. Of course, there are interfaces like [ReadWriteCloser](https://golang.org/src/io/io.go?s=5240:5298#L128) that groups other interfaces but the rule is still valid. Make your interface as small as possible.
+
 ## Summary
 
 That's all I have for you this time. I hope you found this article interesting and I helped you build better software. Those suggestions aren't Go-specific but I put them in the context to help understand the principles. I believe there are more signals of bad interface segregation. If you have your own idea - let us know in the comments section below.
