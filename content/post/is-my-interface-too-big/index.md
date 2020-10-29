@@ -153,7 +153,8 @@ Go's interfaces are awesome because you can fix it with low effort. The only thi
 
 That's a good question. Ideally, it should have as little methods as possible. What does it mean? You can think about interfaces like defining dependencies. The smaller dependency you have, the more flexible your code is. You can make a large dependency injection tree and only use a subset of it. Everything will work. However, when it comes to the maintainability of the code, it can become painful. In extreme cases - unmaintainable.
 
-You can take a look at the standard library. The `io.Reader` or `fmt.Stringer` are interfaces with only one method in it. Of course, there are interfaces like [ReadWriteCloser](https://golang.org/src/io/io.go?s=5240:5298#L128) that groups other interfaces but the rule is still valid. Make your interface as small as possible.
+You can take a look at the standard library. The `io.Reader` or `fmt.Stringer` are interfaces with only one method in it. They focus only on a single thing and are good in it. Thanks to this approach a function that accepts `io.Reader` doesn't care if the data comes from a HTTP request, from the hard drive or any other source. The power of interfaces are used in errors as well. You can make any type to be an error. It can be a string, integer or any custom struct. Can you see the flexibility it gives?
+Of course, there are interfaces like [ReadWriteCloser](https://golang.org/src/io/io.go?s=5240:5298#L128) that groups other interfaces but the rule is still valid. Make your interface as small as possible.
 
 ## Summary
 
