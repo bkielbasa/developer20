@@ -1,0 +1,7 @@
+[
+  {{ range $index, $item := .Site.RegularPages }}{{if $index}}, {{end}}
+  {
+    "title": "{{ .Title }}",
+    "url": "{{ .Permalink }}"
+  }{{ end }}
+]

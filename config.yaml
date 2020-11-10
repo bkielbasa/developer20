@@ -14,3 +14,14 @@ taxonomies:
 permalinks:
   post: /:filename/
 
+outputFormats:
+  jsonfeed:
+    mediaType: "application/json"
+    baseName: "feed"
+    isPlainText: true
+
+outputs:
+  home:
+    - "html"
+    - "rss"
+    - "jsonfeed"
