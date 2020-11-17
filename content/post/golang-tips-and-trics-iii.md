@@ -71,14 +71,18 @@ The `sync` package has the `WaitGroup`. The `WaitGroup` waits for a collection o
 
 ```go
 wg := sync.WaitGroup{}
+var closing = make(chan struct{})
 
 // pass both wait group to background channels
 
 go func() {
        sig := <-gracefulStop
+       closing := <- struct{}{}
        wg.Wait()
        os.Exit(0)
 }()
 ```
 
-If you kwno other approaches, just leave a message in the comment's section.
+Using this technique, we send the signal on the `closing` channel that those processes should stop their work and using `wg.Wait()` to wait when it will happen. When those background processes won't exit, the container orchestrator will terminate them anyway.
+
+If you know other approaches, just leave a message in the comment's section.
