@@ -11,6 +11,9 @@ tags:
   - scanner
   - network
   - concurrency
+resources:
+    - name: header
+    - src: featured.jpg
 
 ---
 

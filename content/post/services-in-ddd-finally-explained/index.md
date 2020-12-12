@@ -4,9 +4,11 @@ publishDate: 2018-07-15
 categories: [Programming]
 tags:
   - ddd
-
+resources:
+    - name: header
+    - src: featured.jpg
 ---
-I’ve noticed that there is always a challenge of understanding what services are in a context of domain-driven development and what is the difference between a service in an application, domain, and infrastructure layer.
+I’ve noticed that there is always a challenge of understanding what services are in a context of Domain-Driven Development and what is the difference between a service in an application, domain, and infrastructure layer.
 
 Domain-driven design made a lot of cleanup in the IT environment and conquered the hearts of programmers. [Eric Evans](https://domainlanguage.com/) is one of the most famous people who promote this not so a new way of developing software. Unfortunately, from time to time naming elements of it may cause some problems with fully understanding the idea behind some parts of the DDD. One of them is a service.
 
