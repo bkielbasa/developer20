@@ -110,3 +110,8 @@ input {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+/* fix for menu in nav bar */
+.nav-container {
+    position: initial;
+}
