@@ -53,3 +53,8 @@ input {
     clear: both;
     display: table;
 }
+
+/* fix for mailchimp embeded form width */
+.ml-form-embedWrapper.embedForm {
+    max-width: 600px !important;
+}
