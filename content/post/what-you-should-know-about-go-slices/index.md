@@ -118,12 +118,12 @@ s1 = append(s1, 'G')
 desc(s1)
 desc(s2)
 
-/\* Outputs
+/* Outputs
 len(4), cap(6): ABCG
 len(6), cap(6): ABCGEF
 
 Test it in the playground: https://goplay.space/#G0QsYaNOWG9
-\*/
+*/
 ```
 
 Due to the nature of a slice, which we have already described, the behaviour will change when we add a new element to the second slice just before adding the 4th element to the first array.
@@ -135,12 +135,12 @@ s1 = append(s1, 'G')
 desc(s1)
 desc(s2)
 
-/\* Outputs
+/* Outputs
 len(4), cap(6): ABCG
 len(7), cap(16): ABCDEFH
 
 Test it in the playground: https://goplay.space/#BmP4WEFnteG
-\*/
+*/
 ```
 
 As you remember, when you add a new element to a slice with full capacity, it relocates the array with bigger capacity, copies data to the newly allocated memory and adds the element there. It means that changing the first slice won't affect the second slice any more.
