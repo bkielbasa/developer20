@@ -36,6 +36,17 @@
 	</script>
 
 
+	<!-- MailerLite Universal -->
+	<script>
+		(function(m,a,i,l,e,r){ m['MailerLiteObject']=e;function f(){
+			var c={ a:arguments,q:[]};var r=this.push(c);return "number"!=typeof r?r:f.bind(c.q);}
+			f.q=f.q||[];m[e]=m[e]||f.bind(f.q);m[e].q=m[e].q||f.q;r=a.createElement(i);
+			var _=a.getElementsByTagName(i)[0];r.async=1;r.src=l+'?v'+(~~(new Date().getTime()/1000000));
+			_.parentNode.insertBefore(r,_);})(window, document, 'script', 'https://static.mailerlite.com/js/universal.js', 'ml');
+
+		var ml_account = ml('accounts', '961542', 'n5z2u6s1o1', 'load');
+	</script>
+	<!-- End MailerLite Universal -->
 </head>
 
 <body>
@@ -268,35 +279,16 @@
     </footer>
 
     <div class="modal" tabindex="-1" role="dialog" id="subscribeModal">
-      <form action="https://developer20.us13.list-manage.com/subscribe/post?u=9f6532434ab395c593b2927ec&id=30b7030cf6" method="post">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Ready to Go?</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
             <div class="modal-body">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Email</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="EMAIL">
-                  <small id="emailHelp" class="form-text text-muted">I'll never share your email with anyone else.</small>
-                </div>
-                <div class="form-group">
-                  <label for="name">Name</label>
-                  <input type="text" class="form-control" placeholder="I want to say 'hi' using your name" name="FNAME">
-                </div>
-                <div>
-                  <small>Remember about <b>confirming</b> the subscription. If you cannot find the confirmation email in your inbox, check <b>spam</b> folder.</small>
-                </div>
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Gopherize!</button>
+				<div class="ml-form-embed"
+					 data-account="961542:n5z2u6s1o1"
+					 data-form="3250081:h1r5k7">
+				</div>
             </div>
           </div>
         </div>
-      </form>
     </div>
 
     <!-- Javascript -->
