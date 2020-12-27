@@ -1,6 +1,6 @@
 ---
-title: "Refactoring for better testability"
-publishdate: 2020-11-17
+title: "Refactoring for better testability #2"
+publishdate: 2020-12-23
 resources:
     - name: header
     - src: featured.jpg
@@ -9,218 +9,426 @@ categories:
 tags:
     - system design
     - tests
+    - ddd
 ---
 
-When we talk about software design we very often use very generic and abstract words. But, how about the practice? How does it look in a real-world project? Today, you and I will start refactoring a small to-do app for better testability and maintainability. In this article, we will make the application testable. We'll write black-box tests that will prevent from some bugs and make future refactoring easier and safer.
+In the [previous article](https://developer20.com/refactoring-for-better-testability/), we wrote a few tests for a project to make sure that our refactoring won’t break anything. This time, we’ll extract part of the domain and add a test to it. It will help us better understand what the project does and make those tests more reliable.
 
-This article is the first part of mini-series where we do a code review of existing code and try to improve it. In future articles, we'll extract the domain from the project as well as fix some bugs. So, stay tuned!
+We have an issue with the end-to-end (e2e) tests: database under the hood. The approach has some problems. Firstly, those tests are slower. We use a real database connection that has an overhead. The database runs on the same machine, so the latency isn’t significant right now, but it can be when the number of tests increases.
 
-The full source code is available on [Github](https://github.com/bkielbasa/gotodo). When you take a look at the project you can learn about the project structure. It isn't that bad but there's one big issue that won't let us refactor the logic without any worries - it has no tests. This is our goal for today - make the project testable. To be able to refactor the application we have to have some guardian that will keep an eye on the changes you're making. How to do it?
+The second consequence is that those tests aren't as stable as isolated once. We have to remember about launching the database before running tests, running all migrations, and (sometimes) purging tables. If something can crash - it will eventually happen. If we want to have the CI useful, we have to run those tests there as well. We have to configure the CI the same way we did it on our local machines. The setup is much more complicated than just running `go test ./...`.
 
-## Refactoring the main() function
+From my experience, integration tests **are** helpful. Unit tests should be the core of our tests' sets. This is our motivation to write them.
 
-In the main.go file we have two functions. The `main` function holds the whole application initialization as well as starts the HTTP server. The `getDB()` just returns a connection to the database. We can see some handler's definitions. I read the code for you and prepared a few sample requests that we can use to test the application manually.
+We have to understand the core domain first. From the order of requests we send, we can assume that creating the project is the starting point. Let's see what the handler contains.
 
-Create a new project:
-
-{{< highlight bash >}}
-curl --request POST \
-  --url http://localhost:8090/project/create \
-  --header 'content-type: application/json' \
-  --data '{
-	"name": "Home"
-}
-'
-{{< / highlight >}}
-
-List all available projects:
-
-{{< highlight bash >}}
-curl --request GET \
-  --url http://localhost:8090/projects
-{{< / highlight >}}
-
-Add the todo:
-
-{{< highlight bash >}}
-curl --request POST \
-  --url http://localhost:8090/todo/create \
-  --header 'content-type: application/json' \
-  --data '{
-	"name": "lala"
-}
-'
-{{< / highlight >}}
-
-Mark the todo as done:
-
-{{< highlight bash >}}
-curl --request POST \
-  --url http://localhost:8090/todo/TASK_ID/done \
-  --header 'content-type: application/json'
-{{< / highlight >}}
-
-Mark as undone
-
-{{< highlight bash >}}
-curl --request POST \
-  --url http://localhost:8090/todo/TASK_ID/undone \
-  --header 'content-type: application/json'
-{{< / highlight >}}
-
-and so on. Manual testing works but it's not scalable. You want to replace them with automatic tests, right? Let's do it the simple way. Create a new file main_test.go where you'll keep all of the tests of the application. Think about how you want to interact with the program. You don't want to change a lot in the project so you'll ignore the fact that there's a real database inside. You just want to run the application. Here's how it can look like.
-
-{{< highlight golang >}}
-func TestRunServer(t *testing.T) {
-  ctx := context.Background()
-  run, shutdown := todo.App(ctx, port)
-  defer shutdown()
-  go run()
-
-  // run your tests here
-}
-{{< / highlight >}}
-
-What you do is creating a new application that uses the specified context and running it on the port. Then, you start the application, and when the tests end - shuts it down. Sounds simple, isn't it?
-
-To achive that, you have to rename (for now) the `main()` function to `App.`
-
-{{< highlight golang >}}
-func App(ctx context.Context, port int) (func() error, func() error)
-{{< / highlight >}}
-
-The function accepts the context, a port the HTTP server will be running on, and returns two functions: for starting the server and for closing it. This will give us full control over the server that will be useful in a moment. The noticeable change made in the function is creating an HTTP server directly so you can control it. Here's the full function after changes.
-
-{{< highlight golang >}}
-func App(ctx context.Context, port int) (func() error, func() error) {
-	m := http.NewServeMux()
-	s := http.Server{Addr: fmt.Sprintf(":%d", port), Handler: m}
-	log.Printf("starting on port %d", port)
-
-	db := getDB()
-	repo := repositories.NewPostgres(db)
-	todoHandler := handlers.ToDo{Repo: repo}
-	projectHandler := handlers.Project{Repo: repo}
-	m.HandleFunc("/projects", projectHandler.List)
-	m.HandleFunc("/project/create", projectHandler.Create)
-	m.HandleFunc("/project/{id:[0-9a-z\\-]+}/archive", projectHandler.Archive)
-	m.HandleFunc("/todos", todoHandler.List)
-	m.HandleFunc("/todo/create", todoHandler.Create)
-	m.HandleFunc("/todo/{id:[0-9a-z\\-]+}", todoHandler.Get)
-	m.HandleFunc("/todo/{id:[0-9a-z\\-]+}/done", todoHandler.MarkAsDone)
-	m.HandleFunc("/todo/{id:[0-9a-z\\-]+}/undone", todoHandler.MarkAsUndone)
-	return s.ListenAndServe, func() error {
-		return s.Shutdown(ctx)
-	}
-}
-{{< / highlight >}}
-
-At this point, the test almost run. What you have to do is to add the missing main() function you removed. You can find the current code below. The deferred shutdown() function doesn't make sense right now because when it's executed the server is already gone but you'll take care of it next.
-
-{{< highlight golang >}}
-func main() {
-	ctx := context.Background()
-	run, shutdown := App(ctx, 8090)
-	defer shutdown()
-	err := run()
-	if !errors.Is(err, http.ErrServerClosed) {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-}
-{{< / highlight >}}
-
-At this point, the test passes and the application can still run! You test almost nothing but the test will be improved later. Before that, there's one thing missing in the main() function - there's no other way of closing the application than just killing it. You need a [graceful shutdown](https://developer20.com/golang-tips-and-trics-iii/).
-
-{{< highlight golang >}}
-func main() {
-	var gracefulStop = make(chan os.Signal)
-	signal.Notify(gracefulStop, syscall.SIGTERM)
-	signal.Notify(gracefulStop, syscall.SIGINT)
-
-	ctx := context.Background()
-	run, shutdown := App(ctx, 8090)
-
-	go func() {
-		_ = <-gracefulStop
-		fmt.Println("shutting down...")
-		err := shutdown()
-		if err != nil {
-			log.Fatal(err)
-		}
-		os.Exit(0)
-	}()
-	err := run()
-	if !errors.Is(err, http.ErrServerClosed) {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-}
-{{< / highlight >}}
-
-Before starting the server a new `os.Signal` channel is created where you'll receive a signal that it's the time to stop the process. You use our `shutdown()` function to stop the HTTP server and exit.
-
-## Writing the first test
-
-Your test will contain three steps: creating a new project, getting a list of available projects, and checking if our new brand project is visible on the list. Let's rename the test name to `TestAddingNewProject` and update its code to fit the requirements. Every time a new (unique) project name will be created to make sure if the project was created with the correct name.
-
-{{< highlight golang >}}
-  name := uuid.New().String()
-	reqBody := fmt.Sprintf(`{"name": "%s"}`, name)
-	url := "http://localhost:8090/project/create"
-	client := http.Client{
-		Timeout: time.Second,
+```go
+func (p Project) Create(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Printf("cannot read the body: %s", err)
+		http.Error(w, "cannot read the body", http.StatusBadRequest)
+		return
 	}
 
-	// create a new project
-	resp, err := client.Post(url, "application/json", strings.NewReader(reqBody))
-	require.NoError(t, err)
-    require.Equal(t, http.StatusOK, resp.StatusCode)
+	req := httpmodels.CreateProjectRequest{}
+	err = json.Unmarshal(b, &req)
+	if err != nil {
+		log.Printf("cannot read the body: %s", err)
+		http.Error(w, "invalid JSON provided", http.StatusBadRequest)
+		return
+	}
 
-	respBody, err := ioutil.ReadAll(resp.Body)
-	require.NoError(t, err)
-    r := struct{ ID string }{}
-	json.Unmarshal(respBody, &r)
-	require.NotEmpty(t, r.ID)
-{{< / highlight >}}
+	if req.Name == "" {
+		log.Printf("the name is required")
+		http.Error(w, "the name is required", http.StatusBadRequest)
+		return
+	}
 
-One noticeable thing is that you create a new instance of the standard HTTP client. The `http.DefaultClient` doesn't have any timeout set what, in some cases, may slow the test down. Waiting for timeouts can take some time :) 
+	id, err := p.Repo.CreateProject(req.Name)
+	if err != nil {
+		log.Printf("internal server error: %s", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-You received the feedback that the project is created correctly and got the ID of it into an anonymous struct. Now, it's the time for checking if the new project was persisted in the database and can be read from it.
+	resp := httpmodels.CreateProjectResponse{id}
+	b, _ = json.Marshal(resp)
 
-{{< highlight golang >}}
-  // list existing projects
-	url = "http://localhost:8090/projects"
-	resp, err = client.Get(url)
-	require.NoError(t, err)
-	require.Equal(t, http.StatusOK, resp.StatusCode)
+	w.Header().Add("content-type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write(b)
+}
+```
 
-	listResp := projectsListResponse{}
-	respBody, err = ioutil.ReadAll(resp.Body)
-	require.NoError(t, err)
-	json.Unmarshal(respBody, &listResp)
+First lines aren't very useful for now. It's just standard reading the request and unmarshalling to a struct. There's an `if` statement that looks suspiciously.
 
-	// check if the projects are on the list
-	found := false
+```go
+	if req.Name == "" {
+		log.Printf("the name is required")
+		http.Error(w, "the name is required", http.StatusBadRequest)
+		return
+	}
+```
+It says we require providing the name. It’s obligatory. When we continue reading, notice that we return the `id` of the project to the API caller. The id is retrieved from the function that creates the project. To create a new project we have to provide its name. Every project has an `ID`. Let’s model this in the code.
 
-	for _, proj := range listResp.Projects {
-		if proj.ID == r.ID {
-			require.Equal(t, name, proj.Name)
-			require.False(t, proj.Archived)
-			found = true
+```go
+type Project struct {
+    id string
+    name string
+}
+
+func (p Project) Name() string {
+	return p.name
+}
+
+func (p Project) ID() string {
+	return p.id
+}
+```
+
+We created a new struct with private methods. Why? We want to make sure the `Project` is always in a correct state. Private fields help us with this. To let to get those fields we wrote two getter methods. How about creating? Go doesn't have constructors. It doesn't mean we cannot create a custom constructor function.
+
+In our domain, the project has to have a valid (not empty) name and an ID. We can achieve this in at least two ways. The first one is creating the constructor method. The constructor method will do all the checks. The second approach is to create a function `func (p Project) IsValid() bool`. We'll call it everytime we want to check if the project is a valid object.
+
+Personally, I prefer the first option, but the second one is valid as well. It's all about preferences and the specific case. It's the time for the test. Create a new file called `domain/project_test.go` and put the test as shown below. Please notice that we created a new `domain` package.
+
+I prefer the first option, but the second one is valid as well. It’s all about preferences and the specific case. It’s the time for the test. Create a new file called `domain/project_test.go` and put the test as shown below. Please notice that we created a new domain package.
+
+{{< info title="What's in the domain package?" msg="In Domain-Driven Design (DDD), the Domain is the core of our application. It holds all the business logic of the application. It cannot contain any code that interacts with the infrastructure. The Domain should be both platform and framework agnostic." >}}
+
+```go
+package domain
+
+import "testing"
+
+func TestProject_Test_Validation(t *testing.T) {
+	testCases := map[string]struct {
+		id string
+		name string
+	}{
+		"empty ID": {
+			name: "jfslfjal",
+		},
+
+		"empty name": {
+			id: "jfslfjal",
+		},
+	}
+
+	for _, tc := range testCases {
+		_, err := NewProject(tc.id, tc.name)
+		if err == nil {
+			t.Error("expected that the validation fails but got no error")
 		}
 	}
-
-	require.True(t, found, "cannot found the project on the list")
 }
-{{< / highlight >}}
 
-It was done by checking the `/projects` endpoint. Firstly, the HTTP status is checked, and when it succeeds you check every project, one by one, and look for the brand new one. When you find it, you make sure that the name is OK and the project isn't archived from the very beginning. If everything's OK, the test passes!
+```
 
-## Summary
+We make sure we check all the requirements. The test is red (doesn't compile). There's no such a `NewProject` yet. It's the time to add it in `domain/project.go` file.
 
-Today, we refactored the project a bit what helped us writing very first tests for it. You can find the diff with changes we made today in this PR [https://github.com/bkielbasa/gotodo/pull/1](https://github.com/bkielbasa/gotodo/pull/1).
+```go
+func NewProject(id, name string) (Project, error)  {
+	if id == "" {
+		return Project{}, errors.New("the ID cannot be empty")
+	}
 
-Your homework is to write tests for other endpoints. One of scenarios you can write is creating a new project, archiving it and checking if it's status is changed to archived. As I said, this is the first part of refactoring mini-series. The project has more issues in both design and Go good practices. Before fixing that we have to have some tests, right? :)
+	if name == "" {
+		return Project{}, errors.New("the name cannot be empty")
+	}
 
-I hope you liked the post and if you have any questions, leave them in the comments section below.
+	return Project{id: id, name: name}, nil
+}
+```
+
+Tests should be green now. We extracted the first part of the domain! The domain cannot talk with other parts of the code directly. We need an additional layer. Let’s create a new package and call it the `app` (for an application layer).
+{{< info title="What's in the app package?" msg="The application layer is responsible for orchestrating the communication between the external world (DB, HTTP, etc) and your application. The flow is generally like this: get a domain object from a repository, execute an action, and put it back there." >}}
+
+When we take a look at the HTTP handler for creating a project we’ll notice a simple flow: the user provides the name, we create a new project, and return its ID. Let’s write a test that will model it.
+
+```go
+package app
+
+import (
+	"context"
+	"github.com/bkielbasa/gotodo/domain"
+	"github.com/google/uuid"
+	"testing"
+)
+
+func TestAddNewProject(t *testing.T) {
+	name := "my name:" + uuid.New().String()
+	ctx := context.Background()
+
+	projectServ := NewProjectService()
+	p, err := projectServ.Add(ctx, name)
+	if err != nil {
+		t.Errorf("expected no error but got: %s", err)
+	}
+
+	if p.ID() == "" {
+		t.Errorf("ID is empty")
+	}
+
+	if name != p.Name() {
+		t.Errorf("name don't match, expected (%s) but got (%s)", name, p.Name())
+	}
+}
+```
+
+What we do is creating a new application service. The service accepts the name of the project and returns a freshly created project followed by an error (if occurs). Just after that, we make sure the name is as we provided, and the ID isn’t an empty string (this is what we know about the ID right now). The test doesn’t compile. Let’s fix it.
+
+```go
+type ProjectService struct {}
+
+func NewProjectService() ProjectService {
+	return ProjectService{}
+}
+
+func (serv ProjectService) Add(ctx context.Context, name string) (domain.Project, error) {
+	return domain.Project{}, nil
+}
+```
+
+We create the missing constructor function for our new type - the application service. The service has a simple method with initial code - to make the code compile. When we run the test, we’ll notice that it fails. Nothing surprising because we do nothing in the Add function.
+
+```go
+func (serv ProjectService) Add(ctx context.Context, name string) (domain.Project, error) {
+	id := "gopher"
+	return domain.NewProject(id, name)
+}
+```
+
+From now, the test is green. We can add one more test that will check if we validate the name correctly.
+
+```go
+func TestAddNewProjectWithEmptyName(t *testing.T) {
+	name := ""
+
+	projectServ := NewProjectService()
+	_, err := projectServ.Add(context.Background(), name)
+	if err == nil {
+		t.Errorf("expected error but got nil")
+	}
+}
+```
+
+
+The test should are green. We do not check too much, so it's time to change it. We'll update the first test with getting a project for the particular ID and check if the `Get` method still returns the same project.
+
+```go
+func TestAddNewProject(t *testing.T) {
+	name := "my name:" + uuid.New().String()
+	ctx := context.Background()
+
+	projectServ := NewProjectService()
+	p, err := projectServ.Add(ctx, name)
+	if err != nil {
+		t.Errorf("expected no error but got: %s", err)
+	}
+
+	if p.ID() == "" {
+		t.Errorf("ID is empty")
+	}
+
+	if name != p.Name() {
+		t.Errorf("name don't match, expected (%s) but got (%s)", name, p.Name())
+	}
+
+	p2, err := projectServ.Get(ctx, p.ID())
+	if err != nil {
+		t.Errorf("expected no error but got: %s", err)
+	}
+
+	if p.ID() !=  p2.ID() {
+		t.Errorf("expected ID %s but %s given", p.ID(),  p2.ID())
+	}
+
+	if p.Name() !=  p2.Name() {
+		t.Errorf("expected name %s but %s given", p.Name(),  p2.Name())
+	}
+}
+```
+
+Hmm, the code looks a bit unreadable... We can refactor the code by providing a helper function `requireProject`.
+
+```go
+func TestAddNewProject(t *testing.T) {
+	name := "my name:" + uuid.New().String()
+	ctx := context.Background()
+
+	projectServ := NewProjectService(newStoreMock())
+	p, err := projectServ.Add(ctx, name)
+	if err != nil {
+		t.Errorf("expected no error but got: %s", err)
+	}
+
+	checkProjectName(t, p, name)
+
+	p2, err := projectServ.Get(ctx, p.ID())
+	if err != nil {
+		t.Errorf("expected no error but got: %s", err)
+	}
+
+	checkProjectName(t, p2, p.Name())
+	checkProjectID(t, p2, p.ID())
+}
+
+func checkProjectID(t *testing.T, p domain.Project, expectedID string) {
+	if p.ID() !=  expectedID {
+		t.Errorf("expected ID %s but %s given", expectedID,  p.ID())
+	}
+}
+
+func checkProjectName(t *testing.T, p domain.Project, expectedName string) {
+	if p.Name() !=  expectedName {
+		t.Errorf("expected name %s but %s given", expectedName,  p.Name())
+	}
+}
+```
+
+Much better, isn't it? :) The code doesn't compile. To fix it we have to add the missing `Get` function.
+
+```go
+func (serv ProjectService) Get(ctx context.Context, id string) (domain.Project, error) {
+	return domain.NewProject(id, "fjsfsl")
+}
+```
+
+The test is still red. To make it work, we have to add storage that will keep the list of projects we created with the ability to fetch it back. This is how I designed its interface and update `Add()` and `Get` functions to use.
+
+```go
+type Storage interface {
+	Store(ctx context.Context, p domain.Project) error
+	Get(ctx context.Context, id string) (domain.Project, error)
+}
+
+func (serv ProjectService) Add(ctx context.Context, name string) (domain.Project, error) {
+	id := "gopher"
+	p, err := domain.NewProject(id, name)
+	if err != nil {
+		return domain.Project{}, err
+	}
+
+	err = serv.storage.Store(ctx, p)
+	if err != nil {
+		return domain.Project{}, err
+	}
+
+	return p, err
+}
+
+func (serv ProjectService) Get(ctx context.Context, id string) (domain.Project, error) {
+	return serv.storage.Get(ctx, id)
+}
+```
+
+The `ProjectService` doesn't contain the new functionality so let's add it now.
+
+```go
+type ProjectService struct {
+	storage Storage
+}
+
+func NewProjectService(storage Storage) ProjectService {
+	return ProjectService{storage: storage}
+}
+```
+
+Almost there. We have to put the new dependency everywhere we create a new `ProjectService` struct.
+We need a new struct that will implement the interface. Let's create a new one with a map that will hold the instances of `domain.Project`.
+
+```go
+type storeMock struct {
+	data map[string]domain.Project
+}
+
+func newStoreMock() *storeMock {
+	return &storeMock{
+		data: make(map[string]domain.Project),
+	}
+}
+func (s *storeMock) Store(ctx context.Context, p domain.Project) error {
+	s.data[p.ID()] = p
+	return nil
+}
+
+func (s *storeMock) Get(ctx context.Context, id string) (domain.Project, error) {
+	return s.data[id], nil
+}
+```
+
+It's green again! I'd add one more test because we did not cover one important case. What if the project doesn't exist? Shouldn't `Get` function return an error?
+The storage knows if the project exists or not so the error should come from it. Let's create a separate error just for this case.
+
+```go
+// in app/project.go
+var ErrProjectNotFound = errors.New("the project is not found")
+```
+
+To make our testing easier, we need to add a new error to the mock `storeMock` and create a new method to set the given error.
+
+```go
+type storeMock struct {
+	data map[string]domain.Project
+	err error // new field
+}
+
+func (s *storeMock) Get(ctx context.Context, id string) (domain.Project, error) {
+	return s.data[id], s.err // added the error here
+}
+
+func (s *storeMock) withError(err error) *storeMock {
+	s.err = err
+	return s
+}
+```
+
+When we are guarded with new helper methods, it's time to write the test.
+
+```go
+func TestAGetNotExistingProject(t *testing.T) {
+	id := "not exists"
+	ctx := context.Background()
+	storage := newStoreMock().withError(ErrProjectNotFound)
+
+	projectServ := NewProjectService(storage)
+
+	_, err := projectServ.Get(ctx, id)
+	if !errors.Is(err, ErrProjectNotFound) {
+		t.Errorf("expected error ErrProjectNotFound but got %v", err)
+	}
+}
+```
+
+Almost done! If you're perceptive you noticed that we have a hardcoded ID for every project ID: `gopher`. Let's prepare a test that will force us to fix it.
+
+```go
+func TestEveryProjectShouldHaveUniqueID(t *testing.T) {
+	name := "a name"
+
+	projectServ := NewProjectService(newStoreMock())
+	p1, err := projectServ.Add(context.Background(), name)
+	if err != nil {
+		t.Errorf("expected no error but got: %s", err)
+	}
+
+	p2, err := projectServ.Add(context.Background(), name)
+	if err != nil {
+		t.Errorf("expected no error but got: %s", err)
+	}
+
+	if p1.ID() == p2.ID() {
+		t.Error("every project should have a unique ID")
+	}
+}
+```
+
+It's red now. There are many ways to generate a unique ID. We'll use one of the simplest - [uuid](https://github.com/google/uuid).
+
+```go
+id := uuid.New().String()
+```
+
+That's all! Tests pass. We extracted the domain from the current code. Of course, it's not the whole business logic we have to refactor, but it's a good starting point.

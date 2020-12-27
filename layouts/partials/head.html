@@ -1,3 +1,4 @@
+{{- $inServerMode	:= .Site.IsServer }}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +18,6 @@
     <!-- End Google Tag Manager -->
 
     <!-- CSS -->
-    {{- $inServerMode	:= .Site.IsServer }}
     {{- $cssTarget		:= "css/style.css" }}
     {{- $cssOptions		:= cond ($inServerMode) (dict "targetPath" $cssTarget "enableSourceMap" true) (dict "targetPath" $cssTarget "outputStyle" "compressed") }}
     {{- $style			:= resources.Get "scss/tale.scss" | toCSS $cssOptions }}
@@ -67,6 +67,18 @@
         var ml_account = ml('accounts', '961542', 'n5z2u6s1o1', 'load');
     </script>
     <!-- End MailerLite Universal -->
+
+    {{ if hugo.IsProduction }}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-8338248-18"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-8338248-18');
+    </script>
+    {{ end }}
 
     <!-- RSS -->
     <link href="{{ with .OutputFormats.Get "RSS" }}{{ .RelPermalink }}{{ end }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
