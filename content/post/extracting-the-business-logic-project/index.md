@@ -431,6 +431,6 @@ It's red now. There are many ways to generate a unique ID. We'll use one of the 
 id := uuid.New().String()
 ```
 
-That's all! Tests pass. We extracted the domain from the current code. Of course, it's not the whole business logic we have to refactor, but it's a good starting point.
+That's all! Tests pass. We extracted the domain from the current code. Of course, it's not the whole business logic we have to refactor, but it's a good starting point. You can find the diff of our change in this [pull request](https://github.com/bkielbasa/gotodo/pull/2).
 
 If you have any questions or suggestions about this part, there's a comments section below. See you soon!
