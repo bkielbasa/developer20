@@ -1,7 +1,19 @@
-<ul>
-    <li><a href="/reviews/">Books reviews</a></li>
-    <li><a href="/newsletter">Newsletter</a></li>
-    <li><a href="/categories/Golang/">Golang</a></li>
-    <li><a href="{{ "about-me" | relURL }}">About me</a></li>
-    <li><a href="/index.xml">RSS</a></li>
-</ul>
+<div class="navbar">
+    <a href="/">Home</a>
+    <div class="dropdown">
+        <button class="dropbtn">Categories
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="/categories/Golang/">Golang</a>
+            <a href="/reviews/">Books reviews</a>
+        </div>
+    </div>
+    <a href="{{ "about-me" | relURL }}">About me</a>
+    <a href="/index.xml">RSS</a>
+    <div class="search">
+        <div class="autocomplete">
+            <input id="search" type="text" name="search" placeholder="Search">
+        </div>
+    </div>
+</div>
