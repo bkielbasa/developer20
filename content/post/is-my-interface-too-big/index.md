@@ -17,9 +17,9 @@ Interfaces in Go are different than those known in Java, c#, PHP etc. In those l
 
 ## Panics in mocks
 
-If you're generating/writing mocks and some of the methods have empty implementation or a `panic` inside, you're probably incorrectly segregated interfaces. This code is a good suggestion that you have more than one responsibility in the code and you're trying to test one of them.
+If you're generating/writing mocks and some of the methods have empty implementation or a `panic` inside, you're probably incorrectly segregating interfaces. This code is a good suggestion that you have more than one responsibility in the code and you're trying to test one of them.
 
-My suggestion is to try to segregate those responsibilities into separate functions/structs and test them separately. Here's an example.
+My suggestion is to try to split those responsibilities into separate functions/structs and test them separately. Here's an example.
 
 {{< highlight go >}}
 type MethodRepoMock struct {

@@ -54,7 +54,8 @@ input {
     display: table;
 }
 
-.navbar {
+.nav {
+    overflow: initial;
 }
 
 .navbar a {
@@ -68,7 +69,6 @@ input {
 
 .dropdown {
     float: left;
-    /*overflow: hidden;*/
 }
 
 .dropdown .dropbtn {
@@ -80,10 +80,6 @@ input {
     background-color: inherit;
     font-family: inherit;
     margin: 0;
-}
-
-.navbar a:hover, .dropdown:hover .dropbtn {
-    /*background-color: red;*/
 }
 
 .dropdown-content {
@@ -114,4 +110,9 @@ input {
 /* fix for menu in nav bar */
 .nav-container {
     position: initial;
+}
+
+/* fix for mailchimp embedded form width */
+.ml-form-embedWrapper.embedForm {
+    max-width: 600px !important;
 }
