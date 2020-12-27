@@ -1,6 +1,6 @@
 ---
-title: "Refactoring for better testability #2"
-publishdate: 2020-12-23
+title: "Extracting the business logic - the project"
+publishdate: 2021-01-05
 resources:
     - name: header
     - src: featured.jpg
