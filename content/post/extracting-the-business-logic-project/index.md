@@ -299,7 +299,7 @@ func (serv ProjectService) Get(ctx context.Context, id string) (domain.Project, 
 The test is still red. To make it work, we have to add storage that will keep the list of projects we created with the ability to fetch it back. This is how I designed its interface and update `Add()` and `Get` functions to use.
 
 ```go
-type Storage interface {
+type Repository interface {
 	Store(ctx context.Context, p domain.Project) error
 	Get(ctx context.Context, id string) (domain.Project, error)
 }
@@ -328,10 +328,10 @@ The `ProjectService` doesn't contain the new functionality so let's add it now.
 
 ```go
 type ProjectService struct {
-	storage Storage
+	repo Repository
 }
 
-func NewProjectService(storage Storage) ProjectService {
+func NewProjectService(storage Repository) ProjectService {
 	return ProjectService{storage: storage}
 }
 ```
@@ -340,21 +340,21 @@ Almost there. We have to put the new dependency everywhere we create a new `Proj
 We need a new struct that will implement the interface. Let's create a new one with a map that will hold the instances of `domain.Project`.
 
 ```go
-type storeMock struct {
+type repoMock struct {
 	data map[string]domain.Project
 }
 
-func newStoreMock() *storeMock {
-	return &storeMock{
+func newRepoMock() *storeMock {
+	return &repoMock{
 		data: make(map[string]domain.Project),
 	}
 }
-func (s *storeMock) Store(ctx context.Context, p domain.Project) error {
+func (s *repoMock) Store(ctx context.Context, p domain.Project) error {
 	s.data[p.ID()] = p
 	return nil
 }
 
-func (s *storeMock) Get(ctx context.Context, id string) (domain.Project, error) {
+func (s *repoMock) Get(ctx context.Context, id string) (domain.Project, error) {
 	return s.data[id], nil
 }
 ```
@@ -370,16 +370,16 @@ var ErrProjectNotFound = errors.New("the project is not found")
 To make our testing easier, we need to add a new error to the mock `storeMock` and create a new method to set the given error.
 
 ```go
-type storeMock struct {
+type repoMock struct {
 	data map[string]domain.Project
 	err error // new field
 }
 
-func (s *storeMock) Get(ctx context.Context, id string) (domain.Project, error) {
+func (s *repoMock) Get(ctx context.Context, id string) (domain.Project, error) {
 	return s.data[id], s.err // added the error here
 }
 
-func (s *storeMock) withError(err error) *storeMock {
+func (s *repoMock) withError(err error) *storeMock {
 	s.err = err
 	return s
 }
@@ -391,7 +391,7 @@ When we are guarded with new helper methods, it's time to write the test.
 func TestAGetNotExistingProject(t *testing.T) {
 	id := "not exists"
 	ctx := context.Background()
-	storage := newStoreMock().withError(ErrProjectNotFound)
+	storage := newRepoMock().withError(ErrProjectNotFound)
 
 	projectServ := NewProjectService(storage)
 
@@ -408,7 +408,7 @@ Almost done! If you're perceptive you noticed that we have a hardcoded ID for ev
 func TestEveryProjectShouldHaveUniqueID(t *testing.T) {
 	name := "a name"
 
-	projectServ := NewProjectService(newStoreMock())
+	projectServ := NewProjectService(newRepoMock())
 	p1, err := projectServ.Add(context.Background(), name)
 	if err != nil {
 		t.Errorf("expected no error but got: %s", err)
