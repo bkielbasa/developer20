@@ -40,11 +40,11 @@ func (ams AnotherMicroserviceService) Send(o Order) error {
 ```
 
 When you work with the `OrderStorager` interface, is it important that it's a HTTP call? In my opionion - no.
-On the other hand, we can call the interface `AnotherMicroserviceServices` and the method `Send()`. It will work but what if something changes and you want to store it in the service **and** in your local database at the same time. The interface would start lying about what it does. We subtly break open-closed principle from SOLID. Adding any cache or doing anything else what doesn't change the actual logic should be replacable and not visible from the user's point of view.
+On the other hand, we can call the interface `AnotherMicroserviceServices` and the method `Send()`. It will work but what if something changes and you want to store it in the service **and** in your local database at the same time. The interface would start lying about what it does. We subtly break open-closed principle from SOLID. Adding any cache or doing anything else what doesn't change the actual logic should be replacable and not visible from the user's point of view because it doesn't change the core behavior.
 
 ## Don't let your logic leak to the infrastructure
 
-The infrastructure code should be as simple as possible. The reason behind it is simple: it's a hard to test area. This is very hard to find too. Let me give you an example. Let's say we have a method in our repository.
+The infrastructure code should be as simple as possible. The reason behind it is simple: it's a hard to test area. Let me give you an example. Let's say we have a method in our repository.
 
 ```go
 func (repo Repository) Get(ctx context.Context, id string) (record, error) {
@@ -60,7 +60,7 @@ func (repo Repository) Get(ctx context.Context, id string) (record, error) {
 }
 ```
 
-Can you find the problem? We subtly require that if the row has status different than `active` it's not allowed to fetch it. How can we test it? Only with real database running in the background. We can always mock the `sql.DB` but it's hacky for me. We can fetch the status from the database and check in in the service.
+Can you find the problem? We subtly require that if the row has status different than `active` it's not allowed to fetch it. How can we test it? Only with real database running in the background. We can always mock the `sql.DB` but it's hacky for me. To fix it we can fetch the status from the database and check in in the service.
 
 ```go
 var ErrRecordIsNotActive = errors.New("the record is not active")
@@ -96,7 +96,7 @@ The refactoring made the testing of the logic very simple. All we need to do is 
 
 ## Errors are part of our API
 
-In the example above we has an another problem. When the row does not exists the `sql.NoRows` error leaks from the infrastructure to the service layer. We forget that errors are part of the API of our functions or packages. We should think about them as well to make the code more developer friendly. Let's think what should we do in the service to check if the record exist. We have two options: compare the error to `sql.NoRows` or compare strings. Both of them are very elegant solutions. To make it more handy, we refactor the repository once again to add a separate error.
+In the example above we has an another problem. When the row does not exists the `sql.NoRows` error leaks from the infrastructure to the service layer. We forget that errors are part of the API of our functions or packages. We should think about them as well to make the code more developer friendly. Let's think what should we do in the service to check if the record exist. We have two options: compare the error to `sql.NoRows` or compare strings. Both of them aren't very elegant solutions. To make it more handy, we refactor the repository once again to add a separate error.
 
 ```go
 func (repo Repository) Get(ctx context.Context, id string) (record, error) {
@@ -333,3 +333,73 @@ func (myRepo MyRepository) SomeOperation(arg type) error {
 	return errors.Wrap(err, "some operation: cannot do something else")
 }
 ```
+
+In the example above, the error message can be similar to this:
+
+```
+some operation: cannot do something: connection timeout
+```
+
+The only `connection timeout` says almost nothing what did go wrong. By adding the context to the error, we reproduce the path the request went and can follow it back.
+
+## Simplify `if` statements
+
+There's [Anti-if campaign](https://code.joejag.com/2016/anti-if-the-missing-patterns.html) and I like it. Today, I want to confince you to something different - removing `else` from your code. Too big conditions or too many of them can lead to complicated and spaghetti code. Nobody likes working with it, right? How can we avoid them? Let's consider the code below.
+
+```go
+func foo(bar string) (int, error) {
+	var val int
+	var err error
+
+	if val, err := foobar(); err == nil {
+		calc := 0
+		for _, anotherVal := range barfoo(val) {
+			err = anotherAction(val, anotherVal)
+
+			if err == nil {
+				calc++
+			} else {
+				return 0, err
+			}
+		}
+
+		return calc, nil
+	}
+
+	retunr 0, err
+}
+```
+
+The code can be refactored to:
+
+```go
+func foo(bar string) (int, error) {
+	val, err := foobar()
+	if err != nil {
+		return 0, err
+	}
+	
+	calc, err := calculate(barfoo(val), val)
+	if err != nil {
+		return 0, err
+	}
+
+	return calc, nil
+}
+
+func calculate(barfooval []int, val int) (int, error) {
+	calc := 0
+	for _, anotherVal := range barfooval) {
+		err = anotherAction(val, anotherVal)
+		if err != nil {
+			return 0, err
+		}
+
+		calc++
+	}
+
+	return calc, nil
+}
+```
+
+The second function looks more readable. The idea is simple - align the happy path to the left of the code and enclose complicated code with functions. If possible, get read of the `else` statement by returning early.
