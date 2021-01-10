@@ -402,4 +402,43 @@ func calculate(barfooval []int, val int) (int, error) {
 }
 ```
 
-The second function looks more readable. The idea is simple - align the happy path to the left of the code and enclose complicated code with functions. If possible, get read of the `else` statement by returning early.
+The second function looks more readable. The idea is simple - align the happy path to the left of the code and enclose complicated code with functions. 
+
+{{< imgresize happy-path.png "500x500" "Alternate Text" >}}
+
+If possible, get read of the `else` statement by returning early.
+
+```go
+if foo.OK() bool {
+	err := bar()
+	if err == nil {
+		return true
+	} else {
+		return false
+	}
+}
+
+return false
+
+// after the change
+if !foo.OK { // fliped
+	return false
+}
+
+err := bar()
+if err != nil { // fliped
+	return false
+}
+
+return true
+
+// or even simpler
+if !foo.OK { // fliped
+	return false
+}
+
+err := bar()
+return err == nil
+```
+
+Remember one thing - optimize the code for reading. The readability improves the maintanance. Easy maintanance makes other devs happier.
