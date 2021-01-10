@@ -58,3 +58,17 @@ input {
 .ml-form-embedWrapper.embedForm {
     max-width: 600px !important;
 }
+
+.info {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid;
+}
+
+.info-header{
+    padding-bottom: 20px;
+}
+
+.info-body {
+    display: inline-block;
+}
