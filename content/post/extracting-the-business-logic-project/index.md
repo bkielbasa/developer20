@@ -1,6 +1,6 @@
 ---
 title: "Extracting the business logic - the project"
-publishdate: 2021-01-05
+publishdate: 2021-01-12
 resources:
     - name: header
     - src: featured.jpg
@@ -12,15 +12,15 @@ tags:
     - ddd
 ---
 
-In the [previous article](https://developer20.com/refactoring-for-better-testability/), we wrote a few tests for a project to make sure that our refactoring won’t break anything. This time, we’ll extract part of the domain and add a test to it. It will help us better understand what the project does and make those tests more reliable.
+In the [last article](https://developer20.com/refactoring-for-better-testability/), we wrote a few tests for a project to make sure that our refactoring won’t break anything. To understand the project better, we will separate the part of the domain and add a test to it. This will make the test more authentic.
 
-We have an issue with the end-to-end (e2e) tests: database under the hood. The approach has some problems. Firstly, those tests are slower. We use a real database connection that has an overhead. The database runs on the same machine, so the latency isn’t significant right now, but it can be when the number of tests increases.
+There is a problem with the end-to-end (e2e) tests: database under the hood. This attitude is not carefree. Firstly, those tests are rather slow. It might be an issue when the number of tests will increase. We use a real database connection that has an overhead.
 
-The second consequence is that those tests aren't as stable as isolated once. We have to remember about launching the database before running tests, running all migrations, and (sometimes) purging tables. If something can crash - it will eventually happen. If we want to have the CI useful, we have to run those tests there as well. We have to configure the CI the same way we did it on our local machines. The setup is much more complicated than just running `go test ./...`.
+Secondly, those tests are not as stable as the isolated ones. We have to remember about launching the database before running tests, running all migrations, and (sometimes) purging tables. If something can break apart - it will eventually happen. If we want to have a useful CI, we have to run those tests there as well. We need to configure the CI the same way we did it on our local machines. The setup is much more complicated than just running `go test ./...`.
 
-From my experience, integration tests **are** helpful. Unit tests should be the core of our tests' sets. This is our motivation to write them.
+It is confirmed that integration tests are helpful. Unit tests should be the base of our tests’ sets. This knowledge motivate us to write them.
+We have to understand the core domain first. From the order of requests we send, we can assume that creating the project is the starting point. Take a look at the handler below.
 
-We have to understand the core domain first. From the order of requests we send, we can assume that creating the project is the starting point. Let's see what the handler contains.
 
 ```go
 func (p Project) Create(w http.ResponseWriter, r *http.Request) {
@@ -61,7 +61,7 @@ func (p Project) Create(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-First lines aren't very useful for now. It's just standard reading the request and unmarshalling to a struct. There's an `if` statement that looks suspiciously.
+First lines aren’t very useful at this point. It’s only standard reading the request and unmarshalling to a structure. We can see an `if` statement that looks a little bit suspicious.
 
 ```go
 	if req.Name == "" {
@@ -70,7 +70,7 @@ First lines aren't very useful for now. It's just standard reading the request a
 		return
 	}
 ```
-It says we require providing the name. It’s obligatory. When we continue reading, notice that we return the `id` of the project to the API caller. The id is retrieved from the function that creates the project. To create a new project we have to provide its name. Every project has an `ID`. Let’s model this in the code.
+It says we need to add the name and it is absolutely necessary. When we continue reading, we will notice that we return the id of the project to the API caller. The id is downloaded from the function that creates the project. To create a new scheme we have to enter its name. Every project has an `ID`. I will show you how to model this in the code.
 
 ```go
 type Project struct {
@@ -87,15 +87,14 @@ func (p Project) ID() string {
 }
 ```
 
-We created a new struct with private methods. Why? We want to make sure the `Project` is always in a correct state. Private fields help us with this. To let to get those fields we wrote two getter methods. How about creating? Go doesn't have constructors. It doesn't mean we cannot create a custom constructor function.
+We created a new structure with private methods. It will provide the correct state of the project and won’t cause any problems. We use private fields, which we recived by writing two getter methods. They don’t have constructors. Although we can still create a custom constructor function.
 
-In our domain, the project has to have a valid (not empty) name and an ID. We can achieve this in at least two ways. The first one is creating the constructor method. The constructor method will do all the checks. The second approach is to create a function `func (p Project) IsValid() bool`. We'll call it everytime we want to check if the project is a valid object.
+In our domain, the project has to have a valid name and an ID. We can achieve this in at least two ways. The first one is creating the constructor method. This  method will do all the audits. The second approach is to create a function `func (p Project) IsValid() bool`. We’ll use it everytime we want to check if the project is an important object.
 
-Personally, I prefer the first option, but the second one is valid as well. It's all about preferences and the specific case. It's the time for the test. Create a new file called `domain/project_test.go` and put the test as shown below. Please notice that we created a new `domain` package.
+Personally, I prefer the first option, but the second one is valid as well. It’s all about preferences and specific of the case. Now, you are able to do the test. Create a new file called domain/project_test.go and put the test as shown below. Please notice that we created a new domain package.
 
-I prefer the first option, but the second one is valid as well. It’s all about preferences and the specific case. It’s the time for the test. Create a new file called `domain/project_test.go` and put the test as shown below. Please notice that we created a new domain package.
 
-{{< info title="What's in the domain package?" msg="In Domain-Driven Design (DDD), the Domain is the core of our application. It holds all the business logic of the application. It cannot contain any code that interacts with the infrastructure. The Domain should be both platform and framework agnostic." >}}
+{{< info title="What's in the domain package?" msg="In Domain-Driven Design (DDD), the Domain is the base of our application. It holds all the business logic of the application. It cannot contain any code that interacts with the infrastructure. The Domain should be both platform and framework agnostic." >}}
 
 ```go
 package domain
@@ -126,7 +125,7 @@ func TestProject_Test_Validation(t *testing.T) {
 
 ```
 
-We make sure we check all the requirements. The test is red (doesn't compile). There's no such a `NewProject` yet. It's the time to add it in `domain/project.go` file.
+We have to make sure that we check all the requirements. The test become red (doesn’t compile). That means there’s no such a `NewProject` yet. At this point you have to add it in domain/project.go file.
 
 ```go
 func NewProject(id, name string) (Project, error)  {
@@ -142,10 +141,11 @@ func NewProject(id, name string) (Project, error)  {
 }
 ```
 
-Tests should be green now. We extracted the first part of the domain! The domain cannot talk with other parts of the code directly. We need an additional layer. Let’s create a new package and call it the `app` (for an application layer).
-{{< info title="What's in the app package?" msg="The application layer is responsible for orchestrating the communication between the external world (DB, HTTP, etc) and your application. The flow is generally like this: get a domain object from a repository, execute an action, and put it back there." >}}
+The test should change into green now. We extracted the first part of the domain! The domain can not be combined with other parts of the code directly. We need an additional layer. Now we will create a new package and call it the `app` (for an application layer).
 
-When we take a look at the HTTP handler for creating a project we’ll notice a simple flow: the user provides the name, we create a new project, and return its ID. Let’s write a test that will model it.
+{{< info title="What's in the `app` package?" msg="The application layer is responsible for orchestrating the communication between the external world (DB, HTTP, etc) and your application. The process generally looks like this: get a domain object from a repository, execute an action, and put it back there." >}}
+
+When we take a look at the HTTP handler for creating a project we’ll notice a simple flow: the user provides the name, we create a new project, and return its `ID`. We should write a test that will model it.
 
 ```go
 package app
@@ -177,7 +177,7 @@ func TestAddNewProject(t *testing.T) {
 }
 ```
 
-What we do is creating a new application service. The service accepts the name of the project and returns a freshly created project followed by an error (if occurs). Just after that, we make sure the name is as we provided, and the ID isn’t an empty string (this is what we know about the ID right now). The test doesn’t compile. Let’s fix it.
+At this point we create a new application service. The service job is to accept the name of the project and return a freshly created project followed by an error (if occurs). After that, we have to make sure that the name is as we provided, and the ID isn’t an empty string (this is what we know about the `ID` right now). You can see that the test doesn’t compile. This is how to make it work.
 
 ```go
 type ProjectService struct {}
@@ -191,7 +191,7 @@ func (serv ProjectService) Add(ctx context.Context, name string) (domain.Project
 }
 ```
 
-We create the missing constructor function for our new type - the application service. The service has a simple method with initial code - to make the code compile. When we run the test, we’ll notice that it fails. Nothing surprising because we do nothing in the Add function.
+We create the missing constructor function for our new type - the application service. The service has a simple method with initial code - to make the code compile. When we run the test, we’ll notice that it fails. It is not surprising because we did nothing in the `Add` function.
 
 ```go
 func (serv ProjectService) Add(ctx context.Context, name string) (domain.Project, error) {
@@ -200,7 +200,7 @@ func (serv ProjectService) Add(ctx context.Context, name string) (domain.Project
 }
 ```
 
-From now, the test is green. We can add one more test that will check if we validate the name correctly.
+From now, the test is green. We can add one more test that will check if we wrote the name correctly.
 
 ```go
 func TestAddNewProjectWithEmptyName(t *testing.T) {
@@ -215,7 +215,7 @@ func TestAddNewProjectWithEmptyName(t *testing.T) {
 ```
 
 
-The test should are green. We do not check too much, so it's time to change it. We'll update the first test with getting a project for the particular ID and check if the `Get` method still returns the same project.
+The test should be green. We didn’t check it correctly, so we have to change it. We’ll update the first test with getting a project for the particular ID and check if the `Get()` method still returns the same project.
 
 ```go
 func TestAddNewProject(t *testing.T) {
@@ -251,7 +251,7 @@ func TestAddNewProject(t *testing.T) {
 }
 ```
 
-Hmm, the code looks a bit unreadable... We can refactor the code by providing a helper function `requireProject`.
+As you can see, the code looks quite unreadable. We can fix the code by providing a helper function requireProject.
 
 ```go
 func TestAddNewProject(t *testing.T) {
@@ -288,7 +288,7 @@ func checkProjectName(t *testing.T, p domain.Project, expectedName string) {
 }
 ```
 
-Much better, isn't it? :) The code doesn't compile. To fix it we have to add the missing `Get` function.
+It looks much better now, but the code doesn’t compile. To fix it we have to add the missing `Get` function.
 
 ```go
 func (serv ProjectService) Get(ctx context.Context, id string) (domain.Project, error) {
@@ -296,7 +296,7 @@ func (serv ProjectService) Get(ctx context.Context, id string) (domain.Project, 
 }
 ```
 
-The test is still red. To make it work, we have to add storage that will keep the list of projects we created with the ability to fetch it back. This is how I designed its interface and update `Add()` and `Get` functions to use.
+The test is still red. To make it work, we have to add storage that will keep the list of projects we created with the ability to fetch it back. This is how I designed its interface and update `Add()` and `Get()` functions to use.
 
 ```go
 type Repository interface {
@@ -324,7 +324,7 @@ func (serv ProjectService) Get(ctx context.Context, id string) (domain.Project, 
 }
 ```
 
-The `ProjectService` doesn't contain the new functionality so let's add it now.
+The `ProjectService` doesn’t contain the new functionality. We should add it now.
 
 ```go
 type ProjectService struct {
@@ -336,8 +336,7 @@ func NewProjectService(storage Repository) ProjectService {
 }
 ```
 
-Almost there. We have to put the new dependency everywhere we create a new `ProjectService` struct.
-We need a new struct that will implement the interface. Let's create a new one with a map that will hold the instances of `domain.Project`.
+It’s almost done. We just have to put the new dependency everywhere we create a new ProjectService struct. We need a new struct that will implement the interface. Let’s create a new one with a map that will hold the instances of domain.Project.
 
 ```go
 type repoMock struct {
@@ -359,15 +358,14 @@ func (s *repoMock) Get(ctx context.Context, id string) (domain.Project, error) {
 }
 ```
 
-It's green again! I'd add one more test because we did not cover one important case. What if the project doesn't exist? Shouldn't `Get` function return an error?
-The storage knows if the project exists or not so the error should come from it. Let's create a separate error just for this case.
+It’s green again! I would add one more test because we did not cover one important case. What if the project doesn’t exist? Shouldn’t Get function return an error? The storage knows if the project exists or not so the error should come from it. We should create a separate error just for this case.
 
 ```go
 // in app/project.go
 var ErrProjectNotFound = errors.New("the project is not found")
 ```
 
-To make our testing easier, we need to add a new error to the mock `storeMock` and create a new method to set the given error.
+To make our testing easier, we need to add a new error to the mock storeMock and create a new method to set the given error.
 
 ```go
 type repoMock struct {
@@ -385,7 +383,7 @@ func (s *repoMock) withError(err error) *storeMock {
 }
 ```
 
-When we are guarded with new helper methods, it's time to write the test.
+Now it’s safe because of new helper methods. We can easily write a test.
 
 ```go
 func TestAGetNotExistingProject(t *testing.T) {
@@ -402,7 +400,7 @@ func TestAGetNotExistingProject(t *testing.T) {
 }
 ```
 
-Almost done! If you're perceptive you noticed that we have a hardcoded ID for every project ID: `gopher`. Let's prepare a test that will force us to fix it.
+The job is almost done now. You should notice that we have a hardcoded ID for every project ID: `gopher`. We need to prepare a test that will force us to make it work.
 
 ```go
 func TestEveryProjectShouldHaveUniqueID(t *testing.T) {
@@ -425,12 +423,12 @@ func TestEveryProjectShouldHaveUniqueID(t *testing.T) {
 }
 ```
 
-It's red now. There are many ways to generate a unique ID. We'll use one of the simplest - [uuid](https://github.com/google/uuid).
+It’s red now. There are many ways to generate a unique ID. To eliminate the red we’ll use the simple method - [uuid](https://github.com/google/uuid).
 
 ```go
 id := uuid.New().String()
 ```
+That’s all! We have passed the test. We extracted the domain from the current code. Of course, it’s not the whole business logic we have to refactor, but it’s a good starting point. You can find the difference of our change in this [pull request](https://github.com/bkielbasa/chamgotodo/pull/2).
+If you have any questions or suggestions about this part, there’s a comments section below. See you soon!
 
-That's all! Tests pass. We extracted the domain from the current code. Of course, it's not the whole business logic we have to refactor, but it's a good starting point. You can find the diff of our change in this [pull request](https://github.com/bkielbasa/gotodo/pull/2).
-
-If you have any questions or suggestions about this part, there's a comments section below. See you soon!
+PS. If you want know more about Domain-Driven Desing, I can suggest [this book by Eric Evans](https://amzn.to/39kKiJs). (#ad).
