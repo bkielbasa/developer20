@@ -83,13 +83,13 @@ func TestRunServer(t *testing.T) {
 
 What you do is creating a new application that uses the specified context and running it on the port. Then, you start the application, and when the tests end - shuts it down. Sounds simple, isn't it?
 
-To achive that, you have to rename (for now) the `main()` function to `App.`
+To achive that, we have to rename (for now) the `main()` function to `App.`
 
 {{< highlight golang >}}
 func App(ctx context.Context, port int) (func() error, func() error)
 {{< / highlight >}}
 
-The function accepts the context, a port the HTTP server will be running on, and returns two functions: for starting the server and for closing it. This will give us full control over the server that will be useful in a moment. The noticeable change made in the function is creating an HTTP server directly so you can control it. Here's the full function after changes.
+The function accepts the context, a port the HTTP server will be running on, and returns two functions: for starting the server and for closing it. This will give us full control over the server that will be useful in a moment. The noticeable change made in the function is creating an HTTP server directly so we can control it. Here's the full function after changes.
 
 {{< highlight golang >}}
 func App(ctx context.Context, port int) (func() error, func() error) {
@@ -115,7 +115,7 @@ func App(ctx context.Context, port int) (func() error, func() error) {
 }
 {{< / highlight >}}
 
-At this point, the test almost run. What you have to do is to add the missing main() function you removed. You can find the current code below. The deferred shutdown() function doesn't make sense right now because when it's executed the server is already gone but you'll take care of it next.
+At this point, the test almost run. What we have to do is to add the missing main() function we removed. we can find the current code below. The deferred shutdown() function doesn't make sense right now because when it's executed the server is already gone but we'll take care of it next.
 
 {{< highlight golang >}}
 func main() {
@@ -130,7 +130,7 @@ func main() {
 }
 {{< / highlight >}}
 
-At this point, the test passes and the application can still run! You test almost nothing but the test will be improved later. Before that, there's one thing missing in the main() function - there's no other way of closing the application than just killing it. You need a [graceful shutdown](https://developer20.com/golang-tips-and-trics-iii/).
+At this point, the test passes and the application can still run! You test almost nothing but the test will be improved later. Before that, there's one thing missing in the main() function - there's no other way of closing the application than just killing it. we need a [graceful shutdown](https://developer20.com/golang-tips-and-trics-iii/).
 
 {{< highlight golang >}}
 func main() {
@@ -158,11 +158,11 @@ func main() {
 }
 {{< / highlight >}}
 
-Before starting the server a new `os.Signal` channel is created where you'll receive a signal that it's the time to stop the process. You use our `shutdown()` function to stop the HTTP server and exit.
+Before starting the server a new `os.Signal` channel is created where we'll receive a signal that it's the time to stop the process. We use our `shutdown()` function to stop the HTTP server and exit.
 
 ## Writing the first test
 
-Your test will contain three steps: creating a new project, getting a list of available projects, and checking if our new brand project is visible on the list. Let's rename the test name to `TestAddingNewProject` and update its code to fit the requirements. Every time a new (unique) project name will be created to make sure if the project was created with the correct name.
+Our test will contain three steps: creating a new project, getting a list of available projects, and checking if our new brand project is visible on the list. Let's rename the test name to `TestAddingNewProject` and update its code to fit the requirements. Every time a new (unique) project name will be created to make sure if the project was created with the correct name.
 
 {{< highlight golang >}}
   name := uuid.New().String()
@@ -184,9 +184,9 @@ Your test will contain three steps: creating a new project, getting a list of av
 	require.NotEmpty(t, r.ID)
 {{< / highlight >}}
 
-One noticeable thing is that you create a new instance of the standard HTTP client. The `http.DefaultClient` doesn't have any timeout set what, in some cases, may slow the test down. Waiting for timeouts can take some time :) 
+One noticeable thing is that we create a new instance of the standard HTTP client. The `http.DefaultClient` doesn't have any timeout set what, in some cases, may slow the test down. Waiting for timeouts can take some time :) 
 
-You received the feedback that the project is created correctly and got the ID of it into an anonymous struct. Now, it's the time for checking if the new project was persisted in the database and can be read from it.
+We received the feedback that we created the project correctly and got the ID of it into an anonymous struct. Now, it's the time for checking if the new project was persisted in the database and can be read from it.
 
 {{< highlight golang >}}
   // list existing projects
@@ -215,12 +215,12 @@ You received the feedback that the project is created correctly and got the ID o
 }
 {{< / highlight >}}
 
-It was done by checking the `/projects` endpoint. Firstly, the HTTP status is checked, and when it succeeds you check every project, one by one, and look for the brand new one. When you find it, you make sure that the name is OK and the project isn't archived from the very beginning. If everything's OK, the test passes!
+It was done by checking the `/projects` endpoint. Firstly, the HTTP status is checked, and when it succeeds we check every project, one by one, and look for the brand new one. When you find it, you make sure that the name is OK and the project isn't archived from the very beginning. If everything's OK, the test passes!
 
 ## Summary
 
-Today, we refactored the project a bit what helped us writing very first tests for it. You can find the diff with changes we made today in this PR [https://github.com/bkielbasa/gotodo/pull/1](https://github.com/bkielbasa/gotodo/pull/1).
+Today, we refactored the project a bit what helped us writing very first tests for it. We can find the diff with changes we made today in this PR [https://github.com/bkielbasa/gotodo/pull/1](https://github.com/bkielbasa/gotodo/pull/1).
 
-Your homework is to write tests for other endpoints. One of scenarios you can write is creating a new project, archiving it and checking if it's status is changed to archived. As I said, this is the first part of refactoring mini-series. The project has more issues in both design and Go good practices. Before fixing that we have to have some tests, right? :)
+Your homework is to write tests for other endpoints. One of scenarios we can write is creating a new project, archiving it and checking if it's status is changed to archived. As I said, this is the first part of refactoring mini-series. The project has more issues in both design and Go good practices. Before fixing that we have to have some tests, right? :)
 
 I hope you liked the post and if you have any questions, leave them in the comments section below.
