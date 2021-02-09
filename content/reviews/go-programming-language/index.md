@@ -3,12 +3,12 @@ title: "Go Programming Language - book review"
 publishdate: 2021-02-10
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 ---
 
 It took a while since I got this book. At the very beginning, I didn't want to buy it. However, I got so much feedback that this book is so good that I had to check it myself.
 
-It is the second Go book in my library. I didn't write about the first one because I wanted to compare it with another one. I wanted to recommend you only the best. As you can see, I have a review about "The Go Programming Language". I'll go the book chapter by chapter and tell you what I like or don't like about each of them.
+It is the second Go book in my library. I didn't write about the first one because I wanted to compare it with another one. I wanted to recommend you only the best. As you can see, I have a review about "[The Go Programming Language](https://amzn.to/3p2LDdT)" (#ad). I'll go the book chapter by chapter and tell you what I like or don't like about each of them.
 
 The first chapter is a tutorial - a huge plus from me for that. In other books, in general, the author tells about the syntax and gives simple examples. You'll learn how to work with command-line arguments or how to read files from the filesystem. You'll write a simple HTTP handler and understand some basics about how to work with requests and responses. Yeah, I like the practical way of learning.
 
@@ -36,5 +36,5 @@ In the chapter about tests, you'll learn how to write tests in Go! There are exa
 
 I have the biggest doubts about the last 2 parts of the book. The reflection and cgo is not what we try to use on daily basics. On the other hand, they can be handy in some cases... Writing your own `Sprintf` function can be a great adventure, too! In the beginning, you can skip those chapters.
 
-My final word? If you have doubts if buy it - buy it. It's an excellent book that can help you understand better the Go programming language. I think that Alan Donovan and Brian Kernighan did a great job. There are a few things I'd change or add to it but after reading it you'll be ready to write your applications including CLI tools and web applications.
+My final word? If you have doubts if buy it - buy it. It's an excellent book that can help you understand better the Go programming language. I think that Alan Donovan and Brian Kernighan did a great job. There are a few things I'd change or add to it but after reading it you'll be ready to write your applications including CLI tools and web applications. If you like the review and want to buy the book, you can do it by clicking the affiliate link [The Go Programming Language](https://amzn.to/3p2LDdT).
 
