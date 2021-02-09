@@ -1,6 +1,6 @@
 ---
 title: "Go Programming Language - book review"
-publishdate: 2021-02-10
+publishdate: 2021-02-09
 resources:
     - name: header
     - src: featured.png
