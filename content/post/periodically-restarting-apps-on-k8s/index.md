@@ -1,5 +1,5 @@
 ---
-title: "Automatic restarting apps on Kubernetes (periodically)"
+title: "Periodically restarting apps on Kubernetes"
 publishdate: 2021-04-08
 resources:
     - name: header
@@ -7,10 +7,11 @@ resources:
 categories:
     - DevOps
 tags:
-    - kubernetes
-    - devops
-	- service account
-	- cron job
+  - kubernetes
+  - devops
+  - service account
+  - cron job
+
 ---
 
 [Failures and downtime](https://developer20.com/unavailability-is-fine/) are part of our day-to-day life. I had a problem with one of the services that started crashing a few times a week. We noticed that it crashes because the memory usage reaches its limits no matter how high the limit is. Debugging memory leaks is hard and time-consuming. As a temporary fix[^Nothing is more permanent than a temporary solution] we decided to restart the application once a day. That that bought us time. How did I do it in Kubernetes?
