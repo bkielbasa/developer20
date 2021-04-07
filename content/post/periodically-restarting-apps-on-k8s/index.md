@@ -1,6 +1,6 @@
 ---
 title: "Periodically restarting apps on Kubernetes"
-publishdate: 2021-04-08
+publishdate: 2021-04-12
 resources:
     - name: header
     - src: featured.jpg
