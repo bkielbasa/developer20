@@ -13,13 +13,17 @@ tags:
 
 You can find a lot of articles about Go that describe general aspects of it. Including the content on this blog. Today, I decided to prepare something different. I’ll tell you about one of my tasks and I’ll show you how I resolved it.
 
-AWS has a feature called [Amazon EC2 Instance Connect](https://aws.amazon.com/blogs/compute/new-using-amazon-ec2-instance-connect-for-ssh-access-to-your-ec2-instances/) that you can use to connect to the EC2 instance using SSH client. The whole process has a few steps:
+AWS has a feature called [Amazon EC2 Instance Connect](https://aws.amazon.com/blogs/compute/new-using-amazon-ec2-instance-connect-for-ssh-access-to-your-ec2-instances/). You can use it to connect to your EC2 instance using an SSH client. The whole process has a few steps:
 
-* get information about the instance (region, instance id and availability zone)
+* get information about the instance (region, instance id, an availability zone)
 * upload your public key to the EC2 instance
-* connect to the instance using the private key and SSH command
+* Connect to the instance using the private key and SSH command
 
-The requirement is simple - the usage of the command should be as similar to `ssh` command as possible. In a perfect world - it should be 100% replacement. Let’s try if we can achieve that. An example command will look like this:
+The problem we're solving today is automating this process. After uploading the SSH key we have 60 seconds to connect to the EC2 instance. If you connect to a lot of EC2 instances and you have to repeat the same steps over and over you want to automate it.
+
+My goal was to create an `ssh` replacement that accepts the same parameters and behaves as a regular `ssh` command but automates the whole setup steps.
+
+The requirement is simple - the usage of the command should be as similar to the `ssh` command as possible. In a perfect world - it should be 100% replacement. Let’s try if we can achieve that. An example command will look like this:
 
 ```bash
 ./ec2-ssh HOSTNAME
@@ -31,17 +35,17 @@ The requirement is simple - the usage of the command should be as similar to `ss
 ./ec2-ssh 192.168.0.1 -4 -k # accepts any parameter that ssh does
 ```
 
-To upload our public key we need to know the availability zone, EC2 instance ID,  user and the public key itself. From the command parameters we have the IP or the hostname.
+To upload our public key we need to know the availability zone, EC2 instance ID, user, and the public key itself. From the command parameters, we have the IP or the hostname.
 
-Let’s start with the username, host and public key. There’s a `-G` parameter in the `ssh` command that prints all the configuration after evaluating host and match blocks. We can call the ssh command with all the parameters provided by the user and add `-G`. Then, we can parse the output and read all the data from it. In other words, we want to read this command’s output.
+Let’s start with the username, host, and public key. There’s a `-G` parameter in the `ssh` command that prints all the configurations after evaluating host and match blocks. We can call the `ssh` command with all the parameters provided by the user and add `-G`. Then, we can parse the output and read all the data from it. In other words, we want to read this command’s output.
 
 ```bash
 ./ec2-ssh 192.168.0.1 -4 -k # from this command
 
-ssh -G 192.168.0.1 -4 -k
+ssh -G 192.168.0.1 -4 -k # we'll translate to this
 ```
 
-We have to call the `ssh` command as a subprocess and read it’s output. Go has `exec` package that contains the `Cmd` struct. This struct represents an external command and can be used for this purpose.
+We have to call the `ssh` command as a subprocess and read its output. Go has an `exec` package that contains the `Cmd` struct. This struct represents an external command and can be used for this purpose.
 
 ```go
 	cmd := exec.CommandContext(ctx, "ssh", args...)
@@ -57,7 +61,7 @@ We have to call the `ssh` command as a subprocess and read it’s output. Go has
 	}
 ```
 
-The `Cmd` struct has `cmd.Stdout` field that’s the most important for us. It’s the place where we can forward the output of the command. This field accepts any `io.Writer` type so we put our buffer there. The next step is to put the parameters into the map from where we'll retrieve values
+The `Cmd` struct has `cmd.Stdout` field that’s the most important for us. It’s the place where we can forward the output of the command. This field accepts any `io.Writer` type so we put our buffer there. The next step is to put the parameters into the map from where we'll retrieve values.
 
 ```go
 	res := map[string][]string{}
@@ -80,7 +84,7 @@ The `Cmd` struct has `cmd.Stdout` field that’s the most important for us. It�
 	return res, nil
 ```
 
-We go line by line and put the data to the map. In the next function we get required information from the map: we need its IPv4 as well as the username.
+We go line by line and put the data on the map. In the next function, we get the required information from the map: we need its IPv4 as well as the username.
 
 ```go
 func instanceInfoFromString(hostname, user string) (*instanceInfo, error) {
@@ -97,7 +101,8 @@ func instanceInfoFromString(hostname, user string) (*instanceInfo, error) {
 }
 ```
 
-We need the IP address because in later steps we'll need it to filter out irrelevant EC2 instances. The next step is to find public key that `ssh` will use to connect us to the EC2 instance. A list of possible SSH keys is available under the `identityfile` key in our map. We iterate over every item and check if they exists. If yes, then we return it.
+We need the IP address because in later steps. We'll need it to filter out irrelevant EC2 instances.
+The next step is to find the public key that `ssh` will use to connect us to the EC2 instance. A list of possible SSH keys is available under the `identityfile` key in our map. We iterate over every item and check if it exists. If yes, then we return it.
 
 ```go
 func existingKey(paths []string) (string, error) {
@@ -118,7 +123,7 @@ func existingKey(paths []string) (string, error) {
 }
 ```
 
-Every key's path starts (in general) with a tilde (`~`) that's means user's home directory. We had to write a function that expands the tilde to a full path. Why? The tilde is expanded by your shell's `HOME` value. You can read how it works in more details in [bash's docs](https://www.gnu.org/software/bash/manual/html_node/Tilde-Expansion.html) or in this [SO answer](https://unix.stackexchange.com/questions/146671/does-always-equal-home/146697#146697). Let's get back to the code.
+Every key's path starts (in general) with a tilde (`~`) that's means the user's home directory. We had to write a function that expands the tilde to a full path. Why? The tilde is expanded by your shell's `HOME` value. You can read how it works in more detail in [bash's docs](https://www.gnu.org/software/bash/manual/html_node/Tilde-Expansion.html) or this [SO answer](https://unix.stackexchange.com/questions/146671/does-always-equal-home/146697#146697). Let's get back to the code.
 
 ```go
 	publicKey, err := getPublicKey(pk)
@@ -127,9 +132,9 @@ Every key's path starts (in general) with a tilde (`~`) that's means user's home
 	}
 ```
 
-In the listing below we attempt to read the public key. We need it to upload it to the EC2 instance. This public key will be used to authenticate us so the EC2 instance has to know it before we'll attempt to connect to it. Basically, AWS will put our public key to `~/.ssh/authorized_keys` file. For more details how the ssh authorisation works you can [visit this description](https://www.ssh.com/academy/ssh/public-key-authentication).
+In the listing below we attempt to read the public key. We need it to upload to the EC2 instance. This public key will be used to authenticate us. It means the EC2 instance has to know it before we'll attempt to connect to it. AWS will put our public key to `~/.ssh/authorized_keys` file. We have only 60 seconds to connect to the instance. For more details on how the SSH authorization works, you can [visit this description](https://www.ssh.com/academy/ssh/public-key-authentication).
 
-We have almost everything we need to connect to the EC2 instance. The only thing's missing is the AWS region. We have the requirement that we be ass `ssh` command compatible as possible we cannot just add another parameter to our command. Instead, we'll iterate over all regions and try to connect to every single instance. I know it's not the most optimal way. If you have any idea how I can improve it - let me know in the comments section below.
+We have almost everything we need to connect to the EC2 instance. The only thing missing is the AWS region. We have the requirement that we are ass `ssh` command compatible as possible we cannot just add another parameter to our command. Instead, we'll iterate over all regions and try to connect to every single instance. I know it's not the most optimal way. If you have any idea how I can improve it - let me know in the comments section below.
 
 ```go
 func setupEC2Instance(ctx context.Context, instance *instanceInfo, publicKey, region string) (bool, error) {
@@ -178,7 +183,7 @@ In the code above, we're configuring the AWS client, trying to find our EC2 inst
 
 The first one is quite obvious - it finds our EC2 instance using the IP address we retrieved earlier.
 
-```go
+```
 func findEC2Instance(ctx context.Context, client *ec2.Client, info *instanceInfo) (*types.Instance, error) {
 	resp, err := client.DescribeInstances(ctx, &ec2.DescribeInstancesInput{
 		Filters: []types.Filter{
@@ -204,7 +209,7 @@ func findEC2Instance(ctx context.Context, client *ec2.Client, info *instanceInfo
 }
 ```
 
-When we know that the instance exists and we have its reference, we can check its status and this is when the `instanceStatus` comes into the play.
+When we know that the instance exists and we have its reference, we can check its status and this is when the `instanceStatus` comes into play.
 
 ```go
 func instanceStatus(ctx context.Context, client *ec2.Client, instance types.Instance) (types.InstanceStatus, error) {
@@ -223,7 +228,7 @@ func instanceStatus(ctx context.Context, client *ec2.Client, instance types.Inst
 
 The `client.DescribeInstanceStatus` returns a few very valuable information for us: the instance's available zone and the instance's ID. Both values are required while uploading the SSH public key.
 
-At this point, we are ready to connect to the EC2 instance! That's quite simple - we have to execute the `ssh` command with all our parameters. We forward all the output to the standard output and do the same with the std input. Thanks to this, we'll be able to interact with `ssh` command as usual.
+At this point, we are ready to connect to the EC2 instance! That's quite simple - had to execute the `ssh` command with all our parameters. We forward all the output to the standard output and do the same with the std input. Thanks to this, we'll be able to interact with the `ssh` command as usual.
 
 ```go
 func connectToInstance(ctx context.Context, params []string) error {
@@ -247,7 +252,4 @@ func connectToInstance(ctx context.Context, params []string) error {
 }
 ```
 
-
-References:
-
- * https://aws.amazon.com/blogs/compute/new-using-amazon-ec2-instance-connect-for-ssh-access-to-your-ec2-instances/
+And that's all! The whole source code is [available on Github](https://github.com/bkielbasa/ec2-ssh). From now, you can replace your `ssh` command with `ec2-ssh` while working with AWS EC2 instances. If you have any questions or suggestions, feel free to use the comments section below.
