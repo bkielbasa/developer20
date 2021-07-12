@@ -9,9 +9,12 @@ resources:
 categories: [Golang]
 tags:
   - cli
+  - aws
+  - ec2
+  - ssh
 ---
 
-You can find a lot of articles about Go that describe general aspects of it. Including the content on this blog. Today, I decided to prepare something different. I’ll tell you about one of my tasks and I’ll show you how I resolved it.
+You can find a lot of articles about Go that describe general aspects of it. Including the content on this blog. Today, I decided to prepare something different. I’ll tell you about one of my tasks and I’ll show you how I resolved it using Go. I thought it'd be useful to show the `exec` package and to tell a bit about the `ssh` command and learn AWS EE2 a bit better.
 
 AWS has a feature called [Amazon EC2 Instance Connect](https://aws.amazon.com/blogs/compute/new-using-amazon-ec2-instance-connect-for-ssh-access-to-your-ec2-instances/). You can use it to connect to your EC2 instance using an SSH client. The whole process has a few steps:
 
@@ -21,7 +24,7 @@ AWS has a feature called [Amazon EC2 Instance Connect](https://aws.amazon.com/bl
 
 The problem we're solving today is automating this process. After uploading the SSH key we have 60 seconds to connect to the EC2 instance. If you connect to a lot of EC2 instances and you have to repeat the same steps over and over you want to automate it.
 
-My goal was to create an `ssh` replacement that accepts the same parameters and behaves as a regular `ssh` command but automates the whole setup steps.
+My goal was to create an `ssh` replacement that accepts the same parameters and behaves as a regular `ssh` command but automates the whole setup process.
 
 The requirement is simple - the usage of the command should be as similar to the `ssh` command as possible. In a perfect world - it should be 100% replacement. Let’s try if we can achieve that. An example command will look like this:
 
