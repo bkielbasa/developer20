@@ -1,6 +1,6 @@
 ---
 title: "Wrapping commands in Go"
-publishdate: 2021-04-29
+publishdate: 2021-07-14
 
 resources:
     - name: header
