@@ -186,7 +186,7 @@ In the code above, we're configuring the AWS client, trying to find our EC2 inst
 
 The first one is quite obvious - it finds our EC2 instance using the IP address we retrieved earlier.
 
-```
+```go
 func findEC2Instance(ctx context.Context, client *ec2.Client, info *instanceInfo) (*types.Instance, error) {
 	resp, err := client.DescribeInstances(ctx, &ec2.DescribeInstancesInput{
 		Filters: []types.Filter{
