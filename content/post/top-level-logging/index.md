@@ -11,6 +11,8 @@ resources:
     - src: featured.jpg
 ---
 
+I like having the core logic of our application away of come distructions like too much details or some "technical" details like logging or generating metrics. Of course, sometimes it's hard to avoid it[^1]. I found in many projects a situation where we put the logger very deeply inside of the code. In the end of the day, we had the logger almost everywhere. In tests, we had to provide the mocked implementation everywhere as well. In most cases, the logger is a redundant dependency. In this article, I'll argue that we should have the logger only in top level functions.
+
 The idea behind the top level logging rule is simple - you log everything only in one place and don't pass the logger in lower layers of your application. What's the top level is? For example, your CLI command, HTTP or event handler. Below, you can find an example with logging every error on hanlder level.
 
 ```go
@@ -149,4 +151,6 @@ func (h myHandler) operation(w ResponseWriter, r *Request) {
 }
 ```
 
-The testing is going to be more understandable and precise. We're clearly saying what we're expecting from the method and be 100% sure about which `return` was called.
+The testing is going to be more understandable and precise. We're clearly saying what we're expecting from the method and be 100% sure about which `return` was called. The drawback is that the `if err != nil` statement in the handler may become very massive after the time. That can happen, of course but in such cases, I'd considered if the handler or the logic in this place is too big and it may be worth splitting it into smaller parts.
+
+[^1]: [Aspect-Oriented programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming) is a good answer for it but in Go it may be challenging to introduce it.
