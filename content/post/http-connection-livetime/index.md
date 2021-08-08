@@ -66,7 +66,7 @@ To fix that, you have to create a new context from the `context.Background()` an
 
 # Summary
 
-Right now, you should understand from the context in the request comes from. Knowing it isn't crucial but may save you from some bugs.
+Right now, you should understand from the context in the request comes from. Knowing it isn't crucial but may save you from some bugs. As a final word, I can advise you one thing: read the source code of the Go language. It gives a lot of deeper knowlage about how the language works and learns semantics.
 
 [^1]: The base context can be changed using `Server.BaseContext` field. It's useful when you want to replace the `context.Background()` value with your own. 
 [^2]: if it's set, of course
