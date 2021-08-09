@@ -1,6 +1,6 @@
 ---
 title: "HTTP context livetime"
-publishdate: 2021-07-01
+publishdate: 2021-08-09
 resources:
     - name: header
     - src: featured.jpg
