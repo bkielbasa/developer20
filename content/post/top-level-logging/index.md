@@ -6,6 +6,7 @@ categories:
     - Programming
 tags:
     - logging 
+    - golang
 resources:
     - name: header
     - src: featured.jpg
