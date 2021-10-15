@@ -1,0 +1,50 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+
+        <mj-image width="300px" src="https://bucket.mlcdn.com/a/961/961542/images/48ca3428ad297d51726d3c4e6324fcc6fb3fbc91.png"></mj-image>
+
+        <mj-divider border-color="#F45E43"></mj-divider>
+
+        <mj-text font-family="helvetica">Hello!</mj-text>
+        <mj-text font-family="helvetica">I hope you have a great day. It's Friday so I'm sending you the newest set of useful materials for you. I updated the template a bit so it doesn't cut off part of the mail in some clients any more. See you next time!</mj-text>
+        <mj-divider border-width="1px" border-style="dashed" border-color="lightgrey" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column>
+        {{range $catName, $element := .}}
+          <mj-text font-weight="600" font-size="16px">{{$catName}}</mj-text>
+
+          {{range $element}}
+        <mj-text font-size="14px">
+            <a href="{{.Link}}">{{.Title}}</a>
+        </mj-text>
+        <mj-text>{{.Excerpt}}</mj-text>
+        {{end}}
+        {{end}}
+        <mj-divider border-width="1px" border-style="dashed" border-color="lightgrey" />
+      </mj-column>
+    </mj-section>
+    
+    <mj-section>
+      <mj-column>
+        <mj-text>
+          <strong>EpicSOFT Bartłomiej Klimczak</strong><br />
+					<br />
+          ul. Myszkowska 26, Kraków
+          Poland
+        </mj-text>
+      </mj-column>
+      
+      <mj-column>
+        <mj-text align="right">You received this email because you signed up on my website or made a purchase from me.</mj-text>
+        <mj-text align="right"><a href="{$unsubscribe}">UNSUBSCRIBE</a></mj-text>
+      </mj-column>
+    </mj-section>
+    
+    
+  </mj-body>
+</mjml>
