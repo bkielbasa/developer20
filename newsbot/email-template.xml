@@ -8,7 +8,7 @@
         <mj-divider border-color="#F45E43"></mj-divider>
 
         <mj-text font-family="helvetica">Hello!</mj-text>
-        <mj-text font-family="helvetica">I hope you have a great day. It's Friday so I'm sending you the newest set of useful materials for you. I updated the template a bit so it doesn't cut off part of the mail in some clients any more. See you next time!</mj-text>
+        <mj-text font-family="helvetica">I hope you have a great day. It's Friday so I'm sending you the newest set of useful materials for you. I updated the template a bit so it doesn't cut off part of the mail in some clients any more. Today, you'll read about a few changes to the newest `go work` command, a bit about GC and writing benchmarks. Happy reading!</mj-text>
         <mj-divider border-width="1px" border-style="dashed" border-color="lightgrey" />
       </mj-column>
     </mj-section>
@@ -34,7 +34,7 @@
         <mj-text>
           <strong>EpicSOFT Bartłomiej Klimczak</strong><br />
 					<br />
-          ul. Myszkowska 26, Kraków
+          ul. Myszkowska 26, Częstochowa
           Poland
         </mj-text>
       </mj-column>

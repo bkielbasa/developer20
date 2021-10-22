@@ -115,7 +115,6 @@ func main() {
 				IDs:          ids,
 			})
 
-			log.Print(string(body))
 			req, _ = http.NewRequest(http.MethodPut, fmt.Sprintf("https://api.raindrop.io/rest/v1/raindrops/%d", c.ID), bytes.NewReader(body))
 			req.Header["Authorization"] = []string{fmt.Sprintf("%s %s", conf.TokenType, conf.AccessToken)}
 			req.Header["Content-Type"] = []string{"application/json"}
@@ -129,7 +128,6 @@ func main() {
 			if resp.StatusCode != 200 {
 				panic(fmt.Sprintf("cannot update tags: %d %s", resp.StatusCode, string(body)))
 			}
-			log.Print(string(body))
 		}
 	}
 
