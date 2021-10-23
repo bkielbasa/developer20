@@ -1,6 +1,6 @@
 ---
 title: "How to structure Go code?"
-publishdate: 2020-10-15
+publishdate: 2021-10-27
 categories:
     - Golang
     - Programming
@@ -122,7 +122,7 @@ When we're working on applications that directly give our clients values, the fl
 
 This model is popular. Nobody I know is advocating using this strategy for organising code but I find it in both old and new projects. Organisation by kind is a strategy that tries to bring order to overly complex units of code by throwing the parts into buckets based on which structure it is. It's common to have packages called `repositories` or `model`. A consequence of doing is creating packages like `utils` or `helpers` where you have a feeling that you should put a function or a struct to a separate place but there's no good spot for it anywhere.
 
-```go
+```
 .
 ├── handlers
 │   ├── course.go
@@ -147,7 +147,7 @@ This model is popular. Nobody I know is advocating using this strategy for organ
 
 In the example above, you can see that project is organised by type. When do you want to add a new feature or fix a bug related to a course, where would you start looking? At the end of the day, you'll start jumping from a package to a package hoping you'll find something useful there.
 
-![Graph that shows dependencies between packages](./chapters/image-1.01.png)
+![Graph that shows dependencies between packages](./modularization.png)
 
 This approach has its consequences. Every type, constant, or function has to be public to be accessible in another part of the project. You'll end up with most types marked as public. Even for those that shouldn't be public. It makes confusion about what's important in this part of the application. Many of them are details that may change at any time.
 
@@ -163,7 +163,7 @@ The package's API should describe what the package provides and not more. It sho
 
 The component should contain everything it needs to provide the business value. It means, every storage, HTTP handler, or business model should be stored inside of the folder.
 
-```go
+```
 .
 ├── course
 │   ├── httphandler.go
@@ -326,3 +326,4 @@ On the other hand, it's difficult to keep the boundaries clear and consistent. I
 Structuring the code is hard. What makes it even more difficult is the fact that the architecture of the application may change during its lifetime a few times. It evolves. You may start with a flat structure but end up with multiple modules with many sub-packages. Don't expect to get it right the first time. It may require multiple iterations and gathering feedback from others.
 
 What's more, you may mix different ways of organizing the code depending on the part of the application. In a place where your business logic lives, you will start with modularisation. However, many applications need utilities that don't fit into any of the existing packages. You may follow the flat structure pattern there.
+
