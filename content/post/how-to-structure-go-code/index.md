@@ -96,7 +96,6 @@ Can you see the pattern? The deeper the packet is in the tree, the more details 
 After some time, you may notice that to avoid misunderstandings or naming conflicts, you started adding a prefix or suffix to functions or types. It may be a good sign that by doing it we're trying to simulate the lack of packages in our project. It's hard to say when it's time to extract the new sub-package. Do it every time when you'll see that it improves the API's readability and make the code clearer.
 
 ```go
-// TODO: think about a better example!
 r := networkReader{}
 
 //
@@ -157,7 +156,7 @@ On the other hand, organizing by kind is natural for us. We are technical people
 
 A component is part of the application that provides an independent feature that has little or no dependencies outside. You can think about it as plugins that when you plug out one of them, the whole application works but has limited functionality. It may happen in production applications that are running for months or years.
 
-The application may have one or more core components that deliver the business values. In the Domain-Driven Design terminology the component is a bounded context. We will describe  the DDD with the context of Go in another chapter. TODO: ADD THE REFERENCE.
+The application may have one or more core components that deliver the business values. In the Domain-Driven Design terminology the component is a bounded context. We will describe  the DDD with the context of Go in future articles.
 
 The package's API should describe what the package provides and not more. It shouldn't expose any low-level details that aren't important from the consumer's point of view. It should be as minimalistic as it's possible. The consumer may be another package or another developer who imports our code.
 
