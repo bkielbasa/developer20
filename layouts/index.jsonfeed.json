@@ -2,6 +2,12 @@
   {{ range $index, $item := .Site.RegularPages }}{{if $index}}, {{end}}
   {
     "title": "{{ .Title }}",
+{{ $img := (.Resources.ByType "image").GetMatch "*featured*" }}
+{{ with $img }}
+    {{ $big := .Fill "1024x300 top" }}
+    {{ $small := $big.Resize "512x" }}
+    "image": "{{ $small.RelPermalink | absURL }}",
+{{ end }}
     "url": "{{ .Permalink }}"
   }{{ end }}
 ]
