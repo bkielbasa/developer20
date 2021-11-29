@@ -125,7 +125,7 @@ func main() {
 			}
 
 			body, _ = io.ReadAll(resp.Body)
-			if resp.StatusCode != 200 {
+			if resp.StatusCode != 200 || err != nil {
 				panic(fmt.Sprintf("cannot update tags: %d %s", resp.StatusCode, string(body)))
 			}
 		}
