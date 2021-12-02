@@ -1,6 +1,6 @@
 ---
 title: "Top level logging"
-publishdate: 2021-07-03
+publishdate: 2021-12-07
 categories:
     - Golang
     - Programming
@@ -12,9 +12,9 @@ resources:
     - src: featured.jpg
 ---
 
-I like having the core logic of our application free of distractions  like too many details or some "technical" details like logging or generating metrics. Of course, sometimes it's hard to avoid it. I found in many projects a situation where we put the logger very deeply inside of the code. At the end of the day, we had the logger almost everywhere. In tests, we had to provide the mocked implementation everywhere as well. In most cases, the logger is a redundant dependency. In this article, I'll argue that we should have the logger only in top level functions.
+I like having the core logic of our application free of distractions like too many technical "details" like logging or generating metrics. Of course, sometimes it's hard to avoid it. I found in many projects a situation where we put the logger very deeply inside of the code. At the end of the day, we had the logger almost everywhere. In tests, we had to provide the mocked implementation everywhere as well. In most cases, the logger is a redundant dependency. In this article, I'll argue that we should have the logger only in top level functions.
 
-The idea behind the top level logging rule is simple - you log everything only in one place and don't pass the logger in lower layers of your application. What is the top level? For example, your CLI command, HTTP or event handler. Below, you can find an example with logging every error on handler level.
+The idea behind the top level logging rule is simple - you log everything only in one place and don't pass the logger in lower layers of your application. What is the top level? For example, your CLI command or an HTTP or event handler. Below, you can find an example with logging every error on handler level.
 
 ```go
 type myHandler struct {
@@ -48,7 +48,7 @@ func (h myHandler) operation(w ResponseWriter, r *Request) {
 }
 ```
 
-The code looks straightforward. I noticed we sometimes put the logger to into other places too. The `myService` can be a good example.
+The code looks straightforward. I noticed we sometimes put the logger to into other places, too. The `myService` can be a good example.
 
 ```go
 type myService struct {
@@ -79,7 +79,9 @@ We use the logger independently in the service level to let it become known abou
 * we add an uncesessary dependency to a service that doesn't really require it
 * we make this edge case harder to test
 
-The last point may be the most controversial. How is it harder to test? All we have to do is provide values to `param1` and `param2` that will produce the `result = 0` and check if the method returns a `nil`. And yes, you'll be right. I showed you a simple case but imagine that this `if` statement is hidden somewhere deeper and to make sure that you're covering the right `return nil` case, you have to check it manually. What's more, someone may add another check **before** our target if statement. It may lead to a situation where our test still passes but it gives false information about which condition returns the `nil`.
+The last point may be the most controversial. How is it harder to test? All we have to do is provide values to `param1` and `param2` that will produce the `result = 0` and check if the method returns a `nil`. And yes, you'll be right. How can you make sure that the test passes because `result = 0`? You can do it in a few ways:
+
+* check the code coverage - if those lines are green, we've done it. The problem will happen when someone will update the code **before** our target if statement. It may lead to a situation where our test still passes but it gives false information about which condition returns the `nil`.
 
 ```go
 func (s myService) Operation(ctx context.Context, param1, param2 int) error {
@@ -107,7 +109,7 @@ func (s myService) Operation(ctx context.Context, param1, param2 int) error {
 }
 ```
 
-In larger projects  you'll have more situations like this [depicted on source code]. Handling them this way hides some conscious decisions deeper in the code. What I can suggest in this example is creating a new error and return instead.
+In larger projects you'll have more situations like this (depicted on source code). Handling them this way hides some conscious decisions deeper in the code. What I can suggest in this example is creating a new error and return it instead.
 
 ```go
 var ErrEmptyResult = errors.New("the result is zero")
@@ -152,6 +154,6 @@ func (h myHandler) operation(w ResponseWriter, r *Request) {
 }
 ```
 
-The testing is going to be more understandable and precise. We're clearly saying what we're expecting from the method and be 100% sure about which return was called. The drawback is that the `if err != nil` statement in the handler may become very massive after a time. That can happen, of course but in such cases, I'd consider if the handler or the logic in this place would be too big and it may be worth splitting it into smaller parts.
+The testing is going to be more understandable and precise. We're clearly saying what we're expecting from the method and be 100% sure about which `return` was called. The drawback is that the `if err != nil` statement in the handler may become very massive after a time. That can happen, of course. In such cases, I'd consider if the handler or the logic in this place would be too big and it may be worth splitting it into smaller parts.
 
 [^1]: [Aspect-Oriented programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming) is a good answer for it but in Go it may be challenging to introduce it.
