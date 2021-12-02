@@ -12,9 +12,9 @@ resources:
     - src: featured.jpg
 ---
 
-I like having the core logic of our application free of distractions like too many technical "details" like logging or generating metrics. Of course, sometimes it's hard to avoid it. I found in many projects a situation where we put the logger very deeply inside of the code. At the end of the day, we had the logger almost everywhere. In tests, we had to provide the mocked implementation everywhere as well. In most cases, the logger is a redundant dependency. In this article, I'll argue that we should have the logger only in top level functions.
+I like having the core logic of our application free of distractions like too many technical "details" like logging or generating metrics. Of course, sometimes it's hard to avoid it. I found in many projects a situation where we put the logger very deeply inside of the code. At the end of the day, we had the logger almost everywhere. In tests, we had to provide the mocked implementation everywhere as well. In most cases, the logger is a redundant dependency. In this article, I'll argue that we should have the logger only in top-level functions.
 
-The idea behind the top level logging rule is simple - you log everything only in one place and don't pass the logger in lower layers of your application. What is the top level? For example, your CLI command or an HTTP or event handler. Below, you can find an example with logging every error on handler level.
+The idea behind the top-level logging rule is simple - you log everything only in one place and don't pass the logger in the lower layers of your application. What is the top-level? For example, your CLI command or an HTTP or event handler. Below, you can find an example of logging every error on the handler level.
 
 ```go
 type myHandler struct {
@@ -74,14 +74,14 @@ func (s myService) Operation(ctx context.Context, param1, param2 int) error {
 }
 ```
 
-We use the logger independently in the service level to let it become known about a potential corner case that's ignored. On the one hand, it makes sense. We don't want to return an error because our logic is prepared for such an edge case. On the other hand, we're doing two things:
+We use the logger independently at the service level to let it become known about a potential corner case that's ignored. On the one hand, it makes sense. We don't want to return an error because our logic is prepared for such an edge case. On the other hand, we're doing two things:
 
-* we add an uncesessary dependency to a service that doesn't really require it
-* we make this edge case harder to test
+* We add an unnecessary dependency to a service that doesn't require it
+* We make this edge case harder to test
 
 The last point may be the most controversial. How is it harder to test? All we have to do is provide values to `param1` and `param2` that will produce the `result = 0` and check if the method returns a `nil`. And yes, you'll be right. How can you make sure that the test passes because `result = 0`? You can do it in a few ways:
 
-* check the code coverage - if those lines are green, we've done it. The problem will happen when someone will update the code **before** our target if statement. It may lead to a situation where our test still passes but it gives false information about which condition returns the `nil`.
+1. check the code coverage - if those lines are green, we've done it. The problem will happen when someone will update the code **before** our target if statement. It may lead to a situation where our test still passes but it gives false information about which condition returns the `nil`.
 
 ```go
 func (s myService) Operation(ctx context.Context, param1, param2 int) error {
@@ -109,7 +109,10 @@ func (s myService) Operation(ctx context.Context, param1, param2 int) error {
 }
 ```
 
-In larger projects you'll have more situations like this (depicted on source code). Handling them this way hides some conscious decisions deeper in the code. What I can suggest in this example is creating a new error and return it instead.
+2. Use the debugger to make sure those lines are executed - the drawback is similar to the previous idea
+3. Mock the logger and check logged messages. That will work quite well. No way for misunderstanding in tests and so on. For me, it's a bit hacky, don't you think?
+
+You’ll have more situations like this (depicted on source code). Handling them this way hides some conscious decisions deeper in the code. What I can suggest in this example is to create a new error and return it instead.
 
 ```go
 var ErrEmptyResult = errors.New("the result is zero")
