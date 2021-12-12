@@ -1,6 +1,6 @@
 ---
 title: "Top level logging"
-publishdate: 2021-12-07
+publishdate: 2021-12-13
 categories:
     - Golang
     - Programming
@@ -159,4 +159,8 @@ func (h myHandler) operation(w ResponseWriter, r *Request) {
 
 The testing is going to be more understandable and precise. We're clearly saying what we're expecting from the method and be 100% sure about which `return` was called. The drawback is that the `if err != nil` statement in the handler may become very massive after a time. That can happen, of course. In such cases, I'd consider if the handler or the logic in this place would be too big and it may be worth splitting it into smaller parts.
 
-[^1]: [Aspect-Oriented programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming) is a good answer for it but in Go it may be challenging to introduce it.
+## No more logs in other places?
+
+What I'm trying to do is to convince you to avoid using logger in deeper layers of your code. There may be situations that it may be hard. On the other hand, having the logger may be useful. One of usage that comes to my mind is letting know about some edge cases as showed above but hidden deeper in the code. Another one is adding logs with trace or debug level and enable the proper log level when we start experience weird problems on production.
+
+Your usage may be valid, of course. The problem is when we overuse the logger and use it when we have too complicated code or our tests cover too much code at the same time and it's hard to find out where's the root cause. Logging shouldn't be a replacement for refactoring. I mean, it can be and can be beneficial in short term. In longer term, it may only cover technical depts by introduciong another one.
