@@ -1,6 +1,6 @@
 ---
 title: Cyclop
-publishDate: 2021-12-13
+publishDate: 2021-12-12
 
 ---
 
