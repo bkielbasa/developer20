@@ -22,13 +22,13 @@ go mod edit -replace github.com/my/library ../path
 The path can be both relative (to the application root folder) or absolute. The `go.mod` file will be edited as follows.
 
 ```
-module github.com/my/app
+module github.com/myorg/app
 
 require (
-	github.com/my/library v1.1.0
+	github.com/thirdpart/library v1.1.0
 )
 
-replace github.com/my/library => ../path
+replace github.com/myorg/library => ../path
 ```
 
 Notice that you can modify the `go.mod` file without using the the `go mod edit -replace` command.
@@ -36,3 +36,15 @@ Notice that you can modify the `go.mod` file without using the the `go mod edit 
 From this moment, every time we compile the application, the updated dependency will be used. There's only one thing to remember. When you finish working, don't forget to remove the `replace` directive from your `go.mod` file.
 
 Another usage of the `replace` directive is when we want to replace one library with its (maybe our) fork. Unfortunately, it happens that a library author stops maintaining the code but we need to make some changes to it. Replacing the dependency may be the easiest way of solving this problem.
+
+```
+module github.com/myorg/app
+
+require (
+	github.com/thirdpart/library v1.1.0
+)
+
+replace 	github.com/thirdpart/library => github.com/myorg/thirdpart-forked
+```
+
+The mechanizm is simple and very powerful. Hope you'll find it helpful!
