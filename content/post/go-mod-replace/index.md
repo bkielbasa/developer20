@@ -31,6 +31,8 @@ require (
 replace github.com/my/library => ../path
 ```
 
+Notice that you can modify the `go.mod` file without using the the `go mod edit -replace` command.
+
 From this moment, every time we compile the application, the updated dependency will be used. There's only one thing to remember. When you finish working, don't forget to remove the `replace` directive from your `go.mod` file.
 
 Another usage of the `replace` directive is when we want to replace one library with its (maybe our) fork. Unfortunately, it happens that a library author stops maintaining the code but we need to make some changes to it. Replacing the dependency may be the easiest way of solving this problem.
