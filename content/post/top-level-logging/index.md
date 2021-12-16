@@ -1,6 +1,6 @@
 ---
 title: "Top level logging"
-publishdate: 2021-12-13
+publishdate: 2021-12-16
 categories:
     - Golang
     - Programming
