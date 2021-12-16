@@ -1,0 +1,92 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+
+        <mj-image width="300px" src="https://bucket.mlcdn.com/a/961/961542/images/48ca3428ad297d51726d3c4e6324fcc6fb3fbc91.png"></mj-image>
+
+        <mj-divider border-color="#F45E43"></mj-divider>
+
+        <mj-text font-family="helvetica">Hello!</mj-text>
+        <mj-text font-family="helvetica">I hope you have a great day. It's Friday so I'm sending you the newest set of useful materials for you. Today, you'll read about some tips for testing API clients, a list of 25 lessons from 25 years of coding and more. Unfortunetly, there are no new interesting language changes in Go. <br />Happy reading!</mj-text>
+        <mj-divider border-width="1px" border-style="dashed" border-color="lightgrey" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column>
+        
+          <mj-text font-weight="600" font-size="16px">Golang</mj-text>
+
+          
+        <mj-text font-size="14px">
+            <a href="https://www.youtube.com/watch?v=gi7t6Pl9rxE">Workshop: Practical Go - GoSG Meetup</a>
+        </mj-text>
+        <mj-text>This workshop will provide best practice real world advice for teams building projects in Go covering five areas:
+
+- Idiomatic code
+- Package and API design
+- Error handling
+- Concurrency
+- Testing
+
+I watched the video and I must say that I almost always agree with him. Strongly recommended!</mj-text>
+        
+        <mj-text font-size="14px">
+            <a href="https://markphelps.me/posts/testing-api-clients-in-go/">Mark Phelps: Testing API Clients in Go</a>
+        </mj-text>
+        <mj-text>4 Tips for Testing Your API Client. What&#39;s worth remembering is the fact how setup and teardown look like in tests. It&#39;s very clever way of doing it clear and not-clever way :) if you know what I mean.</mj-text>
+        
+        <mj-text font-size="14px">
+            <a href="https://utcc.utoronto.ca/~cks/space/blog/programming/GoAmd64ArchitectureLevels">Chris&#39;s Wiki :: blog/programming/GoAmd64ArchitectureLevels</a>
+        </mj-text>
+        <mj-text>Cross compilation in Go is awesome. Since go1.18 we&#39;ll be able to target specific AMD64 architecture: v1 (default), v2, v3 and v4.</mj-text>
+        
+        <mj-text font-size="14px">
+            <a href="https://philpearl.github.io/post/anathema/">Breaking Printf · Phil Pearl&#39;s Blog</a>
+        </mj-text>
+        <mj-text>This is not, to be exact, breaking printf but a warning against using the unsafe package if you&#39;re not fully aware of consequences of using it.</mj-text>
+        
+        
+          <mj-text font-weight="600" font-size="16px">Various</mj-text>
+
+          
+        <mj-text font-size="14px">
+            <a href="https://swizec.com/blog/25-lessons-from-25-years-of-coding/">25 lessons from 25 years of coding | Swizec Teller</a>
+        </mj-text>
+        <mj-text>Today is my birthday which means I&#39;ve been coding for 25 years. A quarter century 😱 Here&#39;s 25 lessons I&#39;ve learned about code. In no particular order.</mj-text>
+        
+        <mj-text font-size="14px">
+            <a href="https://conventionalcomments.org/">Conventional Comments</a>
+        </mj-text>
+        <mj-text>Comments that are easy to grok and grep. I really like the idea. It&#39;s very difficult to give a good feedback. This convention will help you to do it. I&#39;ve just stated using it so if you like it too - let me know!</mj-text>
+        
+        <mj-text font-size="14px">
+            <a href="https://neilpatel.com/blog/crypto-payments/">https://neilpatel.com/blog/crypto-payments/</a>
+        </mj-text>
+        <mj-text>Cryptocurrencies are getting more and more popular. If you have a e-store, maybe accepting bitcoin payments is something for you. I didn&#39;t know that paypal provides crypto payments.</mj-text>
+        
+        
+        <mj-divider border-width="1px" border-style="dashed" border-color="lightgrey" />
+      </mj-column>
+    </mj-section>
+    
+    <mj-section>
+      <mj-column>
+        <mj-text>
+          <strong>EpicSOFT Bartłomiej Klimczak</strong><br />
+					<br />
+          ul. Myszkowska 26, Częstochowa
+          Poland
+        </mj-text>
+      </mj-column>
+      
+      <mj-column>
+        <mj-text align="right">You received this email because you signed up on my website or made a purchase from me.</mj-text>
+        <mj-text align="right"><a href="{$unsubscribe}">UNSUBSCRIBE</a></mj-text>
+      </mj-column>
+    </mj-section>
+    
+    
+  </mj-body>
+</mjml>
