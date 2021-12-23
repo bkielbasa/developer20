@@ -7,9 +7,10 @@ categories:
 tags:
   - golang
   - modules
+
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 ---
 
 Sometimes, we may want to use a library but a slightly modified version. It happens very often when we develop the library but test it in the context of an application. Go has a handy mechanism in go modules that can help us with it.
