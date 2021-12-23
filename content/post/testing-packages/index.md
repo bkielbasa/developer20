@@ -18,6 +18,8 @@ There are many practices and tactics that tackle testing. Today, I'll share with
 
 Before I show you my approach, I have to explain how I design packages. You can read in more details in another [blog post](https://developer20.com/how-to-structure-go-code/) about how various ways of solving the problem look like. Today, I'm focusing on the "Clean Architecture" one that I found the moste useful in business focused applications.
 
+
+
 ```go
 var storage app.ProductStorage
 
