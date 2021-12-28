@@ -25,3 +25,8 @@ outputs:
     - "html"
     - "rss"
     - "jsonfeed"
+
+headers:
+  - for: /*
+    values:
+      Access-Control-Allow-Origin: '*'
