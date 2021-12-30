@@ -4,7 +4,7 @@ publishdate: 2021-07-14
 
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 
 categories: [Golang]
 tags:

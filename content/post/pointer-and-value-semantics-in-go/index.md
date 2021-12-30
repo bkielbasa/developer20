@@ -5,7 +5,7 @@ categories: [Golang, Programming]
 publishDate: 2020-06-29
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 
 tags:
  - golang

@@ -12,7 +12,7 @@ tags:
   - caching
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 ---
 
 The varnish is a well-known HTTP accelerator. As the continuation of the [GoInPractice](https://developer20.com/categories/GoInPractice/) series, today I’ll show how you can build a simple (and naive) varnish implementation in Go. Some of the code is reused from [Writing a reverse proxy](https://developer20.com/writing-proxy-in-go/) so if you don’t understand something, I recommend taking a look at the blog post.

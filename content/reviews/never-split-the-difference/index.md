@@ -3,7 +3,7 @@ title: "Never Split the Difference: Negotiating As If Your Life Depended On It"
 publishdate: 2020-10-05
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 categories:
     - Soft skills
 

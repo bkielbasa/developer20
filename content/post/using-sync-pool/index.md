@@ -11,7 +11,7 @@ tags:
     - stdlib
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 ---
 
 In the garbage-collected world, we want to keep the GC overhead as little as possible. One of the things we can do is limiting the number of allocations in our application. How to achieve that? There’s `sync.Pool` which caches allocated but unused items for later reuse.

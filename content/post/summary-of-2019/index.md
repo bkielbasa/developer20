@@ -3,7 +3,7 @@ title: "Summary of 2019"
 publishdate: 2020-01-01
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 ---
 
 This is the very first time I write a summary of a year. I feel that today is the day I should start doing it and that some digits may be interesting for some people.
