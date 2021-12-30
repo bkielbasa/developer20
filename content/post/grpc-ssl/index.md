@@ -9,7 +9,7 @@ tags:
   - grpc
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 ---
 
 gRPC supports [authentication](https://grpc.io/docs/guides/auth/). Adding it to your project is simple. All you have to do is configure it with just a few lines of code. One of the authentication types that gRPC supports is SSL/TLS. From the server-side, the code looks like this:

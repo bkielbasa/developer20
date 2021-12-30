@@ -4,7 +4,7 @@ publishdate: 2019-05-14
 
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 
 categories: [Big Data]
 tags:

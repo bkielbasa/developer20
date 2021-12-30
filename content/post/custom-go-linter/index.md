@@ -3,7 +3,7 @@ title: "Writing custom linter in Go"
 publishdate: 2021-03-31
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 categories: 
     - Golang
     - Programming

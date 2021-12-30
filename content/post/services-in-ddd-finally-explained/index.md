@@ -6,7 +6,7 @@ tags:
   - ddd
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 ---
 I’ve noticed that there is always a challenge of understanding what services are in a context of Domain-Driven Development and what is the difference between a service in an application, domain, and infrastructure layer.
 

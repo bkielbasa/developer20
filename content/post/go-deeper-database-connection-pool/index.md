@@ -4,7 +4,7 @@ publishdate: 2019-01-25
 categories: [Golang, Programming]
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 tags:
   - golang
   - database

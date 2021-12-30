@@ -3,7 +3,7 @@ title: "I want to learn Go - how to start?"
 publishdate: 2019-12-09
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 categories:
     - Golang
 tags:

@@ -3,7 +3,7 @@ title: "Is my interface too big?"
 publishdate: 2020-10-28
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 categories:
     - Golang
 tags:

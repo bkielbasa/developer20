@@ -3,7 +3,7 @@ title: "OAuth2 and Go"
 publishdate: 2020-03-09
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 categories:
     - Golang
     - GoInPractice

@@ -8,7 +8,7 @@ tags:
     - golang
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 ---
 
 > Programs should be written for people to read, and only incidentally for machines to execute - Abelson and Sussman
