@@ -130,3 +130,7 @@ input {
 .info-body {
     display: inline-block;
 }
+
+.highlight {
+    background-color: #272822 !important;
+}
