@@ -1,5 +1,8 @@
 ---
 title: "Honestly about why Go sucks (or not)"
+publishdate: 2022-07-26
+categories: 
+    - Golang
 resources:
     - name: header
     - src: featured.png
