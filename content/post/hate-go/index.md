@@ -154,7 +154,7 @@ To sum up, in Go we don't have function overloading or default arguments but I d
 
 We have generics since [1.18](https://go.dev/blog/go1.18). Until then, the argument was valid. I didn't feel the need for generics myself but it looks like there's a huge number of people that needed that.
 
-To be fair, before the 1.18 release we did have generics in Go. One example is the method `make()`. The problem is that we couldn't create our generic functions or types. Because of that, to make our code generic we had to use `interface{}` and validate the type in runtime. As you may guess, it can lead to some mistakes that lead to a runtime panic. A good example of such a function is [map/reduce and filter](https://www.reddit.com/r/golang/comments/1m25a1/map_reduce_and_filter_in_go/) operations.
+To be fair, before the 1.18 release we did have generics in Go. One example is the method `make()`. The problem is that we couldn't create our own generic functions or types. Because of that, to make our code generic we had to use `interface{}` and validate the type in runtime. As you may guess, it can lead to some mistakes that lead to a runtime panic. A good example of such a function is [map/reduce and filter](https://www.reddit.com/r/golang/comments/1m25a1/map_reduce_and_filter_in_go/) operations.
 
 It's not the case anymore. Of course, we have to wait sometime to have [libraries](https://pkg.go.dev/golang.org/x/exp/slices) in the standard library but it's now just a matter of time. 
 
@@ -219,7 +219,7 @@ func main() {
 Both `os.File` and `os.Stdin` implements `io.Reader` interface so we can use this to make the code shorter.
 We reduced the number of lines from 44 to 30. That's not that bad. The biggest difference between Go's code and the one in `D` is how the `if` statement looks like and how both languages handle errors. Is Go's version less readable than the one in `D`? I'm biased so you tell me.
 
-**No judment**
+**No judgment**
 
 ### Lack of stack traces in the errors
 
@@ -298,6 +298,7 @@ Do you think this problem doesn't happen in real-world apps? I produced a bug li
 If your function accepts an interface you cannot be 100% sure if there isn't a `nil`. Adding the `nil` checks in every method sounds crazy. You can find many places where we throw a panic in such cases in the [stdlib](https://cs.opensource.google/go/go/+/refs/tags/go1.18.4:src/context/context.go;l=435).
 
 Rust, on the other hand, checks situations like that at compile time. It means if you're not making some crazy things you should be free from mistakes like the one above.
+
 **Confirmed**
 
 ### Go isn't OOP
@@ -312,7 +313,6 @@ Here are some articles for further reading:
 The answer to the question can be only one:
 
 **Declined**
-
 
 ### Error handling
 
@@ -364,8 +364,10 @@ runtime.goexit()
 
 Oh the other hand, it's very difficult to keep writing good comments for errors. You have to add it in every place that makes sense. Maybe probably everywhere? It's challenging to keep the discipline to do it right. It's getting harder when you want to be consistent across the team.
 
+**Confirmed**
+
 ## Summary
-Golang is far from being perfect. It has some pros and cons. I use it in everyday job and it works for me. There are some areas where Go won't be a good fit in some type of projects. That's why we have Rust, TypeScript, Python, Lua and more.
+Go is far from being perfect. It has some pros and cons. I use it in everyday job and it works for me. There are some areas where Go won't be a good fit in some type of projects. That's why we have Rust, TypeScript, Python, Lua and more.
 
 There are so many choices so if you don't like Go's philosophy, the syntax or anything else - there's so many other options you can choose. Please remember that the grass is always greener on the other side of the fence.
 
