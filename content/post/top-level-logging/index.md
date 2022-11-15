@@ -9,7 +9,7 @@ tags:
     - golang
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 ---
 
 I like having the core logic of our application free of distractions like too many technical "details" like logging or generating metrics. Of course, sometimes it's hard to avoid it. I found in many projects a situation where we put the logger very deeply inside of the code. At the end of the day, we had the logger almost everywhere. In tests, we had to provide the mocked implementation everywhere as well. In most cases, the logger is a redundant dependency. In this article, I'll argue that we should have the logger only in top-level functions.

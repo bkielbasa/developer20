@@ -1,9 +1,11 @@
 ---
 title: Go web frameworks
 publishdate: 2020-08-10
+
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
+
 categories:
     - Golang
 tags:

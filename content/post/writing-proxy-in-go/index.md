@@ -4,7 +4,7 @@ publishdate: 2019-11-25
 featuredImage: /images/proxy.jpg
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 categories: 
     - Golang
     - GoInPractice

@@ -117,16 +117,35 @@ input {
     max-width: 600px !important;
 }
 
+.warning {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid red;
+}
+
+.warning .fas {
+    color: red;
+}
+
 .info {
     margin: 20px;
     padding: 20px;
     border: 1px solid;
 }
 
-.info-header{
+.info-header, .warning-header{
     padding-bottom: 20px;
 }
 
-.info-body {
+.info-body, .warning-body {
     display: inline-block;
+}
+
+.highlight {
+    background-color: #272822 !important;
+}
+
+
+.post-title {
+    text-align: center;
 }

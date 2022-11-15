@@ -3,7 +3,7 @@ title: "Extracting the business logic - the project"
 publishdate: 2021-01-12
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 categories:
     - Golang
 tags:

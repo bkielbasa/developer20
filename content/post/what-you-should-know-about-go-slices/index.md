@@ -3,7 +3,7 @@ title: "What you should know about Go slices"
 publishdate: 2020-04-27
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 categories:
     - Golang
 tags:

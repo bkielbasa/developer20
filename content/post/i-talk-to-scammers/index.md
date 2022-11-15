@@ -3,7 +3,7 @@ title: "I talk to spammers. Here is what I found"
 publishdate: 2020-08-25
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 categories:
     - General
 tags:

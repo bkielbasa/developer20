@@ -3,7 +3,7 @@ title: "Unavailability is fine. Prepare for it"
 publishdate: 2020-07-09
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 categories:
     - Programming
 tags:

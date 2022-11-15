@@ -40,7 +40,15 @@
 
     <!-- twitter card -->
     <meta name="twitter:card" content="summary" />
-    {{ $img := (.Page.Resources.ByType "image").GetMatch "*featured*" }}
+    {{ $img := resources.Get "baseImg.png"}}
+    {{ $img = $img.Filter (images.Text .Title (dict
+        "color" "#000000"
+        "size" 60
+        "linespacing" 2
+        "x" 10
+        "y" 20
+    ))}}
+
     {{ with $img }}
     {{ $big := .Fill "1024x300 top" }}
     <meta property="og:url" content="{{ $big.RelPermalink | absURL }}" />
@@ -58,6 +66,7 @@
     <meta property="og:title"              content="{{ .Title }}" />
     <!-- end facebook -->
 
+    {{ if hugo.IsProduction }}
     <!-- MailerLite Universal -->
     <script>
         (function(m,a,i,l,e,r){ m['MailerLiteObject']=e;function f(){
@@ -70,7 +79,7 @@
     </script>
     <!-- End MailerLite Universal -->
 
-    {{ if hugo.IsProduction }}
+    
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-8338248-18"></script>
     <script>

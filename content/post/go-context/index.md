@@ -9,7 +9,7 @@ tags:
     - context
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 ---
 
 The `context` package in Go is quite simple and well-known. On the other hand, there are some misunderstandings while using it. Today, I'll try to explain all the most popular concerns and make more clear when and how use the `Context`.

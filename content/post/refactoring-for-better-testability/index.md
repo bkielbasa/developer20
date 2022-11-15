@@ -3,7 +3,7 @@ title: "Refactoring for better testability"
 publishdate: 2020-11-17
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 categories:
     - Golang
 tags:

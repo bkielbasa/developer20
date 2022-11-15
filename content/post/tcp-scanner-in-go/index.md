@@ -13,7 +13,7 @@ tags:
   - concurrency
 resources:
     - name: header
-    - src: featured.jpg
+    - src: featured.png
 
 ---
 
