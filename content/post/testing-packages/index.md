@@ -15,7 +15,7 @@ There are many practices and tactics that tackle testing. Today, I'll share with
 
 ## General rules for tests
 
-### (quick) tests should work out of the box
+### Works out of the box
 
 When someone clones our project, the person should be able to run basic tests without any setup. It's a good thing when you have an open-source project as well as when you have a new teammember. Or even for you after you reinstalled your PC. I remember many projects where I had to spend a day or to to make it working and actually start developing something. It's frustrating when you have to manually setup DB connection, get proper permissions to AWS account, configure it correctly and so on.
 
@@ -98,7 +98,9 @@ func TestFetchingProductDosNotExistInTheCatalog(t *testing.T) {
 
 Of course, adding more test cases is simpler in the first example but only in the theory. In the long run, we'll want to add more edge cases that will require adding more fields to our anonymous struct. It will requre adding more logic to our tests what's a bad practice as well.
 
-### Tests case should be as simple as posstible
+Does it mean we shouldn't use table tests? Of course not! They are very useful in whenever we want to test methods that support basic business logic like any kind of transformations, utility functions and so on. A good example is testing a builder of a [Value Object](/tags/value-object/) or JSON marshallers and unmarshallers.
+
+### As simple as possible
 
 When you look at the code inside you should be able to easily find out what's the goal of it. Even without reading the name of the test function. When we look at the previous example you should quite quickly understand what's happening in the test.
 
