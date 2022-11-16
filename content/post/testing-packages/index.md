@@ -1,6 +1,6 @@
 ---
 title: Testing packages APIs
-publishdate: 2021-12-16
+publishdate: 2022-12-01
 categories:
     - Golang
     - Programming
