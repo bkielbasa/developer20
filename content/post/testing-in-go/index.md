@@ -1,5 +1,5 @@
 ---
-title: Testing packages APIs
+title: Writing tests in Go (business apps)
 publishdate: 2022-12-01
 categories:
     - Golang
