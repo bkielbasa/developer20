@@ -7,18 +7,178 @@ categories:
 tags:
     - testing 
     - golang
-resources:
-    - name: header
-    - src: featured.jpg
 ---
 
 There are many practices and tactics that tackle testing. Today, I'll share with you how I write tests in my projects. Please notice that you may find it useful when you're starting a new project or an independent part of existing applications. You may find it difficult to apply in an already existing application. It's not impossible but may be challenging.
+
+{{< table_of_contents >}}
+
+## General rules for tests
+
+### (quick) tests should work out of the box
+
+When someone clones our project, the person should be able to run basic tests without any setup. It's a good thing when you have an open-source project as well as when you have a new teammember. Or even for you after you reinstalled your PC. I remember many projects where I had to spend a day or to to make it working and actually start developing something. It's frustrating when you have to manually setup DB connection, get proper permissions to AWS account, configure it correctly and so on.
+
+### Single responsible
+
+One test function should test only one scenario. For different business cases we should have different test functions. There's a temptation to put more assertions or requrements in already existing test. The problem I can see here is the fact that those tests are getting more and more complicated. Very often, we put happy path with error cases into single test function and use table tests to run them as shown below.
+
+```go
+func TestFetchingProductsFromCatalog(t *testing.T) {
+	is := is.New(t)
+	ctx := context.Background()
+	appServ := app.NewProductService(storage)
+
+	productID, err := addNewProduct(ctx, storage)
+	is.NoErr(err)
+
+    tCases := map[string]struct {
+        productID string
+        expectedError error
+    }{
+        "product exists": {
+            productID: productID,
+            expectedError: nil,
+        },
+        "product does not exist": {
+            productID: "invalid ID",
+            expectedError: domain.ErrProductDoesNotExist,
+        },
+    }
+
+
+    for name, tCase := range tCases {
+        // when
+        fetched, err := appServ.Find(ctx, productID)
+
+        if tCase.expectedError == nil {
+            // then
+            is.NoErr(err)
+            is.NoErr(productEquals(p, fetched))
+        } else {
+            is.True(errors.Is(tCase.expectedError, err))
+        }
+    }
+}
+```
+
+And now let's compare it with an example where we split those cases into separate test functions.
+
+```go
+func TestFetchingProductInTheCatalog(t *testing.T) {
+	is := is.New(t)
+	// given
+	ctx := context.Background()
+	appServ := app.NewProductService(storage)
+
+	productID, err := addNewProduct(ctx, storage)
+	is.NoErr(err)
+
+	// when
+	fetched, err := appServ.Find(ctx, productID)
+
+	// then
+	is.NoErr(err)
+	is.NoErr(productEquals(p, fetched))
+}
+
+func TestFetchingProductDosNotExistInTheCatalog(t *testing.T) {
+	is := is.New(t)
+	// given
+	ctx := context.Background()
+	appServ := app.NewProductService(storage)
+
+	// when
+	fetched, err := appServ.Find(ctx, "any product ID")
+
+	// then
+	is.True(errors.Is(err, domain.ErrProductDoesNotExist))
+}
+```
+
+Of course, adding more test cases is simpler in the first example but only in the theory. In the long run, we'll want to add more edge cases that will require adding more fields to our anonymous struct. It will requre adding more logic to our tests what's a bad practice as well.
+
+### Tests case should be as simple as posstible
+
+When you look at the code inside you should be able to easily find out what's the goal of it. Even without reading the name of the test function. When we look at the previous example you should quite quickly understand what's happening in the test.
+
+```go
+func TestFetchingProductDosNotExistInTheCatalog(t *testing.T) {
+	is := is.New(t)
+	// given
+	ctx := context.Background()
+	appServ := app.NewProductService(storage)
+
+	// when
+	fetched, err := appServ.Find(ctx, "any product ID")
+
+	// then
+	is.True(errors.Is(err, domain.ErrProductDoesNotExist))
+}
+```
+
+We prepare a service with a storage, fetch a product with non existing ID and check if we get an `ErrProductDoesNotExist` error. It's hard me to imagine to write it in a even simpler way.
+
+### Irrelevant code should be extracted
+
+Very often we need to build an object in a correct state or have some pre-requrements. We can put them in a helper method or a type and put the logic there. Let's say we're writing a test case for returning a book to a library.
+
+```go
+func TestBorrowingABook(t *testing.T) {
+    is := is.New(t)
+
+    lib := library.New(storage)
+    book := library.NewBook("ISBN", "Title", "Author", 1930)
+    lib.RegisterBook(book, 1)
+    usr := library.NewUser("user ID", "Johny", "Bravo")
+
+    err := lib.Borrow(usr.ID, book.ISBN)
+    is.NoErr(err)
+}
+```
+
+In this example, we have many unrelevant details like name of the user, some IDs and so on. In this context, they are not important. When we randomize those identifiers the code is even more complex.
+
+```go
+func TestBorrowingABook(t *testing.T) {
+    is := is.New(t)
+
+    lib := library.New(storage)
+    bookISBN := randomISBN()
+    book := library.NewBook(randomISBN, "Title", "Author", 1930)
+    lib.RegisterBook(book, 1)
+    usrID := randomID()
+    usr := library.NewUser(usrID, "Johny", "Bravo")
+
+    err := lib.Borrow(usr.ID, book.ISBN)
+    is.NoErr(err)
+}
+```
+
+When the project grows, we'll keep adding more and more details that hide the true purpose of this test. Let's refactor it to make it more readable.
+
+```go
+func TestBorrowingABook(t *testing.T) {
+    is := is.New(t)
+
+    // given
+    bookID, userID, lib := bookInLibrary(storage)
+
+    // when
+    err := lib.Borrow(usr.ID, book.ISBN)
+
+    // then
+    is.NoErr(err)
+}
+```
+
+Can you see the difference? We hidden all the setup and unnecessery details into the `bookInLibrary` function so our test is much clearer and smaller. The helper function can be reused in other tests.
 
 ## How does the architecture of the package look like?
 
 Before I show you my approach, I have to explain how I design packages. You can read in more detail in another [blog post](https://developer20.com/how-to-structure-go-code/). Today, I'm focusing on the "Clean Architecture", one that I found the most useful in business-focused applications.
 
-I like splitting tests into three parts: [given, when and then](https://martinfowler.com/bliki/GivenWhenThen.html). In the `given` section I prepare everything. In the `when` section (often it's 1 line long) I operate I want to test. In the last `then` part, I make assertions. You can see an example below.
+I split tests into three parts: [given, when and then](https://martinfowler.com/bliki/GivenWhenThen.html). In the `given` section I prepare everything. In the `when` section (often it's 1 line long) I operate I want to test. In the last `then` part, I make assertions. You can see an example below.
 
 
 ```go
@@ -37,6 +197,7 @@ func TestFetchingProductInTheCatalog(t *testing.T) {
 	fetched, err := appServ.Find(ctx, productID)
 
 	// then
+	productID, err := addNewProduct(ctx, storage)
 	is.NoErr(err)
 	is.NoErr(productEquals(p, fetched))
 }
@@ -107,6 +268,9 @@ When I want to change something in the logic of the application I can run quick 
 
 
 Please notice that this approach works mostly on business-focused applications. If you're writing a library or a tool, the logic inside of your code may not be that significant as it is in business applications.
+
+To make the usage even more developer-friendly, I add a `Makefile` with task `make test` and `make integration-test` so I don't have to remember about proper tags.
+
 
 ## Summary
 I showed you how it may work on package level but nothing stops you from writing similar tests but with end-to-end in mind. You can run the whole application and test your HTTP API with mocked or real databases under the hood. Thanks to this you'll write less number of tests that should cover most of the success paths.
