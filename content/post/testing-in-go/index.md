@@ -9,7 +9,7 @@ tags:
     - golang
 ---
 
-There are many practices and tactics that tackle testing. Today, I'll share with you how I write tests in my projects. Please notice that you may find it useful when you're starting a new project or an independent part of existing applications. You may find it difficult to apply in an already existing application. It's not impossible but may be challenging.
+There are many practices and tactics that tackle testing. Today, I’ll share with you how I write tests for my projects. Please notice that you may find it useful when starting a new project or an independent part of existing applications. You may find it difficult to apply in an already existing application. It’s not impossible but it may be challenging.
 
 {{< table_of_contents >}}
 
@@ -17,15 +17,14 @@ There are many practices and tactics that tackle testing. Today, I'll share with
 
 ### Works out of the box
 
-When someone clones our project, the person should be able to run basic tests without any setup. It's a good thing when you have an open-source project as well as when you have a new teammember. Or even for you after you reinstalled your PC. I remember many projects where I had to spend a day or to to make it working and actually start developing something. It's frustrating when you have to manually setup DB connection, get proper permissions to AWS account, configure it correctly and so on.
+When someone clones our project, the person should be able to run basic tests without any setup. It’s a good thing when you have an open-source project as well as when you have a new team member. Or even for you after you reinstall your PC. I remember many projects where I had to spend a day or two to make it work and actually start developing something. It’s frustrating when you have to manually set up a DB connection, get proper permissions to an AWS account, configure it correctly, and so on.
 
 ### Single responsible
 
-One test function should test only one scenario. For different business cases we should have different test functions. There's a temptation to put more assertions or requrements in already existing test. The problem I can see here is the fact that those tests are getting more and more complicated. Very often, we put happy path with error cases into single test function and use table tests to run them as shown below.
+One test function should test only one scenario. For different business cases, we should have different test functions. There’s a temptation to put more assertions or requirements in already existing tests. The problem I can emphasize here is the fact that those tests are getting more and more complicated. Very often, we put happy path with error cases into a single test function and use table tests to run them as shown below.
 
 ```go
 func TestFetchingProductsFromCatalog(t *testing.T) {
-	is := is.New(t)
 	ctx := context.Background()
 	appServ := app.NewProductService(storage)
 
@@ -53,10 +52,17 @@ func TestFetchingProductsFromCatalog(t *testing.T) {
 
         if tCase.expectedError == nil {
             // then
-            is.NoErr(err)
-            is.NoErr(productEquals(p, fetched))
+            if err != nil {
+                t.Errorf("expected no error but got %s", err)
+            }
+            
+            if err = productEquals(p, fetched); err != nil {
+                t.Errorf("product should be equal but got %s", err)
+            }
         } else {
-            is.True(errors.Is(tCase.expectedError, err))
+            if !errors.Is(tCase.expectedError, err) {
+                t.Errorf("expected error %T but got %T", tCases.expectedError, err)
+            }
         }
     }
 }
@@ -66,19 +72,22 @@ And now let's compare it with an example where we split those cases into separat
 
 ```go
 func TestFetchingProductInTheCatalog(t *testing.T) {
-	is := is.New(t)
 	// given
 	ctx := context.Background()
 	appServ := app.NewProductService(storage)
 
 	productID, err := addNewProduct(ctx, storage)
-	is.NoErr(err)
+    if err != nil {
+        t.Errorf("expected no error but got %s", err)
+    }
 
 	// when
 	fetched, err := appServ.Find(ctx, productID)
 
 	// then
-	is.NoErr(err)
+    if err != nil {
+        t.Errorf("expected no error but got %s", err)
+    }
 	is.NoErr(productEquals(p, fetched))
 }
 
@@ -92,21 +101,22 @@ func TestFetchingProductDosNotExistInTheCatalog(t *testing.T) {
 	fetched, err := appServ.Find(ctx, "any product ID")
 
 	// then
-	is.True(errors.Is(err, domain.ErrProductDoesNotExist))
+    if !errors.Is(err, domain.ErrProductDoesNotExist) {
+        t.Errorf("expected error %T but got %T", domain.ErrProductDoesNotExist, err)
+    }
 }
 ```
 
-Of course, adding more test cases is simpler in the first example but only in the theory. In the long run, we'll want to add more edge cases that will require adding more fields to our anonymous struct. It will requre adding more logic to our tests what's a bad practice as well.
+Of course, adding more test cases is simpler in the first example but only in the theory. In the long run, we’ll want to add more edge cases that will require adding more fields to our anonymous struct. It will require adding more logic to our tests what’s a bad practice as well.
 
 Does it mean we shouldn't use table tests? Of course not! They are very useful in whenever we want to test methods that support basic business logic like any kind of transformations, utility functions and so on. A good example is testing a builder of a [Value Object](/tags/value-object/) or JSON marshallers and unmarshallers.
 
 ### As simple as possible
 
-When you look at the code inside you should be able to easily find out what's the goal of it. Even without reading the name of the test function. When we look at the previous example you should quite quickly understand what's happening in the test.
+When you look at the code inside you should be able to easily find out what’s the goal of it. Even without reading the name of the test function. When we look at the previous example you should quite quickly understand what’s happening in the test.
 
 ```go
 func TestFetchingProductDosNotExistInTheCatalog(t *testing.T) {
-	is := is.New(t)
 	// given
 	ctx := context.Background()
 	appServ := app.NewProductService(storage)
@@ -115,7 +125,9 @@ func TestFetchingProductDosNotExistInTheCatalog(t *testing.T) {
 	fetched, err := appServ.Find(ctx, "any product ID")
 
 	// then
-	is.True(errors.Is(err, domain.ErrProductDoesNotExist))
+    if !errors.Is(err, domain.ErrProductDoesNotExist) {
+        t.Errorf("expected error %T but got %T", domain.ErrProductDoesNotExist, err)
+    }
 }
 ```
 
@@ -123,28 +135,27 @@ We prepare a service with a storage, fetch a product with non existing ID and ch
 
 ### Irrelevant code should be extracted
 
-Very often we need to build an object in a correct state or have some pre-requrements. We can put them in a helper method or a type and put the logic there. Let's say we're writing a test case for returning a book to a library.
+Very often we need to build an object in a correct state or have some pre-requirements. We can put them in a helper method or a type and put the logic there. Let’s say we’re writing a test case for returning a book to a library.
 
 ```go
 func TestBorrowingABook(t *testing.T) {
-    is := is.New(t)
-
     lib := library.New(storage)
     book := library.NewBook("ISBN", "Title", "Author", 1930)
     lib.RegisterBook(book, 1)
     usr := library.NewUser("user ID", "Johny", "Bravo")
 
     err := lib.Borrow(usr.ID, book.ISBN)
-    is.NoErr(err)
+
+    if err != nil {
+        t.Errors("expected no error but got %s", err)
+    }
 }
 ```
 
-In this example, we have many unrelevant details like name of the user, some IDs and so on. In this context, they are not important. When we randomize those identifiers the code is even more complex.
+In this example, we have many not important details like the name of the user, some IDs, and so on. In this context, they are not important. When we randomize those identifiers the code is even more complex.
 
 ```go
 func TestBorrowingABook(t *testing.T) {
-    is := is.New(t)
-
     lib := library.New(storage)
     bookISBN := randomISBN()
     book := library.NewBook(randomISBN, "Title", "Author", 1930)
@@ -153,16 +164,16 @@ func TestBorrowingABook(t *testing.T) {
     usr := library.NewUser(usrID, "Johny", "Bravo")
 
     err := lib.Borrow(usr.ID, book.ISBN)
-    is.NoErr(err)
+    if err != nil {
+        t.Errors("expected no error but got %s", err)
+    }
 }
 ```
 
-When the project grows, we'll keep adding more and more details that hide the true purpose of this test. Let's refactor it to make it more readable.
+When the project grows, we’ll keep adding more and more details that hide the true purpose of this test. Let’s refactor it to make it more readable.
 
 ```go
 func TestBorrowingABook(t *testing.T) {
-    is := is.New(t)
-
     // given
     bookID, userID, lib := bookInLibrary(storage)
 
@@ -170,7 +181,9 @@ func TestBorrowingABook(t *testing.T) {
     err := lib.Borrow(usr.ID, book.ISBN)
 
     // then
-    is.NoErr(err)
+    if err != nil {
+        t.Errors("expected no error but got %s", err)
+    }
 }
 ```
 
@@ -187,7 +200,6 @@ I split tests into three parts: [given, when and then](https://martinfowler.com/
 var storage app.ProductStorage
 
 func TestFetchingProductInTheCatalog(t *testing.T) {
-	is := is.New(t)
 	// given
 	ctx := context.Background()
 	appServ := app.NewProductService(storage)
@@ -200,8 +212,14 @@ func TestFetchingProductInTheCatalog(t *testing.T) {
 
 	// then
 	productID, err := addNewProduct(ctx, storage)
-	is.NoErr(err)
-	is.NoErr(productEquals(p, fetched))
+    if err != nil {
+        t.Errors("expected no error but got %s", err)
+    }
+
+    err = productEquals(p, fetched)
+    if err != nil {
+        t.Errors("expected no error but got %s", err)
+    }
 }
 ```
 
@@ -209,7 +227,9 @@ Let's ignore the `storage` variable for a while. While designing both tests and 
 
 ```go
 	productID, err := addNewProduct(ctx, storage)
-	is.NoErr(err)
+    if err != nil {
+        t.Errors("expected no error but got %s", err)
+    }
 ```
 
 Here comes the interesting part - the `storage` variable. As you can see, its type is `app.ProductStorage`. It's an interface. I prepared two implementations of the interface. The first one is in-memory (used mostly in tests). Initializing the in-memory version is straightforward.
@@ -228,9 +248,10 @@ func init() {
 
 Please notice the build tag I added at the top of the file. It says: "compile this file as long as the `integration` build tag isn't provided". All tests, by default, should be fast and reliable. We'll want to run them very frequently so we shouldn't wait for their results too long. What's more, it's a good practice when someone downloads our project and type `go test ./...` all tests are passing.
 
-There's nothing more annoying than reading docs and setting up everything just to be able to run tests. Making this first experience a pleasure improves morale.
+There’s nothing more annoying than reading docs and setting up everything just to be able to run tests. Making this first experience a pleasure improves morale.
 
 What if we want to test against a real database? I create a separate file (I put it next to the previous one) with connecting to everything I need.
+
 
 ```go
 //go:build integration
