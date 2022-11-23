@@ -1,6 +1,6 @@
 ---
 title: Writing tests in Go (business apps)
-publishdate: 2022-12-01
+publishdate: 2022-11-23
 categories:
     - Golang
     - Programming
@@ -290,7 +290,7 @@ When I want to change something in the logic of the application I can run quick 
 ![tests result in github actions](./tests.png)
 
 
-Please notice that this approach works mostly on business-focused applications. If you're writing a library or a tool, the logic inside of your code may not be that significant as it is in business applications.
+Please notice that this approach works mostly on business-focused applications. If you’re writing a library or a tool, the logic inside of your code may not be as significant as it is in business applications.
 
 To make the usage even more developer-friendly, I add a `Makefile` with task `make test` and `make integration-test` so I don't have to remember about proper tags.
 
