@@ -10,7 +10,7 @@ resources:
 tags:
   - ddd
   - entity
-  - value object
+  - value-object
 ---
 Knowing the basics is the key to understanding more complex concepts. After reading this post you will know what are entities and value objects and find out differences between them.
 
