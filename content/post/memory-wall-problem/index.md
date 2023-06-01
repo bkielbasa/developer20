@@ -1,6 +1,6 @@
 ---
 title: "Memory-wall problem"
-publishdate: 2023-05-05
+publishdate: 2023-06-01
 categories: 
     - Programming
 tags:
