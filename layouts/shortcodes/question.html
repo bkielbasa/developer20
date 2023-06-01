@@ -1,0 +1,6 @@
+<div class="question">
+    <div class="question-header">Question: {{ .Get "title" | markdownify }}</div>
+    <div class="question-body">
+        {{ .Get "msg" | markdownify }}
+    </div>
+</div>
