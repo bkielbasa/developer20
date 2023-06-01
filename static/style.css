@@ -133,12 +133,18 @@ input {
     border: 1px solid;
 }
 
-.info-header, .warning-header{
+.info-header, .warning-header, .question-header{
     padding-bottom: 20px;
 }
 
-.info-body, .warning-body {
+.info-body, .warning-body, .question-header {
     display: inline-block;
+}
+
+.question {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid blue;
 }
 
 .highlight {
