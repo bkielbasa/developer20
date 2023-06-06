@@ -386,7 +386,7 @@ BenchmarkColumnTraverse-10                    74          46370815 ns/op
 BenchmarkRowTraverse-10                      418           8584940 ns/op
 ```
 
-The fastest function is the one that traverses the matrix's columns first. It happens because it has the smallest cache-miss ratio. The linked list implementation is about 3 times slower but it’s still faster than the slowest row-first travers that’s about 5.6 times slower. That’s a notable difference.
+The fastest function is the one that traverses the matrix's rows first. It happens because it has the smallest cache-miss ratio. The linked list implementation is about 3 times slower but it’s still faster than the slowest row-first travers that’s about 5.6 times slower. That’s a notable difference.
 
 ## Summary
 
