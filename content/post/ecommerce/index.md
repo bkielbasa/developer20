@@ -52,3 +52,5 @@ Lastly, I plan to use this platform in my own shop, which will be the first prod
 {{< info title="Updates will be posted on the blog" msg="I will share any significant decisions that I have made which do not fit into an ADR but are worth mentioning. I have noticed a lack of projects that document their decision-making process in a detailed manner, so my aim is to provide a verbose account of how and why certain decisions were made." >}}
 
 If you're interested in helping me achieve these goals or contributing to the project in any other way, please reach out to me. I welcome all contributions and look forward to working together to build an amazing e-commerce platform.
+
+I'll post my small notes about the project in a [separate section](/ecommerce-notes) so you'll learn more about the "why" behind some decisions. I hope you'll like it!
