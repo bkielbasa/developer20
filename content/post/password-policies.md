@@ -1,9 +1,11 @@
 ---
 title: "Password policies"
 publishdate: 2023-04-10
+categories:
+  - Ecommerce
 tags:
-    - auth
-    - golang
+  - auth
+  - golang
 ---
 
 One of tasks I was working on recently is related to [password policies](https://github.com/golang-app/ecommerce/issues/44). Of course, everything is configurable in code right now. In this note I want to tell you about some my decisions and how I got to them.

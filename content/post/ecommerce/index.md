@@ -1,9 +1,8 @@
 ---
 title: "New project: ecommerce"
-publishdate: 2023-04-10
+publishdate: 2023-07-07
 categories:
-    - Golang
-    - GoInPractice
+    - Ecommerce
 tags:
     - golang
     - reactjs
@@ -53,4 +52,4 @@ Lastly, I plan to use this platform in my own shop, which will be the first prod
 
 If you're interested in helping me achieve these goals or contributing to the project in any other way, please reach out to me. I welcome all contributions and look forward to working together to build an amazing e-commerce platform.
 
-I'll post my small notes about the project in a [separate section](/ecommerce-notes) so you'll learn more about the "why" behind some decisions. I hope you'll like it!
+I'll post my small notes about the project in a [separate category](/categories/Ecommerce) so you'll learn more about the "why" behind some decisions. I hope you'll like it!
