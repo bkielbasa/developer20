@@ -1,6 +1,6 @@
 ---
 title: "Flattening the Package Structure"
-publishdate: 2022-10-17
+publishdate: 2023-07-16
 tags:
   - golang
   - clean-code
