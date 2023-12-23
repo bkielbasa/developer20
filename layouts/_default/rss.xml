@@ -17,7 +17,7 @@
         {{ end }}
 
         {{ range (where .Site.Pages ".Section" "in" site.Params.mainSections) }}
-            {{ if and (and (not (in .Params.skipRSS "true")) (not ( eq .Title "Posts") )) (not ( eq .Title "Reviews")) }}
+            {{ if and (and (not (in .Params.skipRSS "true")) (not ( eq .Title "Posts") )) (not ( eq .Title "Reviews")) (not ( eq .Title "Notes")) }}
                 <item>
                     <title>{{ .Title }}</title>
                     <link>{{ .Permalink }}</link>
