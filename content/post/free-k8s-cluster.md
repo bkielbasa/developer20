@@ -293,7 +293,7 @@ resource "oci_core_instance" "worker" {
 
 ```
 
-After running `terraform init`` and `terraform apply`,` you should see the plan for creating our new Kubernetes cluster.
+After running `terraform init` and `terraform apply`,` you should see the plan for creating our new Kubernetes cluster.
 
 When everything is ready, you can use the following command to copy the private key. We'll need it to SSH into our nodes.
 
