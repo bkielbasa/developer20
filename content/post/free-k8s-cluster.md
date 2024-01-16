@@ -11,9 +11,11 @@ tags:
   - ansible
 ---
 
-I'm preparing for the [CKAD](https://trainingportal.linuxfoundation.org/courses/certified-kubernetes-application-developer-ckad) and I needed a Kubernetes cluster to practice on. I checked many options, but none seemed to work as I wanted. Oracle Cloud offers a [free tier](https://www.oracle.com/pl/cloud/free/) tier where we have available 4 cores, 24 GB RAM, and 100 GB disk space. That's a lot. Why not use it to create a custom Kubernetes cluster that's perfect for learning and maybe running some pet projects?
+Are you looking to dive into the world of Kubernetes and enhance your dev skills? Whether you're gearing up for the Certified Kubernetes Application Developer (CKAD) exam or simply eager to experiment with Kubernetes, having your own cluster is invaluable. However, setting up a Kubernetes cluster for practice can be a daunting task, especially when the available options either fall short of expectations or are too complex for learning purposes.
 
-In this article, I'll share with you how to set up a cluster with 1 master node and 3 workers, install MicroK8s, and configure it into a working Kubernetes cluster. We'll use Terraform and Ansible for creating the infrastructure. Thanks to that, if you break something, you'll be able to recreate it quickly.
+That's where Oracle Cloud's free tier comes into play, offering a generous package of 4 cores, 24 GB RAM, and 100 GB disk space – more than enough to get you started. In this guide, I will take you through the process of leveraging this opportunity to create a custom Kubernetes (k8s) cluster. This setup is not just perfect for learning but also capable of handling your pet projects.
+
+Join me as I detail the journey of setting up a cluster with 1 master node and 3 workers, installing MicroK8s, and weaving it all into a functioning Kubernetes cluster using Terraform and Ansible. Whether you're a beginner or an intermediate user, this guide promises clarity, simplicity, and a touch of fun in the world of Kubernetes.
 
 # Setup
 
