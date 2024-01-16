@@ -1,6 +1,6 @@
 ---
 title: "Kubernestes cluster for free on OCI"
-publishdate: 2024-01-08
+publishdate: 2024-01-16
 categories: 
     - DevOps
 tags:
