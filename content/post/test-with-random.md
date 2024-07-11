@@ -186,5 +186,5 @@ By focusing on the statistical properties of the outputs over many runs, we ensu
 
 ### Conclusion
 
-In this article, we've explored different approaches to testing functions involving randomness. While TDD is a powerful tool, it doesn't fit every situation. By using dependency inversion or focusing on statistical testing, we can ensure our functions work correctly without exposing low-level details or complicating our tests. Feel free to share your thoughts or alternative approaches in the comments section below!
+In this article, we've explored different approaches to testing functions involving randomness. While TDD is a powerful tool, it doesn't fit every situation. By using dependency inversion or focusing on statistical testing, we can ensure our functions work correctly without exposing low-level details or complicating our tests. We welcome your thoughts or alternative approaches in the comments section below!
 
