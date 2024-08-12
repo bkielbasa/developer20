@@ -1,6 +1,6 @@
 ---
 title: "Testing code with unpredictable or random output"
-publishdate: 2024-06-20
+publishdate: 2024-08-12
 categories: 
     - Golang
     - Programming
@@ -60,7 +60,7 @@ func newPosition(x, y int) (int, int) {
 
 Test-Driven Development (TDD) is a powerful tool for improving code quality and increasing code coverage. While I don't use it daily, it's invaluable to have in my toolbox. The reason I don't use it every day is that TDD doesn't fit every situation. Testing the original function is a good example of where we need to seek better solutions.
 
-### Dependency Inversion
+### Dependency Injection
 
 A colleague suggested using dependency inversion to inject a function that would replace the `rand.Intn` call. This approach allows us to control the randomness during testing.
 
@@ -96,9 +96,19 @@ func newPosition(x, y int, r func(int) int) (int, int) {
 }
 ~~~
 
-This approach solves the problem, but there are two drawbacks:
+This approach solves the problem, but there a few drawbacks:
 1. It exposes a low-level detail about how the function works.
 2. The testing code becomes more complicated and less readable due to mocking the `r(int) int` function.
+
+
+### Using a seed
+
+To have more control over the values that rand.Intn gives, we can use the methods rand.Seed or rand.New(rand.NewSource(seed)). This allows us to prepare the expected output without relying on randomness, making our tests predictable.
+
+There is a rule that says we [shouldn't mock what we don't own(https://testing.googleblog.com/2020/07/testing-on-toilet-dont-mock-types-you.html), and I think we can agree that we don't own the standard library. That's why I try to avoid mocking it if possible.
+Another reason why I'm not a huge fan of this approach is that we're preparing the set of input-output values ourselves, but in real-world code, we might encounter completely different values that our code may not be ready for.
+
+And I don't like the false sense of safety.
 
 ### Statistical Testing
 
@@ -171,20 +181,13 @@ func TestCalculate(t *testing.T) {
         t.Errorf("Mean zero count out of expected range: %v", mean)
     }
 }
-
-// Simple square root function
-func sqrt(x float64) float64 {
-    z := x
-    for i := 0; i < 1000; i++ {
-        z -= (z*z - x) / (2 * z)
-    }
-    return z
-}
 ~~~
 
 By focusing on the statistical properties of the outputs over many runs, we ensure that the function behaves correctly without being overly deterministic about individual outputs.
 
 ### Conclusion
 
-In this article, we've explored different approaches to testing functions involving randomness. While TDD is a powerful tool, it doesn't fit every situation. By using dependency inversion or focusing on statistical testing, we can ensure our functions work correctly without exposing low-level details or complicating our tests. We welcome your thoughts or alternative approaches in the comments section below!
+In this article, I've explored different approaches to testing functions involving randomness. By using dependency inversion or focusing on statistical testing, we can ensure our functions work correctly without exposing low-level details or complicating our tests.
+
+I welcome your thoughts or alternative approaches in the comments section below!
 
