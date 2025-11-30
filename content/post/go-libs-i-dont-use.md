@@ -1,6 +1,7 @@
 ---
 title: "Go libs I don't use but are popular"
 publishdate: 2024-09-10
+short: An overview of widely used Go libraries such as sqlmock, GORM, and gorilla/mux, with a discussion of their drawbacks in real-world applications. The post explains when these tools are helpful and when avoiding them leads to cleaner, more maintainable code.
 categories: 
     - Golang
     - Programming
