@@ -170,6 +170,8 @@ func process(lines []string) {
 }
 ```
 
+{{< emailform>}}
+
 ## Memory Profiling
 
 CPU is one thing. Memory is different.
@@ -337,6 +339,8 @@ wg.Wait() // Waits forever
 ```
 
 If you see thousands of goroutines stuck in the same place, that's your bug.
+
+{{< emailform>}}
 
 ## Real Example
 
