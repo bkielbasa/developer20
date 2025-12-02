@@ -113,6 +113,7 @@ prints:
 8	0xc0000b2038	8 bytes
 */
 ```
+{{< emailform>}}
 
 Every datum is stored one by one, without any gaps. Reading a value in `s[0]` will end up reading 4-8 next values at once which makes things much faster.
 

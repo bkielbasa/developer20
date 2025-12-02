@@ -73,6 +73,8 @@ Services in the domain layer are responsible for actions in this area. In our ca
     }
 ```
 
+{{< emailform>}}
+
 ## Application service
 
 In most of the cases, we don’t only want to save changes. We want to have some interaction e. g. with a user or another service. This is the place where the application services enter the stage. Services in the application layer are responsible for fetching input data from outside of the domain, returns information about a result of the action, listens for an answer and decides if the communicational message should be sent.
