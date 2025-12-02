@@ -1,6 +1,6 @@
 ---
 title: "Part 1: pprof Quick Start - Get Profiling in 10 Minutes"
-publishdate: 2025-11-10
+publishdate: 2025-12-01
 categories: 
     - Golang
 tags:
