@@ -1,6 +1,6 @@
 ---
 title: "Part 2: CPU Profiling Deep Dive - Understanding Where Time Actually Goes"
-publishdate: 2026-02-02
+publishdate: 2026-01-30
 categories:
     - Golang
 tags:
