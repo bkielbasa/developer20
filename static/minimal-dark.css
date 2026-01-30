@@ -204,6 +204,27 @@ main {
     border-bottom: 1px solid var(--border);
 }
 
+.post-title-link {
+    text-decoration: none;
+}
+
+.post-title-link:hover .post-title {
+    text-decoration: underline;
+}
+
+.read-more {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.read-more:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
 .catalogue-time {
     color: var(--text-secondary);
     font-size: 0.9rem;

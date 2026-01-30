@@ -155,3 +155,30 @@ input {
 .post-title {
     text-align: center;
 }
+
+/* Homepage article list */
+.catalogue-item {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.post-title-link {
+    text-decoration: none;
+}
+
+.post-title-link:hover .post-title {
+    text-decoration: underline;
+}
+
+.read-more {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #0366d6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}

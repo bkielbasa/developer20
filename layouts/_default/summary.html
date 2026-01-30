@@ -1,10 +1,12 @@
-<a href="{{ .Permalink }}" class="catalogue-item">
-    <div>
+<div class="catalogue-item">
+    <a href="{{ .Permalink }}" class="post-title-link">
         <div class="post-title">{{ .Title }}</div>
-        <time datetime="{{ .PublishDate }}" class="catalogue-time">{{ i18n "publishdate" . }}</time>
+    </a>
+    <time datetime="{{ .PublishDate }}" class="catalogue-time">{{ i18n "publishdate" . }}</time>
 
-        <p>
-            {{ if isset .Params "summary" }}{{ .Params.Summary | markdownify }}{{ else }}{{ .Summary }}{{ end }}
-        </p>
-    </div>
-</a>
+    <p>
+        {{ if isset .Params "summary" }}{{ .Params.Summary | markdownify }}{{ else }}{{ .Summary }}{{ end }}
+    </p>
+
+    <a href="{{ .Permalink }}" class="read-more">Read more →</a>
+</div>
