@@ -5,7 +5,9 @@ categories:
     - Golang
 tags:
   - golang
+  - pprof
 ---
+
 I spent two weeks optimizing a function that accounted for 0.3% of my program's runtime. Meanwhile, a JSON unmarshaling call that ran in a loop was eating 45% of CPU time. I just didn't know it.
 
 This happens more often than you'd think. We optimize based on gut feeling, not data. We assume the database query is slow. We assume the algorithm is the problem. We're usually wrong.
@@ -467,7 +469,7 @@ This covers the basics:
 - Goroutine profiling (where goroutines are stuck)
 
 In the next parts:
-- **Part 2**: CPU profiling internals, how sampling works
+- **[Part 2: CPU Profiling Deep Dive]({{< ref "/post/pprof-part2" >}})**: Understanding flat vs cumulative time, reading flame graphs, and finding real bottlenecks
 - **Part 3**: Memory profiling internals, leak detection patterns
 - **Part 4**: Block and mutex profiling, finding contention
 - **Part 5**: Production profiling, continuous profiling
