@@ -219,7 +219,7 @@ val: 309, memory: 0x140000100c0
 */
 ```
 
-As you can see, especially at the beginning, those values aren't next to each other. In a real-world application those values will be much more random. This situation happens because creating a new node in the list is a separate allocation. When creating a slice, it's just one.
+As you can see, the addresses don't form a single contiguous block — there are jumps where one allocation lands on a different heap page from the next. In a real-world application, where nodes are created over time alongside other allocations, the layout is far more scattered. Each node is its own separate allocation; a slice is one.
 
 To illustrate how it will impact the performance, let’s discuss the following program:
 
@@ -387,10 +387,18 @@ BenchmarkColumnTraverse-10                    74          46370815 ns/op
 BenchmarkRowTraverse-10                      418           8584940 ns/op
 ```
 
-The fastest function is the one that traverses the matrix's rows first. It happens because it has the smallest cache-miss ratio. The linked list implementation is about 3 times slower but it’s still faster than the slowest row-first travers that’s about 5.6 times slower. That’s a notable difference.
+The fastest is `RowTraverse` — it walks memory the same way the matrix is laid out, so each cache-line read pulls in bytes the loop will use on the next iteration. `ColumnTraverse` walks the same data with the same logic, but every step jumps `cols` bytes ahead, defeating the hardware prefetcher and forcing a cache line load on almost every read. Same data, same CPU — about 5.4× slower.
 
-## Summary
+The linked-list result needs a caveat. In `init()`, every node is allocated back-to-back in a single tight loop, so Go’s allocator places them roughly contiguously on the heap. That’s a best case for a linked list, and even so, it’s still about 2× slower than the row walk because each step chases a pointer. In a real program where nodes are allocated over time alongside other data — or if you shuffle the pointers after construction — the gap widens dramatically and the linked-list traversal lands closer to (or worse than) the column walk.
 
-The memory-wall problem presents a significant challenge in maximising application performance. As always, measuring the performance is the key and you should never guess if a code change will impact the performance in any way. At some point, it's very useful to understand how computers work and how we can help them to work faster. Memory-wall problem is only one of challenges we have in this field.
+## Takeaways
 
-Of course, I only scrached the surface of profiling the code so if you want more content about it - let me know in the comments section below.
+A short checklist for memory-aware Go code:
+
+* **Prefer slices and arrays over linked structures in hot paths.** Contiguous memory plays well with both cache lines and the hardware prefetcher.
+* **Slices of pointers don't save you.** The slice header is contiguous, but the data behind each `*T` scatters. If a struct is small and used together, store it by value.
+* **Walk multi-dimensional data in storage order.** In Go that's row-major: outer loop over rows, inner over columns.
+* **Field ordering in structs matters.** Group fields the hot path touches together; put rarely-used fields at the end. `unsafe.Sizeof` and `go vet -fieldalignment` will tell you the actual layout.
+* **Measure, don't guess.** `go test -bench` for runtime, `perf stat -e cache-misses,cache-references` on Linux or Instruments on macOS for the underlying cause.
+
+The memory wall isn't going away — RAM is getting bigger faster than it's getting closer. Code that respects the cache hierarchy will keep pulling further ahead of code that doesn't.
