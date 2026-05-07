@@ -21,7 +21,7 @@ Upon reflection, I realized that I had fallen into a common pitfall - overengine
 
 This decision wasn't without consequences. A notable issue was the need to make public certain types that ideally should have remained private. Although I could have used the `internal` package, this felt more like a workaround than a solution. This is a widespread issue: we often overlook the importance of concealing low-level details from our public API.
 
-{{< tweet user="kabanek" id=1668242279461449728 >}}
+{{< x user="kabanek" id=1668242279461449728 >}}
 
 This brings us to an often overlooked aspect of our development cycle - simplifying our work. I'm certainly guilty of this oversight. Once we have functioning code, we often neglect to consider ways to make it simpler or easier to read. This is why I advocate for outside-in testing. Such an approach allows for extensive refactoring with minimal or no changes in tests. Consider how tests were [affected by changing the structure of the project](https://github.com/golang-app/ecommerce/pull/57/files#diff-4ea0762aed35c91c2b563b2121d606ba305b59fef7899dcb892031bf18f28f0bR19).
 
@@ -31,7 +31,7 @@ The tests themselves remained unchanged. Only the imports and some helper method
 
 Conversely, when we test the internals of the package the way I demonstrated in the tweet:
 
-{{< tweet user="kabanek" id=1679727906266726401 >}}
+{{< x user="kabanek" id=1679727906266726401 >}}
 
 ... it can result in cascading changes in multiple tests, making **any refactoring significantly more challenging**. While minimizing the public API might seem like the right move, we often forget to do so.
 

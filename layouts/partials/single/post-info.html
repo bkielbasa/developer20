@@ -1,11 +1,10 @@
 <div class="post-info">
     {{- if .PublishDate }}
-        <br>
-        <span><time datetime="{{ .PublishDate }}">{{ i18n "publishdate" . }}</time>
+        <span><time datetime="{{ .PublishDate }}">{{ i18n "publishdate" . }}</time></span>
     {{- end }}
-
+    <span class="reading-time">{{ math.Round (div (countwords .Content) 200.0) }} min read</span>
     {{if .Params.Categories}}
-      in category
+      <span class="post-category">
       {{ $taxonomy := "categories" }}
       {{ with .Param $taxonomy }}
           {{ range $index, $tag := . }}
@@ -14,6 +13,6 @@
             {{- end -}}
           {{- end -}}
       {{ end }}
-    {{end}}
+      </span>
+    {{end }}
 </div>
-

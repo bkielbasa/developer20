@@ -1,9 +1,34 @@
 <footer>
 	<span>
-		&copy; <time datetime="{{ now }}">{{ now.Format "2006" }}</time> {{ .Site.Author.name }}. {{ i18n "generator" |
+		&copy; <time datetime="{{ now }}">{{ now.Format "2006" }}</time> {{ .Site.Params.author }}. {{ i18n "generator" |
 		safeHTML }} <a rel="me" href="https://mastodon.social/@bklimczak">Mastodon</a>
 	</span>
 </footer>
+
+<!-- Copy button for code blocks -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.highlight').forEach(function(block) {
+        var button = document.createElement('button');
+        button.className = 'copy-button';
+        button.textContent = 'Copy';
+        button.addEventListener('click', function() {
+            var code = block.querySelector('code');
+            if (code) {
+                navigator.clipboard.writeText(code.textContent).then(function() {
+                    button.textContent = 'Copied!';
+                    button.classList.add('copied');
+                    setTimeout(function() {
+                        button.textContent = 'Copy';
+                        button.classList.remove('copied');
+                    }, 2000);
+                });
+            }
+        });
+        block.appendChild(button);
+    });
+});
+</script>
 <!-- Twitter universal website tag code -->
 <script>
 	!function (e, t, n, s, u, a) {

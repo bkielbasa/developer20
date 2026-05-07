@@ -1,12 +1,19 @@
 ---
 title: "Part 1: pprof Quick Start - Get Profiling in 10 Minutes"
 publishdate: 2025-12-01
-categories: 
+summary: "I spent two weeks optimizing a function that accounted for 0.3% of my program's runtime. Meanwhile, a JSON call was eating 45% of CPU. pprof would have shown me in seconds."
+categories:
     - Golang
 tags:
   - golang
   - pprof
 ---
+
+{{< series name="pprof Series" >}}
+1. **Part 1: Quick Start** ← You are here
+2. [Part 2: CPU Profiling Deep Dive]({{< ref "/post/pprof-part2" >}})
+3. Part 3: Memory Profiling (coming soon)
+{{< /series >}}
 
 I spent two weeks optimizing a function that accounted for 0.3% of my program's runtime. Meanwhile, a JSON unmarshaling call that ran in a loop was eating 45% of CPU time. I just didn't know it.
 

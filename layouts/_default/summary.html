@@ -2,11 +2,23 @@
     <a href="{{ .Permalink }}" class="post-title-link">
         <div class="post-title">{{ .Title }}</div>
     </a>
-    <time datetime="{{ .PublishDate }}" class="catalogue-time">{{ i18n "publishdate" . }}</time>
+    <div class="catalogue-meta">
+        <time datetime="{{ .PublishDate }}" class="catalogue-time">{{ i18n "publishdate" . }}</time>
+        <span class="catalogue-reading-time">{{ math.Round (div (countwords .Content) 200.0) }} min read</span>
+    </div>
 
     <p>
         {{ if isset .Params "summary" }}{{ .Params.Summary | markdownify }}{{ else }}{{ .Summary }}{{ end }}
     </p>
 
-    <a href="{{ .Permalink }}" class="read-more">Read more →</a>
+    <div class="catalogue-footer">
+        {{- if .Params.Tags }}
+        <div class="catalogue-tags">
+            {{- range .Params.Tags }}
+            <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+            {{- end }}
+        </div>
+        {{- end }}
+        <a href="{{ .Permalink }}" class="read-more">Read more →</a>
+    </div>
 </div>

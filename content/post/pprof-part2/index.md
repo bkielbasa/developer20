@@ -1,6 +1,7 @@
 ---
 title: "Part 2: CPU Profiling Deep Dive - Understanding Where Time Actually Goes"
 publishdate: 2026-01-30
+summary: "My service was slow at 28ms per request. I could have guessed the cause - database, JSON, strings? Instead, I profiled it. The results surprised me."
 categories:
     - Golang
 tags:
@@ -8,7 +9,11 @@ tags:
   - pprof
 ---
 
-*This is Part 2 of the pprof series. If you're new to pprof, start with [Part 1: Quick Start]({{< ref "/post/pprof-part1-quick-start" >}}).*
+{{< series name="pprof Series" >}}
+1. [Part 1: Quick Start]({{< ref "/post/pprof-part1-quick-start" >}})
+2. **Part 2: CPU Profiling Deep Dive** ← You are here
+3. Part 3: Memory Profiling (coming soon)
+{{< /series >}}
 
 Last week I had a service that was "slow." The recommendation endpoint was taking around 28ms per request. Not terrible, but not great either. Management wanted it faster.
 

@@ -182,3 +182,131 @@ input {
 .read-more:hover {
     text-decoration: underline;
 }
+
+/* Homepage intro */
+.intro {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    color: #666;
+}
+
+/* Catalogue meta */
+.catalogue-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.catalogue-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.catalogue-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.catalogue-tags .tag {
+    font-size: 0.85rem;
+    color: #666;
+    text-decoration: none;
+}
+
+.catalogue-tags .tag:hover {
+    color: #0366d6;
+}
+
+/* Post tags in footer */
+.post-tags {
+    margin: 1.5rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid #eee;
+}
+
+.post-tags a {
+    margin-right: 0.5rem;
+}
+
+/* Buy me coffee button */
+.buy-me-coffee {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+/* Series box */
+.series-box {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-left: 4px solid #0366d6;
+    border-radius: 4px;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.series-header {
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #333;
+}
+
+.series-content ol,
+.series-content ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.series-content li {
+    margin-bottom: 0.25rem;
+}
+
+/* Reading time */
+.reading-time {
+    color: #888;
+    margin-left: 0.5rem;
+}
+
+.reading-time::before {
+    content: "·";
+    margin-right: 0.5rem;
+}
+
+/* Copy button for code blocks */
+.highlight {
+    position: relative;
+}
+
+.copy-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    background: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.highlight:hover .copy-button {
+    opacity: 1;
+}
+
+.copy-button:hover {
+    background: #e1e1e1;
+}
+
+.copy-button.copied {
+    background: #28a745;
+    color: white;
+    border-color: #28a745;
+}
