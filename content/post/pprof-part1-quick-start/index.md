@@ -1,5 +1,5 @@
 ---
-title: "Part 1: pprof Quick Start - Get Profiling in 10 Minutes"
+title: "pprof quick start: profile a Go service in 10 minutes"
 publishdate: 2025-12-01
 summary: "I spent two weeks optimizing a function that accounted for 0.3% of my program's runtime. Meanwhile, a JSON call was eating 45% of CPU. pprof would have shown me in seconds."
 categories:
@@ -12,7 +12,9 @@ tags:
 {{< series name="pprof Series" >}}
 1. **Part 1: Quick Start** ← You are here
 2. [Part 2: CPU Profiling Deep Dive]({{< ref "/post/pprof-part2" >}})
-3. Part 3: Memory Profiling (coming soon)
+3. Part 3: Memory profiling (coming soon)
+4. Part 4: Block and mutex profiling (coming soon)
+5. Part 5: Production and continuous profiling (coming soon)
 {{< /series >}}
 
 I spent two weeks optimizing a function that accounted for 0.3% of my program's runtime. Meanwhile, a JSON unmarshaling call that ran in a loop was eating 45% of CPU time. I just didn't know it.
@@ -31,7 +33,7 @@ Three main things:
 
 There are other profile types (block, mutex, etc.), but these three solve most problems. We'll cover the rest in later parts.
 
-## The 3-Line Setup
+## The setup
 
 If you're running any kind of service, add this:
 
@@ -39,24 +41,34 @@ If you're running any kind of service, add this:
 package main
 
 import (
+    "log"
     "net/http"
     _ "net/http/pprof"
 )
 
 func main() {
-    go startYourApplication()
-    
-    http.ListenAndServe("localhost:6060", nil)
+    go func() {
+        log.Println(http.ListenAndServe("localhost:6060", nil))
+    }()
+
+    runYourApplication()
 }
 ```
 
-The blank import registers handlers at `/debug/pprof/`. That's it.
+Three things matter here. The blank import (`_ "net/http/pprof"`) is what registers the profiling handlers at `/debug/pprof/`. The pprof server runs in a goroutine so your real application runs on main. And the `ListenAndServe` error is logged — if port 6060 is taken, you'll know, instead of silently losing profiling.
+
+If you're not running a server — say, you're profiling a benchmark or a CLI tool — you don't need the HTTP handlers at all. `go test` writes profiles directly:
+
+```bash
+go test -bench=. -cpuprofile=cpu.prof -memprofile=mem.prof
+go tool pprof cpu.prof
+```
 
 Run your program, visit `http://localhost:6060/debug/pprof/`. You'll see available profiles.
 
 ![pprof list of profiles](./pprof-list-of-profiles.png)
 
-**One important note**: Don't expose this to the public internet. Bind to localhost or put it behind auth. Profiles contain information about your code structure, and generating them uses resources.
+**One important note**: Don't expose this to the public internet. Bind to `127.0.0.1` (as above), or put it behind auth, or run it on a separate listener bound to a private interface — never `0.0.0.0`. Profiles leak information about your code structure, and generating them uses resources.
 
 ## CPU Profiling
 
@@ -88,11 +100,11 @@ Type `top`:
 ```
 (pprof) top
       flat  flat%   sum%        cum   cum%
-     4.20s 15.27% 15.27%      8.50s 30.91%  runtime.scanobject
+     4.20s 15.27% 15.27%      4.85s 17.64%  runtime.scanobject
      2.80s 10.18% 25.45%      2.80s 10.18%  runtime.memmove
-     1.50s  5.45% 37.82%     12.30s 44.73%  main.processRequest
-     1.20s  4.36% 46.91%      3.40s 12.36%  encoding/json.Unmarshal
-     0.90s  3.27% 50.18%      5.20s 18.91%  main.parseData
+     1.50s  5.45% 30.91%     12.30s 44.73%  main.processRequest
+     1.20s  4.36% 35.27%      3.40s 12.36%  encoding/json.Unmarshal
+     0.90s  3.27% 38.55%      5.20s 18.91%  main.parseData
 ```
 
 Two columns matter:
@@ -102,9 +114,9 @@ Two columns matter:
 
 Look at `main.processRequest`. Flat is 1.50s (5.45%) but cumulative is 12.30s (44.73%). The function itself is fast. Something it calls is slow.
 
-Compare with `runtime.scanobject`. Flat is 4.20s. That's actual work, not delegation.
+Compare with `runtime.scanobject`. Flat is 4.20s, cumulative is 4.85s — almost all leaf work, not delegation.
 
-This distinction matters. If you optimize `processRequest` directly, you might get 5% improvement. If you optimize what it calls, you could get 45%.
+This distinction matters. Optimizing `processRequest` directly buys you at most a few percent. The headroom is in what it calls — that's where the cumulative 45% lives.
 
 ### The Web UI
 
@@ -305,7 +317,17 @@ go tool pprof -http=:8080 http://localhost:6060/debug/pprof/goroutine
 ```
 ![pprof goroutines](./pprof-goroutine.png)
 
-Shows where goroutines are created and what they're doing.
+`top` on a goroutine profile counts goroutines by where they're stuck. A real bug looks like this:
+
+```
+(pprof) top
+       flat  flat%   sum%        cum   cum%
+      48721 97.44% 97.44%      48721 97.44%  net/http.(*Transport).roundTrip
+        612  1.22% 98.67%        612  1.22%  runtime.gopark
+         ...
+```
+
+48,721 goroutines parked in the same `roundTrip` call means that many in-flight HTTP requests are waiting for a response. That's almost never normal — it's a missing timeout, a hung downstream, or a leak on the call site.
 
 Common issues:
 
@@ -361,7 +383,19 @@ Last year I had an API endpoint with 2-second p99 response times.
 go tool pprof -http=:8080 http://localhost:6060/debug/pprof/profile?seconds=30
 ```
 
-Flame graph showed 40% of time in `json.Marshal`.
+`top` made the problem obvious:
+
+```
+(pprof) top10
+      flat  flat%   sum%        cum   cum%
+    11.20s 39.86% 39.86%     12.10s 43.06%  encoding/json.(*encodeState).marshal
+     3.40s 12.10% 51.96%      3.40s 12.10%  runtime.scanobject
+     2.10s  7.47% 59.43%     14.30s 50.89%  main.getUsers
+     1.80s  6.41% 65.84%      1.80s  6.41%  runtime.memmove
+     1.20s  4.27% 70.11%      1.20s  4.27%  syscall.syscall
+```
+
+40% of CPU in JSON encoding for a database listing endpoint is a smell, not a bug. The flame graph confirmed it — one fat block under `getUsers` labelled `json.Marshal`.
 
 The code:
 
@@ -447,9 +481,9 @@ For memory:
 
 ## Common Mistakes
 
-**Profiling in development mode**: Always use `go build`, not `go run`. Profile with optimizations enabled.
+**Profiling a debug build**: If you've passed `-gcflags='all=-N -l'` (typically because you're attaching a debugger), optimizations and inlining are off and the profile won't reflect production behavior. Both `go build` and `go run` produce optimized binaries by default — the gotcha is the debug flags, not the command.
 
-**Profile duration too short**: 30 seconds minimum for CPU. Shorter profiles are noisy.
+**Profile duration too short**: 30 seconds is a reasonable default for CPU. Shorter profiles are noisy; longer profiles are quieter, especially for low-frequency or sub-second issues.
 
 **Profiling the wrong thing**: If slow under load, profile under load. Not an idle service.
 
