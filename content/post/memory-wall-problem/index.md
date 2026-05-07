@@ -1,5 +1,5 @@
 ---
-title: "Memory-wall problem"
+title: "Memory-wall problem: cache locality in Go"
 publishdate: 2023-06-01
 categories: 
     - Programming
@@ -13,11 +13,18 @@ The memory wall problem refers to a phenomenon that occurs in computer architect
 
 The memory wall problem has become increasingly significant as processors have become faster and more powerful while memory speeds have not kept pace with these advancements. This means that even though the processor can execute instructions quickly, it spends a significant amount of time waiting for data to be transferred to and from memory.
 
-To mitigate the problem, CPUs have special L-caches that are small but very fast. They are static random-access memory (SRAM) that are much faster than Main Memory but are much more expensive. Their purpose is to hold small, frequently used data for quick access. Firstly, the CPU tries to read the data from the L1 cache, if it can't find it, checks the L2 cache, and so on. If it doesn't find it, it reads from the main memory. The Main Memory is our RAM that is the biggest but the slowest at the same time. In the fixture below, you can find sample PC storages with sizes and access time.
+To mitigate the problem, CPUs have small, very fast caches (SRAM) that sit between the cores and main memory. The CPU first looks for data in L1; if it misses, it tries L2; then L3; finally it goes to RAM. Each step down is bigger but slower:
 
-{{< figure src="https://i.imgur.com/suD65Rs.png" title="Image source: https://cs.brown.edu/courses/csci1310/2020/assign/labs/lab4.html" >}}
+| Tier      | Typical size       | Typical latency |
+|-----------|--------------------|-----------------|
+| Registers | < 1 KB per core    | < 1 ns          |
+| L1 cache  | 32–64 KB per core  | ~1 ns           |
+| L2 cache  | 256 KB – 1 MB      | ~3–4 ns         |
+| L3 cache  | 4–32 MB shared     | ~10–12 ns       |
+| Main RAM  | GBs                | ~80–100 ns      |
+| SSD       | TBs                | ~50–150 µs      |
 
-As you can see, the smaller the memory size is, the faster the read access. In comparison, reading the same data from L1-cache is about 60 times faster than reading the same data from the main memory. In every PC those values will differ, depending on the hardware. You can check L-cache sizes using one of the following commands.
+Reading from L1 is roughly 100× faster than reading from RAM. The exact numbers depend on hardware, but the orders of magnitude are stable. In every PC those values will differ, depending on the hardware. You can check L-cache sizes using one of the following commands.
 
 For linux users:
 
@@ -221,7 +228,7 @@ val: 309, memory: 0x140000100c0
 
 As you can see, the addresses don't form a single contiguous block — there are jumps where one allocation lands on a different heap page from the next. In a real-world application, where nodes are created over time alongside other allocations, the layout is far more scattered. Each node is its own separate allocation; a slice is one.
 
-To illustrate how it will impact the performance, let’s discuss the following program:
+To illustrate how it will impact the performance, let's discuss the following program (adapted from Bill Kennedy's [Ultimate Go](https://github.com/ardanlabs/gotraining) training material):
 
 ```go
 package caching
